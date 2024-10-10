@@ -1,3 +1,4 @@
+import { ProjectsCarousel } from "@/components";
 import { SignOutButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 
@@ -11,6 +12,7 @@ export default async function Home() {
         </h1>
         <p className="font-semibold">Preveri pretekle dejavnosti.</p>
       </div>
+      <ProjectsCarousel />
       <SignOutButton />
     </main>
   );
