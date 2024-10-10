@@ -2,10 +2,10 @@ const SidebarNav = ({ title, navigation }: SidebarNavProps) => {
   return (
     <div className="flex flex-col gap-2">
       <h3 className="sidebar-h3">{title}</h3>
-      <ul className="ml-4 flex flex-col gap-1">
+      <div className="ml-4 flex flex-col gap-1">
         {navigation.map((item) => (
-          <>
-            <li key={item.title} className="flex gap-2">
+          <ul key={item.title}>
+            <li className="flex gap-2">
               {/* <Image src={item.imgUrl} alt={item.title} /> */}
               <p> {item.title}</p>
             </li>
@@ -18,9 +18,9 @@ const SidebarNav = ({ title, navigation }: SidebarNavProps) => {
                 ))}
               </ul>
             )}
-          </>
+          </ul>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components";
+import { Sidebar, TopBar } from "@/components";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
@@ -13,7 +13,10 @@ const AppLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex bg-white text-black h-screen w-full">
       <Sidebar />
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 flex flex-col">
+        <TopBar />
+        <div className="flex-1">{children}</div>
+      </div>
     </div>
   );
 };
