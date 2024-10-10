@@ -25,3 +25,15 @@ body {
     text-wrap: balance;
   }
 }
+
+/* APPLY CUSTOM CLASSES */
+
+/* SIDEBAR */
+
+.sidebar-h3 {
+  @apply font-light text-slate-500;
+}
+
+.flex-between {
+  @apply flex justify-between items-center;
+}
