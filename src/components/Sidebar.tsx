@@ -2,6 +2,7 @@ import { sidebar_navigation } from "@/constants";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import { SidebarNav } from "@/components";
+import { SignOutButton } from "@clerk/nextjs";
 
 const Sidebar = async () => {
   const user = await currentUser();
@@ -21,6 +22,7 @@ const Sidebar = async () => {
           title="Časovni okvir"
           navigation={sidebar_navigation.casovni_okvir}
         />
+        <SignOutButton />
       </div>
       <div className="border-t border-black p-6 flex justify-between items-center">
         <div className="flex items-center gap-4">
