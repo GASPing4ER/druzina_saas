@@ -1,14 +1,18 @@
 "use client";
 
 import { getPathname } from "@/utils";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const TopBar = () => {
   const path = usePathname();
-  const pathname = getPathname(path);
+  const navDetails = getPathname(path);
+
   return (
     <section className="w-full py-6 px-12 border-b border-black flex justify-between items-center">
-      <h2 className="text-xl font-semibold">{pathname}</h2>
+      <Link href={navDetails?.url as string} className="text-xl font-semibold">
+        {navDetails?.title || "Url nonexistant"}
+      </Link>
       <div className="flex gap-6 items-center">
         <input
           type="text"

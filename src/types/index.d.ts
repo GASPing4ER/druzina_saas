@@ -3,6 +3,7 @@
 declare type SidebarNavigationItemProps = {
   title: string;
   imgUrl: string;
+  url: string;
   children?: string[];
 };
 
@@ -16,3 +17,5 @@ declare type SidebarNavProps = {
   title: string;
   navigation: SidebarNavigationItemProps[];
 };
+
+declare type NavDetailsProps = SidebarNavigationItemProps[];
