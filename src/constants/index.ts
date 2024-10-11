@@ -146,3 +146,9 @@ export const projectsDummyData: ProductsProps = [
     stanje: 48,
   },
 ];
+
+export const carouselProjectBgColors = [
+  "rgba(76,94,188,0.7)",
+  "rgba(203,81,81,0.7)",
+  "rgba(224,176,105,0.7)",
+];
