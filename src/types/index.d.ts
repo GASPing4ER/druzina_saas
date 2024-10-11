@@ -19,3 +19,37 @@ declare type SidebarNavProps = {
 };
 
 declare type NavDetailsProps = SidebarNavigationItemProps[];
+
+declare type ProductProps = {
+  id: string;
+  naziv: string;
+  avtor: string;
+  trenutna_faza: string;
+  vrsta: string;
+  vodja_projekta: string;
+  start_date: string;
+  end_date: string;
+  status: string;
+  napredek: number;
+  stanje: number;
+};
+
+declare type ProductsProps = ProductProps[];
+
+// COMPONENTS
+
+declare type ProjectsCarouselProps = {
+  projects: ProductsProps;
+};
+
+declare type DashboardProjectsDisplayProps = {
+  projects: ProductsProps;
+};
+
+declare type DashboardProjectsProps = {
+  projects: ProductsProps;
+};
+
+declare type ProgressBarProps = {
+  stanje: number;
+};
