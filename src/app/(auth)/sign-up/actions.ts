@@ -24,7 +24,7 @@ export async function signup(formData: FormData) {
   });
 
   if (error) {
-    return error;
+    return { error: error.message };
   }
 
   if (userData.user) {
@@ -41,7 +41,7 @@ export async function signup(formData: FormData) {
     ]);
 
     if (error) {
-      return error;
+      return { error: error.message };
     }
   }
 

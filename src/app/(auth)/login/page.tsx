@@ -28,11 +28,23 @@ export default function LoginPage() {
       >
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Email:</label>
-          <input id="email" name="email" type="email" required />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            className="border"
+          />
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="password">Geslo:</label>
-          <input id="password" name="password" type="password" required />
+          <input
+            id="password"
+            name="password"
+            type="password"
+            required
+            className="border"
+          />
         </div>
         <button
           type="submit"
