@@ -1,15 +1,11 @@
 import { Sidebar, TopBar } from "@/components";
-import { auth } from "@clerk/nextjs/server";
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 const AppLayout = async ({ children }: { children: React.ReactNode }) => {
-  const { userId, sessionClaims } = auth();
-  const department = sessionClaims?.department;
-  const role = sessionClaims?.org_role?.split(":")[1];
-  console.log(department, role);
-
-  if (!userId) redirect("/sign-in");
-
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) redirect("/login");
   return (
     <div className="flex bg-white text-black h-screen w-full">
       <Sidebar />

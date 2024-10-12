@@ -1,11 +1,7 @@
 import Link from "next/link";
 import ProgressBar from "./ProgressBar";
-import { currentUser } from "@clerk/nextjs/server";
-import Image from "next/image";
 
 const DashboardProjects = async ({ projects }: DashboardProjectsProps) => {
-  const user = await currentUser();
-
   return (
     <ul className="flex flex-col gap-3 w-full">
       {projects.map((project) => {
@@ -26,13 +22,14 @@ const DashboardProjects = async ({ projects }: DashboardProjectsProps) => {
                 <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">
                   {project.end_date}
                 </div>
-                <Image
+                {/* TODO: Dynamic user image */}
+                {/* <Image
                   src={user?.imageUrl as string}
                   alt="user"
                   width={30}
                   height={30}
                   className="rounded-full"
-                />
+                /> */}
               </div>
             </Link>
           </li>

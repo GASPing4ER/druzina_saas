@@ -1,10 +1,7 @@
-import { currentUser } from "@clerk/nextjs/server";
-import Image from "next/image";
 import ProgressBar from "./ProgressBar";
 import { carouselProjectBgColors } from "@/constants";
 
 const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
-  const user = await currentUser();
   return (
     <div className="w-[964px] overflow-x-scroll whitespace-nowrap flex gap-8 pb-4">
       {/* TODO: Add projects parameter and map over them. Here is UI example of a
@@ -32,7 +29,8 @@ const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
                   {project.end_date}
                 </p>
                 <div className="flex">
-                  <Image
+                  {/* TODO: Dynamic user icons */}
+                  {/* <Image
                     src={user?.imageUrl as string}
                     alt="user"
                     width={25}
@@ -52,7 +50,7 @@ const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
                     width={25}
                     height={25}
                     className="rounded-full -ml-1"
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

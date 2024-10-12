@@ -36,6 +36,16 @@ declare type ProductProps = {
 
 declare type ProductsProps = ProductProps[];
 
+declare type UserProps = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  department: string | null; // TODO: ENUM,
+  role: string; // TODO: ENUM,
+  created_at: string;
+};
+
 // COMPONENTS
 
 declare type ProjectsCarouselProps = {
