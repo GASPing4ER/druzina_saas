@@ -59,6 +59,28 @@ export default function LoginPage() {
         </div>
 
         <div className="flex flex-col gap-2">
+          <label htmlFor="role">Vloga:</label>
+          <input
+            id="role"
+            name="role"
+            type="text"
+            required
+            className="border"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="department">Oddelek:</label>
+          <input
+            id="department"
+            name="department"
+            type="text"
+            required
+            className="border"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
           <label htmlFor="password">Geslo:</label>
           <input
             id="password"

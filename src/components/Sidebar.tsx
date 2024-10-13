@@ -1,10 +1,12 @@
 import { sidebar_navigation } from "@/constants";
 import Image from "next/image";
 import { SidebarNav, LogoutButton } from "@/components";
-import { getUser } from "@/utils/supabase/actions";
+import { createClient } from "@/utils/supabase/server";
 
 const Sidebar = async () => {
-  const { data: user } = await getUser();
+  const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
+  const user = data.user;
   return (
     <div className="w-[300px] border-r border-black flex flex-col justify-between">
       <div className="p-10 flex flex-col gap-8">
@@ -25,16 +27,15 @@ const Sidebar = async () => {
       </div>
       <div className="border-t border-black p-6 flex justify-between items-center">
         <div className="flex items-center gap-4">
-          {/* TODO: User icon */}
-          {/* <Image
-            src={user?.imageUrl as string}
-            alt="user avatar"
-            width={25}
-            height={25}
-            className="rounded-full"
-          /> */}
+          <Image
+            src="/icons/user.svg"
+            alt="user"
+            width={30}
+            height={30}
+            className="bg-green-300 p-1 rounded-full"
+          />
           <p className="text-sm">
-            {user.firstName} {user.lastName}
+            {user?.user_metadata.firstName} {user?.user_metadata.lastName}
           </p>
         </div>
         <p className="font-bold text-lg cursor-pointer">...</p>

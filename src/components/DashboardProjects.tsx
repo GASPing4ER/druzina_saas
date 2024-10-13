@@ -1,5 +1,7 @@
 import Link from "next/link";
 import ProgressBar from "./ProgressBar";
+import Image from "next/image";
+import { formatDate } from "@/utils";
 
 const DashboardProjects = async ({ projects }: DashboardProjectsProps) => {
   return (
@@ -11,7 +13,7 @@ const DashboardProjects = async ({ projects }: DashboardProjectsProps) => {
               href="/projekti"
               className="flex justify-between items-center bg-slate-100 py-4 px-8 w-full rounded-xl"
             >
-              <h2 className="font-semibold">{project.naziv}</h2>
+              <h2 className="font-semibold">{project.name}</h2>
               <div className="flex items-center gap-4">
                 <div className="w-[100px]">
                   <ProgressBar stanje={project.stanje} />
@@ -20,16 +22,15 @@ const DashboardProjects = async ({ projects }: DashboardProjectsProps) => {
                   1/3
                 </div>
                 <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">
-                  {project.end_date}
+                  {formatDate(project.end_date)}
                 </div>
-                {/* TODO: Dynamic user image */}
-                {/* <Image
-                  src={user?.imageUrl as string}
+                <Image
+                  src="/icons/user.svg"
                   alt="user"
                   width={30}
                   height={30}
-                  className="rounded-full"
-                /> */}
+                  className="bg-stone-400 p-1 rounded-full"
+                />
               </div>
             </Link>
           </li>

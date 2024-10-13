@@ -22,16 +22,19 @@ declare type NavDetailsProps = SidebarNavigationItemProps[];
 
 declare type ProductProps = {
   id: string;
-  naziv: string;
-  avtor: string;
-  trenutna_faza: string;
-  vrsta: string;
-  vodja_projekta: string;
+  name: string;
+  author: string;
+  current_phase: string;
+  type: string;
+  creatorId: string;
+  customer: string;
   start_date: string;
   end_date: string;
   status: string;
   napredek: number;
+  quantity: number;
   stanje: number;
+  created_at: string;
 };
 
 declare type ProductsProps = ProductProps[];

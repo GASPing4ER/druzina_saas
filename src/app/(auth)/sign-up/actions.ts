@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
-import { supabase } from "@/lib/supabase";
 
 export async function signup(formData: FormData) {
   const supabaseAuth = createClient();
@@ -16,33 +15,25 @@ export async function signup(formData: FormData) {
     password: formData.get("password") as string,
     firstName: formData.get("firstName") as string,
     lastname: formData.get("lastName") as string,
+    role: formData.get("role") as string,
+    department: formData.get("department") as string,
   };
 
-  const { data: userData, error } = await supabaseAuth.auth.signUp({
+  const { error } = await supabaseAuth.auth.signUp({
     email: data.email,
     password: data.password,
+    options: {
+      data: {
+        firstName: data.firstName.trim(),
+        lastName: data.lastname.trim(),
+        role: data.role.trim(),
+        department: data.department.trim(),
+      },
+    },
   });
 
   if (error) {
     return { error: error.message };
-  }
-
-  if (userData.user) {
-    const userId = userData.user.id;
-
-    const { error } = await supabase.from("users").insert([
-      {
-        id: userId,
-        firstName: data.firstName,
-        lastName: data.lastname,
-        email: data.email,
-        role: "member",
-      },
-    ]);
-
-    if (error) {
-      return { error: error.message };
-    }
   }
 
   revalidatePath("/", "layout");

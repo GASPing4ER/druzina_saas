@@ -8,3 +8,15 @@ export const getPathname = (pathname: string) => {
   if (navDetail) return navDetail;
   return null;
 };
+
+export const formatDate = (inputDate: string) => {
+  const date = new Date(inputDate);
+
+  const formattedDate = new Intl.DateTimeFormat("sl-SI", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+
+  return formattedDate;
+};

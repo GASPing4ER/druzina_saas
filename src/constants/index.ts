@@ -92,10 +92,12 @@ export const nav_details: NavDetailsProps = [
   },
 ];
 
-export const projectsDummyData: ProductsProps = [
+// 00239b2c-bcc0-41be-84c1-9d8a43bd980b
+
+export const projectsDummyData = [
   {
     id: "1",
-    naziv: "Bič sem buli",
+    name: "Bič sem buli",
     avtor: "John Doe",
     trenutna_faza: "oblikovanje",
     vrsta: "knjiga",
@@ -108,7 +110,7 @@ export const projectsDummyData: ProductsProps = [
   },
   {
     id: "2",
-    naziv: "Družina, št.42",
+    name: "Družina, št.42",
     avtor: "John Doe",
     trenutna_faza: "urednistvo",
     vrsta: "Časopis",
@@ -121,7 +123,7 @@ export const projectsDummyData: ProductsProps = [
   },
   {
     id: "3",
-    naziv: "Hildegardino zdravilstvo",
+    name: "Hildegardino zdravilstvo",
     avtor: "John Doe",
     trenutna_faza: "tisk",
     vrsta: "Knjiga",
@@ -134,7 +136,7 @@ export const projectsDummyData: ProductsProps = [
   },
   {
     id: "4",
-    naziv: "365 dni",
+    name: "365 dni",
     avtor: "John Doe",
     trenutna_faza: "priprava za tisk",
     vrsta: "knjiga",
@@ -152,3 +154,5 @@ export const carouselProjectBgColors = [
   "rgba(203,81,81,0.7)",
   "rgba(224,176,105,0.7)",
 ];
+
+export const carouselProjectUserColors = ["#95B37E", "#B099B4", "#BA908E"];

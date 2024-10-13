@@ -1,11 +1,14 @@
+import Image from "next/image";
 import ProgressBar from "./ProgressBar";
-import { carouselProjectBgColors } from "@/constants";
+import {
+  carouselProjectBgColors,
+  carouselProjectUserColors,
+} from "@/constants";
+import { formatDate } from "@/utils";
 
 const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
   return (
     <div className="w-[964px] overflow-x-scroll whitespace-nowrap flex gap-8 pb-4">
-      {/* TODO: Add projects parameter and map over them. Here is UI example of a
-      project: */}
       {projects.map((project, index) => {
         const colorIndex = index % 3;
         return (
@@ -16,7 +19,7 @@ const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
                 backgroundColor: `${carouselProjectBgColors[colorIndex]}`,
               }}
             >
-              <h2 className="text-white font-bold">{project.naziv}</h2>
+              <h2 className="text-white font-bold">{project.name}</h2>
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center text-white">
                   <p>Napredek</p>
@@ -26,31 +29,20 @@ const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
               </div>
               <div className="flex justify-between items-center">
                 <p className="text-sm text-white font-semibold bg-slate-300 py-1 px-4 rounded-xl">
-                  {project.end_date}
+                  {formatDate(project.end_date)}
                 </p>
                 <div className="flex">
-                  {/* TODO: Dynamic user icons */}
-                  {/* <Image
-                    src={user?.imageUrl as string}
-                    alt="user"
-                    width={25}
-                    height={25}
-                    className="rounded-full"
-                  />
-                  <Image
-                    src={user?.imageUrl as string}
-                    alt="user"
-                    width={25}
-                    height={25}
-                    className="rounded-full -ml-1"
-                  />
-                  <Image
-                    src={user?.imageUrl as string}
-                    alt="user"
-                    width={25}
-                    height={25}
-                    className="rounded-full -ml-1"
-                  /> */}
+                  {carouselProjectUserColors.map((color: string) => (
+                    <Image
+                      key={color}
+                      src="/icons/user.svg"
+                      alt="user"
+                      width={25}
+                      height={25}
+                      className="p-1 rounded-full"
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
                 </div>
               </div>
             </div>

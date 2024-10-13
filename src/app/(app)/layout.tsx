@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 const AppLayout = async ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
+  console.log("user", data.user);
   if (error || !data.user) redirect("/login");
   return (
     <div className="flex bg-white text-black h-screen w-full">

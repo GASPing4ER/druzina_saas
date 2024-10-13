@@ -1,15 +1,19 @@
+import { getProjects } from "@/actions/projects";
 import { DashboardProjectsDisplay, ProjectsCarousel } from "@/components";
-import { projectsDummyData } from "@/constants";
-import { getUser } from "@/utils/supabase/actions";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
-  const { data: user } = await getUser();
+  const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
+  const projects: ProductsProps | null = await getProjects();
+  const user = data.user;
+
   return (
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start pl-12 py-6 bg-white w-[1000px]">
       <div className="w-full flex justify-between items-center">
         <div className="flex flex-col gap-2">
           <h1 className="text-4xl font-semibold">
-            Pozdravljeni, {user.firstName}!
+            Pozdravljeni, {user?.user_metadata.firstName}!
           </h1>
           <p className="font-semibold">Preveri pretekle dejavnosti.</p>
         </div>
@@ -17,8 +21,12 @@ export default async function Home() {
           Oktober 2024
         </button>
       </div>
-      <ProjectsCarousel projects={projectsDummyData} />
-      <DashboardProjectsDisplay projects={projectsDummyData} />
+      {projects !== null && (
+        <>
+          <ProjectsCarousel projects={projects} />
+          <DashboardProjectsDisplay projects={projects} />
+        </>
+      )}
     </main>
   );
 }
