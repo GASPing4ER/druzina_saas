@@ -9,10 +9,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatDate, getPhaseName, isPast } from "@/utils";
+import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 
-const ProjectsTable = ({ projects, phase }: ProjectsTableProps) => {
-  const path = phase ? phase : "projekti";
+const ProjectsTable = async ({ projects, phase }: ProjectsTableProps) => {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  const role = data.user?.user_metadata.role;
 
   return (
     <Table>
@@ -33,6 +36,12 @@ const ProjectsTable = ({ projects, phase }: ProjectsTableProps) => {
       <TableBody>
         {projects?.map((project) => {
           let pathname: string;
+          const path = phase
+            ? phase
+            : role === "member"
+            ? project.current_phase
+            : "projekti";
+          console.log("Path:", path);
           if (project.id) {
             pathname = `/${path}/${project.id}`;
           } else {
