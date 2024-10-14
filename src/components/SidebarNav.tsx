@@ -20,7 +20,7 @@ const SidebarNav = ({
             <ul key={item.title}>
               <li>
                 <Link
-                  href={canAccess ? item.url : "/"}
+                  href={canAccess ? item.url : "/unauthorized"}
                   className={`flex gap-2 ${
                     canAccess ? "text-gray-900" : "text-gray-400"
                   }`}

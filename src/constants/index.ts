@@ -85,6 +85,11 @@ export const nav_details: NavDetailsProps = [
     url: "/dostava",
   },
   {
+    title: "Dostop zavrnjen",
+    imgUrl: "/icons/dostava.svg",
+    url: "/unauthorized",
+  },
+  {
     title: "Koledar",
     imgUrl: "/icons/koledar.svg",
     url: "/koledar",
