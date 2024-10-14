@@ -81,4 +81,5 @@ declare type ProgressBarProps = {
 
 declare type ProjectsTableProps = {
   projects: ProjectsProps;
+  phase?: string;
 };
