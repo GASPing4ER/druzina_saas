@@ -12,6 +12,7 @@ const SidebarNav = ({
       <div className="ml-4 flex flex-col gap-1">
         {navigation.map((item) => {
           const canAccess =
+            title !== "Procesi" ||
             role === "superadmin" ||
             role === "admin" ||
             item.title.toLowerCase() === department;
@@ -19,7 +20,7 @@ const SidebarNav = ({
             <ul key={item.title}>
               <li>
                 <Link
-                  href={item.url}
+                  href={canAccess ? item.url : "/"}
                   className={`flex gap-2 ${
                     canAccess ? "text-gray-900" : "text-gray-400"
                   }`}
