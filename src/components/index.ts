@@ -7,6 +7,7 @@ import DashboardProjectsFilter from "./DashboardProjectsFilter";
 import DashboardProjects from "./DashboardProjects";
 import ProgressBar from "./ProgressBar";
 import LogoutButton from "./LogoutButton";
+import ProjectsTable from "./ProjectsTable";
 
 export {
   Sidebar,
@@ -18,4 +19,5 @@ export {
   DashboardProjects,
   ProgressBar,
   LogoutButton,
+  ProjectsTable,
 };

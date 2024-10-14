@@ -10,3 +10,16 @@ export const getProjects = async () => {
   }
   return data;
 };
+
+export const getPhaseProjects = async (phase: string) => {
+  const { data, error } = await supabase
+    .from("projects")
+    .select()
+    .eq("current_phase", phase)
+    .order("end_date");
+  if (error) {
+    console.log(error);
+  }
+
+  return data;
+};

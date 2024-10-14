@@ -20,3 +20,10 @@ export const formatDate = (inputDate: string) => {
 
   return formattedDate;
 };
+
+export const isPast = (endDate: string) => {
+  const currentDate = new Date();
+  const projectEndDate = new Date(endDate);
+
+  return projectEndDate < currentDate; // Returns true if end_date is in the past
+};

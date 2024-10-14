@@ -3,7 +3,7 @@ import ProgressBar from "./ProgressBar";
 import Image from "next/image";
 import { formatDate } from "@/utils";
 
-const DashboardProjects = async ({ projects }: DashboardProjectsProps) => {
+const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
   return (
     <ul className="flex flex-col gap-3 w-full">
       {projects.map((project) => {
@@ -19,6 +19,7 @@ const DashboardProjects = async ({ projects }: DashboardProjectsProps) => {
                   <ProgressBar stanje={project.stanje} />
                 </div>
                 <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">
+                  {/* TODO: Dynamic taks tracking */}
                   1/3
                 </div>
                 <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">

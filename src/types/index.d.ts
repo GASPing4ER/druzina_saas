@@ -20,13 +20,14 @@ declare type SidebarNavProps = {
 
 declare type NavDetailsProps = SidebarNavigationItemProps[];
 
-declare type ProductProps = {
+declare type ProjectProps = {
   id: string;
   name: string;
   author: string;
   current_phase: string;
   type: string;
   creatorId: string;
+  creator_name: string;
   customer: string;
   start_date: string;
   end_date: string;
@@ -37,7 +38,7 @@ declare type ProductProps = {
   created_at: string;
 };
 
-declare type ProductsProps = ProductProps[];
+declare type ProjectsProps = ProjectProps[];
 
 declare type UserProps = {
   id: string;
@@ -49,20 +50,35 @@ declare type UserProps = {
   created_at: string;
 };
 
+declare type PhaseProps = {
+  title: string;
+  slug: string;
+};
+
+declare type PhasesProps = PhaseProps[];
+
 // COMPONENTS
 
 declare type ProjectsCarouselProps = {
-  projects: ProductsProps;
+  projects: ProjectsProps;
 };
 
 declare type DashboardProjectsDisplayProps = {
-  projects: ProductsProps;
+  projects: ProjectsProps;
+};
+
+declare type DashboardProjectsFilterProps = {
+  onHandlePhase: (chosenPhase: string) => void;
 };
 
 declare type DashboardProjectsProps = {
-  projects: ProductsProps;
+  projects: ProjectsProps;
 };
 
 declare type ProgressBarProps = {
   stanje: number;
+};
+
+declare type ProjectsTableProps = {
+  projects: ProjectsProps;
 };
