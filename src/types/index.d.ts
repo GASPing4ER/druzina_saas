@@ -83,3 +83,7 @@ declare type ProjectsTableProps = {
   projects: ProjectsProps;
   phase?: string;
 };
+
+declare type ProjectDetailsProps = {
+  project: ProjectProps;
+};

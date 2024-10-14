@@ -1,3 +1,4 @@
+import { ProjectDetails } from "@/components";
 import { supabase } from "@/lib/supabase";
 
 const ProjectDetailsPage = async ({
@@ -6,16 +7,21 @@ const ProjectDetailsPage = async ({
   params: { projectId: string };
 }) => {
   const projectId = params.projectId;
-  const project = await supabase
+  const response = await supabase
     .from("projects")
     .select()
     .eq("id", projectId)
     .maybeSingle();
-  console.log(project);
+
+  const project: ProjectProps | null = response.data;
   if (!project) {
     return <div>ProjectDetailsPage</div>;
   } else {
-    return <div>Project found!</div>;
+    return (
+      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white text-slate-900">
+        <ProjectDetails project={project} />
+      </main>
+    );
   }
 };
 

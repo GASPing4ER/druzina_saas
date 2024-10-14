@@ -8,6 +8,7 @@ import DashboardProjects from "./DashboardProjects";
 import ProgressBar from "./ProgressBar";
 import LogoutButton from "./LogoutButton";
 import ProjectsTable from "./ProjectsTable";
+import ProjectDetails from "./ProjectDetails";
 
 export {
   Sidebar,
@@ -20,4 +21,5 @@ export {
   ProgressBar,
   LogoutButton,
   ProjectsTable,
+  ProjectDetails,
 };
