@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDate, isPast } from "@/utils";
+import { formatDate, getPhaseName, isPast } from "@/utils";
 import Link from "next/link";
 
 const ProjectsTable = ({ projects, phase }: ProjectsTableProps) => {
@@ -43,7 +43,7 @@ const ProjectsTable = ({ projects, phase }: ProjectsTableProps) => {
             <TableRow key={project.id}>
               <TableCell className="capitalize">
                 <Link href={pathname} passHref>
-                  {project.current_phase}
+                  {getPhaseName(project.current_phase)}
                 </Link>
               </TableCell>
               <TableCell>{project.name}</TableCell>

@@ -160,7 +160,7 @@ export const carouselProjectUserColors = ["#95B37E", "#B099B4", "#BA908E"];
 export const phases: PhasesProps = [
   {
     title: "Uredništvo",
-    slug: "uredništvo",
+    slug: "urednistvo",
   },
   {
     title: "Oblikovanje",

@@ -1,4 +1,4 @@
-import { nav_details } from "@/constants";
+import { nav_details, phases } from "@/constants";
 
 export const getPathname = (pathname: string) => {
   // TODO: V konstante dodaj pathnames, kjer bodo shranjeni url-ji in naslovi, in nato v tej funkciji return-i object s title-om in url-jem
@@ -26,4 +26,9 @@ export const isPast = (endDate: string) => {
   const projectEndDate = new Date(endDate);
 
   return projectEndDate < currentDate; // Returns true if end_date is in the past
+};
+
+export const getPhaseName = (inputPhase: string) => {
+  const phase = phases.find((phase) => phase.slug === inputPhase);
+  return phase?.title || "/";
 };
