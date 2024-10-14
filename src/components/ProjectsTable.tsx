@@ -14,7 +14,7 @@ import Link from "next/link";
 
 const ProjectsTable = async ({ projects, phase }: ProjectsTableProps) => {
   const supabase = createClient();
-  const { data, error } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
   const role = data.user?.user_metadata.role;
 
   return (
