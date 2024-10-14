@@ -3,7 +3,13 @@ import Image from "next/image";
 import { SidebarNav, LogoutButton } from "@/components";
 import { createClient } from "@/utils/supabase/server";
 
-const Sidebar = async () => {
+const Sidebar = async ({
+  department,
+  role,
+}: {
+  department: string;
+  role: string;
+}) => {
   const supabase = createClient();
   const { data } = await supabase.auth.getUser();
   const user = data.user;
@@ -17,11 +23,23 @@ const Sidebar = async () => {
           height={100}
           className="object-contain"
         />
-        <SidebarNav title="Pregled" navigation={sidebar_navigation.pregled} />
-        <SidebarNav title="Procesi" navigation={sidebar_navigation.procesi} />
+        <SidebarNav
+          title="Pregled"
+          navigation={sidebar_navigation.pregled}
+          department={department}
+          role={role}
+        />
+        <SidebarNav
+          title="Procesi"
+          navigation={sidebar_navigation.procesi}
+          department={department}
+          role={role}
+        />
         <SidebarNav
           title="Časovni okvir"
           navigation={sidebar_navigation.casovni_okvir}
+          department={department}
+          role={role}
         />
         <LogoutButton />
       </div>

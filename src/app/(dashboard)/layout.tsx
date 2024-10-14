@@ -8,7 +8,10 @@ const AppLayout = async ({ children }: { children: React.ReactNode }) => {
   if (error || !data.user) redirect("/login");
   return (
     <div className="flex bg-white text-black h-screen w-full">
-      <Sidebar />
+      <Sidebar
+        department={data.user.user_metadata.department}
+        role={data.user.user_metadata.role}
+      />
       <div className="flex-1 flex flex-col">
         <TopBar />
         <div className="flex-1">{children}</div>

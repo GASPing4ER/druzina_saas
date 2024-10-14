@@ -16,6 +16,8 @@ declare type SidebarNavigationProps = {
 declare type SidebarNavProps = {
   title: string;
   navigation: SidebarNavigationItemProps[];
+  department?: string;
+  role?: string;
 };
 
 declare type NavDetailsProps = SidebarNavigationItemProps[];
