@@ -13,6 +13,11 @@ export const sidebar_navigation: SidebarNavigationProps = {
   ],
   procesi: [
     {
+      title: "Osnutek",
+      imgUrl: "/icons/osnutek.svg",
+      url: "/osnutek",
+    },
+    {
       title: "Uredništvo",
       imgUrl: "/icons/urednistvo.svg",
       url: "/urednistvo",
@@ -53,6 +58,11 @@ export const nav_details: NavDetailsProps = [
     title: "Nadzorna plošča",
     imgUrl: "/icons/nadzorna_plosca.svg",
     url: "/",
+  },
+  {
+    title: "Osnutek",
+    imgUrl: "/icons/osnutek.svg",
+    url: "/osnutek",
   },
   {
     title: "Projekti",

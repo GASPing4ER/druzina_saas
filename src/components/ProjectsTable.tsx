@@ -1,16 +1,13 @@
-import { ProgressBar } from "@/components";
+import { ProjectRow } from "@/components";
 import {
   Table,
   TableBody,
   TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDate, getPhaseName, isPast } from "@/utils";
 import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
 
 const ProjectsTable = async ({ projects, phase }: ProjectsTableProps) => {
   const supabase = createClient();
@@ -47,40 +44,11 @@ const ProjectsTable = async ({ projects, phase }: ProjectsTableProps) => {
             pathname = `/${path}`;
           }
           return (
-            <TableRow key={project.id}>
-              <TableCell className="capitalize">
-                <Link href={pathname} passHref>
-                  {getPhaseName(project.current_phase)}
-                </Link>
-              </TableCell>
-              <TableCell>{project.name}</TableCell>
-              <TableCell className="capitalize">{project.type}</TableCell>
-              <TableCell>{formatDate(project.start_date)}</TableCell>
-              <TableCell
-                className={`${isPast(project.end_date) && "text-red-500"}`}
-              >
-                {formatDate(project.end_date)}
-              </TableCell>
-              <TableCell>{project.creator_name}</TableCell>
-              <TableCell
-                className={`${
-                  project.status === "v teku"
-                    ? "bg-orange-300/40 text-orange-400"
-                    : project.status === "v pripravi"
-                    ? "bg-red-300/40 text-red-400"
-                    : "bg-green-300/40 text-green-400"
-                }`}
-              >
-                {project.status}
-              </TableCell>
-              <TableCell className="text-center">
-                {project.napredek}/5
-              </TableCell>
-              <TableCell>
-                <ProgressBar stanje={project.stanje} />
-                {project.stanje}%
-              </TableCell>
-            </TableRow>
+            <ProjectRow
+              key={project.id}
+              project={project}
+              pathname={pathname}
+            />
           );
         })}
       </TableBody>

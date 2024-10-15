@@ -10,7 +10,11 @@ const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
         return (
           <li key={project.id}>
             <Link
-              href="/projekti"
+              href={`${
+                project.current_phase === "/"
+                  ? "osnutek"
+                  : project.current_phase
+              }/${project.id}`}
               className="flex justify-between items-center bg-slate-100 py-4 px-8 w-full rounded-xl"
             >
               <h2 className="font-semibold">{project.name}</h2>
