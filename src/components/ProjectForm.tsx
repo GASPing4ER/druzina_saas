@@ -189,7 +189,7 @@ const ProjectForm = ({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="z-10 w-auto p-0" align="start">
+                    <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
                         selected={field.value}
@@ -197,6 +197,7 @@ const ProjectForm = ({
                         disabled={(date) =>
                           date < new Date(new Date().setHours(0, 0, 0, 0))
                         } // This line allows today's date
+                        className="z-10"
                         initialFocus
                       />
                     </PopoverContent>
@@ -233,8 +234,9 @@ const ProjectForm = ({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="z-10 w-auto p-0" align="start">
+                    <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
+                        className="z-10"
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
