@@ -44,7 +44,6 @@ export const getCompleteData = (
   if (values.current_phase === "osnutek") {
     return {
       ...values,
-      current_phase: "/",
       napredek: 0,
       status: "v pripravi",
       stanje: 0,

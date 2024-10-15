@@ -1,5 +1,20 @@
 /* eslint-disable no-unused-vars */
 
+declare type TPhases =
+  | "osnutek"
+  | "urednistvo"
+  | "oblikovanje"
+  | "priprava za tisk"
+  | "tisk"
+  | "dostava"
+  | "arhiv";
+
+declare type TStatus = "v pripravi" | "v teku" | "zaključeno";
+
+declare type TNapredek = 0 | 1 | 2 | 3 | 4 | 5;
+
+// TODO: Type for types of projects -> časopis, knjiga etc.
+
 declare type SidebarNavigationItemProps = {
   title: string;
   imgUrl: string;
@@ -26,15 +41,15 @@ declare type ProjectProps = {
   id: string;
   name: string;
   author: string;
-  current_phase: string;
+  current_phase: TPhases;
   type: string;
   creatorId: string;
   creator_name: string;
   customer: string;
   start_date: string;
   end_date: string;
-  status: string;
-  napredek: number;
+  status: TStatus;
+  napredek: TNapredek;
   quantity: number;
   stanje: number;
   created_at: string;

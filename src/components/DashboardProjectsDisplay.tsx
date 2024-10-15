@@ -11,7 +11,7 @@ const DashboardProjectsDisplay = ({
   const filteredProjects =
     phase !== ""
       ? [...projects].filter((project) => project.current_phase === phase)
-      : projects;
+      : projects.filter((project) => project.current_phase !== "osnutek");
 
   const onHandlePhase = (chosenPhase: string) => {
     setPhase(chosenPhase);
