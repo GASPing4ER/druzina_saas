@@ -9,6 +9,8 @@ import ProgressBar from "./ProgressBar";
 import LogoutButton from "./LogoutButton";
 import ProjectsTable from "./ProjectsTable";
 import ProjectDetails from "./ProjectDetails";
+import ProjectForm from "./ProjectForm";
+import DatePicker from "./DatePicker";
 
 export {
   Sidebar,
@@ -22,4 +24,6 @@ export {
   LogoutButton,
   ProjectsTable,
   ProjectDetails,
+  ProjectForm,
+  DatePicker,
 };

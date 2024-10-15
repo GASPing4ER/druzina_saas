@@ -6,8 +6,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const TopBar = () => {
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ProjectForm } from "@/components";
+import { User } from "@supabase/supabase-js";
+
+const TopBar = ({ user }: { user: User }) => {
   const [projectName, setProjectName] = useState("");
+  const [open, setOpen] = useState(false);
   const path = usePathname();
   const paths = path.split("/");
   const navDetails = getPathname(paths[1]);
@@ -49,9 +61,20 @@ const TopBar = () => {
           placeholder="Poišči..."
         />
         <div className="w-8 h-8 bg-slate-300 rounded-full" />
-        <button className="bg-slate-300 text-white py-1 px-8 rounded-xl">
-          + DODAJ
-        </button>
+        <div className="bg-slate-300 text-white py-1 px-8 rounded-xl">
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger>+ DODAJ</DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Dodaj nov projekt</DialogTitle>
+                <DialogDescription>
+                  Dobrodošli v obrazcu za dodajanje novega projekta.
+                </DialogDescription>
+              </DialogHeader>
+              <ProjectForm user={user} handleClose={() => setOpen(false)} />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
     </section>
   );

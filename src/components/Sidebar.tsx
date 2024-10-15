@@ -1,18 +1,11 @@
 import { sidebar_navigation } from "@/constants";
 import Image from "next/image";
 import { SidebarNav, LogoutButton } from "@/components";
-import { createClient } from "@/utils/supabase/server";
+import { User } from "@supabase/supabase-js";
 
-const Sidebar = async ({
-  department,
-  role,
-}: {
-  department: string;
-  role: string;
-}) => {
-  const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
-  const user = data.user;
+const Sidebar = async ({ user }: { user: User }) => {
+  const role = user.user_metadata.role;
+  const department = user.user_metadata.department;
   return (
     <div className="w-[300px] border-r border-black flex flex-col justify-between">
       <div className="p-10 flex flex-col gap-8">

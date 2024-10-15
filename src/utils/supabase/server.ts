@@ -1,8 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
 
 export function createClient() {
-  const cookieStore = cookies();
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const cookieStore = require("next/headers").cookies();
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

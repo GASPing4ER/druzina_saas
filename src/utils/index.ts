@@ -1,4 +1,7 @@
 import { nav_details, phases } from "@/constants";
+import { formSchema } from "@/types/schemas";
+import { User } from "@supabase/supabase-js";
+import { z } from "zod";
 
 export const getPathname = (pathname: string) => {
   // TODO: V konstante dodaj pathnames, kjer bodo shranjeni url-ji in naslovi, in nato v tej funkciji return-i object s title-om in url-jem
@@ -31,4 +34,22 @@ export const isPast = (endDate: string) => {
 export const getPhaseName = (inputPhase: string) => {
   const phase = phases.find((phase) => phase.slug === inputPhase);
   return phase?.title || "/";
+};
+
+export const getCompleteData = (
+  values: z.infer<typeof formSchema>,
+  user: User
+) => {
+  console.log(values);
+  if (values.current_phase === "uredništvo") {
+    return {
+      ...values,
+      current_phase: "urednistvo",
+      napredek: 1,
+      status: "v teku",
+      stanje: 0,
+      creatorId: user.id,
+      creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
+    };
+  }
 };
