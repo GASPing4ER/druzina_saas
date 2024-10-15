@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 export default async function Home() {
   const supabase = createClient();
   const { data } = await supabase.auth.getUser();
-  const projects: ProjectsProps | null = await getProjects();
+  const projects: ProjectsProps | null = await getProjects(data.user!);
   const user = data.user;
 
   return (

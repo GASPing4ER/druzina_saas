@@ -41,13 +41,11 @@ const ProjectsTable = async ({ projects, phase }: ProjectsTableProps) => {
             : role === "member"
             ? project.current_phase
             : "projekti";
-          console.log("Path:", path);
           if (project.id) {
             pathname = `/${path}/${project.id}`;
           } else {
             pathname = `/${path}`;
           }
-          console.log(pathname);
           return (
             <TableRow key={project.id}>
               <TableCell className="capitalize">
