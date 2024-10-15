@@ -5,7 +5,7 @@ import { formatDate } from "@/utils";
 
 const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
   return (
-    <ul className="flex flex-col gap-3 w-full">
+    <ul className="flex flex-col gap-3 w-full h-[285px] overflow-y-scroll">
       {projects.map((project) => {
         return (
           <li key={project.id}>
