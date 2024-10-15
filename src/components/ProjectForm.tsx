@@ -16,11 +16,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { formSchema } from "@/types/schemas";
-import DatePicker from "./DatePicker";
 import { getCompleteData } from "@/utils";
 import { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "./ui/calendar";
 
 const ProjectForm = ({
   user,
@@ -45,8 +49,6 @@ const ProjectForm = ({
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     const completeData = getCompleteData(values, user);
 
     await supabase.from("projects").insert({ ...completeData });
@@ -166,11 +168,39 @@ const ProjectForm = ({
               control={form.control}
               name="start_date"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex flex-col">
                   <FormLabel>Začetek projekta</FormLabel>
-                  <FormControl>
-                    <DatePicker date={field.value} setDate={field.onChange} />
-                  </FormControl>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Izberi datum</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date(new Date().setHours(0, 0, 0, 0))
+                        } // This line allows today's date
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                   <FormDescription>Začetek vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -182,11 +212,39 @@ const ProjectForm = ({
               control={form.control}
               name="end_date"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Začetek projekta</FormLabel>
-                  <FormControl>
-                    <DatePicker date={field.value} setDate={field.onChange} />
-                  </FormControl>
+                <FormItem className="flex flex-col">
+                  <FormLabel>Konec projekta</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Izberi datum</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date(new Date().setHours(0, 0, 0, 0))
+                        } // This line allows today's date
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                   <FormDescription>Konec vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
