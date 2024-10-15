@@ -37,14 +37,7 @@ const ProjectForm = ({
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      author: "",
-      type: "",
-      current_phase: "",
-      customer: "",
-      quantity: "0",
-    },
+    defaultValues: {},
   });
 
   // 2. Define a submit handler.
