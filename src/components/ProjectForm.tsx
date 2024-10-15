@@ -170,7 +170,7 @@ const ProjectForm = ({
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Začetek projekta</FormLabel>
-                  <Popover>
+                  <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
@@ -179,7 +179,6 @@ const ProjectForm = ({
                             "w-full pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
-                          onClick={() => console.log("Date button clicked")}
                         >
                           {field.value ? (
                             format(field.value, "PPP")
@@ -190,7 +189,11 @@ const ProjectForm = ({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent
+                      className="w-auto p-0"
+                      align="start"
+                      onOpenAutoFocus={(e) => e.preventDefault()}
+                    >
                       <Calendar
                         mode="single"
                         selected={field.value}
@@ -216,7 +219,7 @@ const ProjectForm = ({
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Konec projekta</FormLabel>
-                  <Popover>
+                  <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
@@ -235,7 +238,11 @@ const ProjectForm = ({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent
+                      className="w-auto p-0"
+                      align="start"
+                      onOpenAutoFocus={(e) => e.preventDefault()}
+                    >
                       <Calendar
                         className="z-10"
                         mode="single"
