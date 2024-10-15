@@ -1,17 +1,10 @@
-"use client";
-
-import * as React from "react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-
+import React, { useEffect, useRef } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "./ui/calendar";
 
 export default function DatePicker({
   date,
@@ -20,6 +13,24 @@ export default function DatePicker({
   date: Date | undefined;
   setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }) {
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (popoverRef.current) {
+      popoverRef.current.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+    }
+    return () => {
+      if (popoverRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        popoverRef.current.removeEventListener("click", (e) => {
+          e.stopPropagation();
+        });
+      }
+    };
+  }, [popoverRef]);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -34,7 +45,7 @@ export default function DatePicker({
           {date ? format(date, "PPP") : <span>Izberi datum</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent ref={popoverRef} className="w-auto p-0">
         <Calendar
           mode="single"
           selected={date}
