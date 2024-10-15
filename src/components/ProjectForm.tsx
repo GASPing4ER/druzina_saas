@@ -18,13 +18,13 @@ import { Input } from "@/components/ui/input";
 import { formSchema } from "@/types/schemas";
 import { getCompleteData } from "@/utils";
 import { User } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
+import { addProject } from "@/actions/projects";
 
 const ProjectForm = ({
   user,
@@ -44,7 +44,7 @@ const ProjectForm = ({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const completeData = getCompleteData(values, user);
 
-    await supabase.from("projects").insert({ ...completeData });
+    await addProject(completeData);
     router.replace("/");
     handleClose();
   }

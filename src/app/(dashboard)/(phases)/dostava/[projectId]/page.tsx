@@ -1,5 +1,5 @@
+import { getProject } from "@/actions/projects";
 import { ProjectDetails } from "@/components";
-import { supabase } from "@/lib/supabase";
 
 const ProjectDetailsPage = async ({
   params,
@@ -7,13 +7,7 @@ const ProjectDetailsPage = async ({
   params: { projectId: string };
 }) => {
   const projectId = params.projectId;
-  const response = await supabase
-    .from("projects")
-    .select()
-    .eq("id", projectId)
-    .maybeSingle();
-
-  const project: ProjectProps | null = response.data;
+  const project = await getProject(projectId);
   if (!project) {
     return <div>ProjectDetailsPage</div>;
   } else {

@@ -41,3 +41,22 @@ export const getPhaseProjects = async (phase: string) => {
 
   return data;
 };
+
+export const getProject = async (projectId: string) => {
+  const response = await supabase
+    .from("projects")
+    .select()
+    .eq("id", projectId)
+    .maybeSingle();
+
+  const project: ProjectProps | null = response.data;
+  return project;
+};
+
+export const addProject = async (completeData: completeDataProps) => {
+  try {
+    await supabase.from("projects").insert({ ...completeData });
+  } catch (error) {
+    console.log(error);
+  }
+};

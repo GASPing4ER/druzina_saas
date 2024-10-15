@@ -1,6 +1,5 @@
 "use client";
 
-import { supabase } from "@/lib/supabase";
 import { getPathname } from "@/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { ProjectForm } from "@/components";
 import { User } from "@supabase/supabase-js";
+import { getProject } from "@/actions/projects";
 
 const TopBar = ({ user }: { user: User }) => {
   const [projectName, setProjectName] = useState("");
@@ -25,17 +25,13 @@ const TopBar = ({ user }: { user: User }) => {
   const navDetails = getPathname(paths[1]);
 
   useEffect(() => {
-    const getProject = async () => {
-      const { data } = await supabase
-        .from("projects")
-        .select()
-        .eq("id", paths[2])
-        .maybeSingle();
+    const getProjectData = async () => {
+      const project = await getProject(paths[2]);
 
-      const projectName = data?.name || "";
+      const projectName = project?.name || "";
       setProjectName(projectName);
     };
-    getProject();
+    getProjectData();
   }, [paths]);
 
   return (

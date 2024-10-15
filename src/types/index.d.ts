@@ -55,6 +55,24 @@ declare type ProjectProps = {
   created_at: string;
 };
 
+declare type completeDataProps =
+  | {
+      current_phase: string;
+      napredek: number;
+      status: string;
+      stanje: number;
+      creatorId: string;
+      creator_name: string;
+      end_date: Date;
+      type: string;
+      name: string;
+      author: string;
+      customer: string;
+      quantity: string;
+      start_date: Date;
+    }
+  | undefined;
+
 declare type ProjectsProps = ProjectProps[];
 
 declare type UserProps = {

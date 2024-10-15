@@ -2,10 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
 import { createClient } from "@/utils/supabase/server";
 
-export async function signup(formData: FormData) {
+export const signup = async (formData: FormData) => {
   const supabaseAuth = createClient();
 
   // type-casting here for convenience
@@ -38,4 +37,42 @@ export async function signup(formData: FormData) {
 
   revalidatePath("/", "layout");
   redirect("/");
-}
+};
+
+export const login = async (formData: FormData) => {
+  const supabaseAuth = createClient();
+
+  const data = {
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  };
+
+  const { error } = await supabaseAuth.auth.signInWithPassword(data);
+
+  if (error?.code === "email_not_confirmed") {
+    // Return the error message to the page for display
+    console.log(error);
+    return { error: "Potrdi svoj email." };
+  } else if (error) {
+    return { error: error.message };
+  }
+
+  // Optionally return something upon success, like redirect instructions
+  return { success: true };
+};
+
+export const logout = async () => {
+  const supabase = createClient();
+  await supabase.auth.signOut();
+};
+
+export const getUser = async () => {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (!data.user || error) {
+    redirect("/login");
+  }
+
+  return data.user;
+};

@@ -1,6 +1,6 @@
 "use client";
 
-import { signup } from "./actions";
+import { signup } from "@/actions/auth";
 import { useState, useTransition } from "react";
 
 export default function LoginPage() {

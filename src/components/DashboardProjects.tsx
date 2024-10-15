@@ -19,7 +19,7 @@ const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
                   <ProgressBar stanje={project.stanje} />
                 </div>
                 <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">
-                  {/* TODO: Dynamic taks tracking */}
+                  {/* TODO: Dynamic tasks tracking */}
                   1/3
                 </div>
                 <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">

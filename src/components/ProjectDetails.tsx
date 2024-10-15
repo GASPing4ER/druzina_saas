@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const ProjectDetails = ({ project }: ProjectDetailsProps) => {
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-2 w-full rounded-xl shadow-2xl p-8 border-b-8 border-orange-300">
       <div>
         <h1 className="text-4xl">{project.name}</h1>
         <h2 className="text-xl">{project.author}</h2>

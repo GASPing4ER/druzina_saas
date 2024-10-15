@@ -1,12 +1,10 @@
+import { getUser } from "@/actions/auth";
 import { getProjects } from "@/actions/projects";
 import { DashboardProjectsDisplay, ProjectsCarousel } from "@/components";
-import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
-  const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
-  const projects: ProjectsProps | null = await getProjects(data.user!);
-  const user = data.user;
+  const user = await getUser();
+  const projects: ProjectsProps | null = await getProjects(user!);
 
   return (
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start pl-12 py-6 bg-white w-[1000px]">

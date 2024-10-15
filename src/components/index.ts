@@ -11,6 +11,7 @@ import ProjectsTable from "./ProjectsTable";
 import ProjectDetails from "./ProjectDetails";
 import ProjectForm from "./ProjectForm";
 import ProjectRow from "./ProjectRow";
+import UtilityBox from "./UtilityBox";
 
 export {
   Sidebar,
@@ -26,4 +27,5 @@ export {
   ProjectDetails,
   ProjectForm,
   ProjectRow,
+  UtilityBox,
 };

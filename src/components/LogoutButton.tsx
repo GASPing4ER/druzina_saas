@@ -1,6 +1,6 @@
 "use client";
 
-import { logout } from "@/utils/actions";
+import { logout } from "@/actions/auth";
 
 const LogoutButton = () => {
   const handleLogout = async () => {

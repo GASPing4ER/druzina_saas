@@ -1,3 +1,4 @@
+import { getUser } from "@/actions/auth";
 import { ProjectRow } from "@/components";
 import {
   Table,
@@ -7,12 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { createClient } from "@/utils/supabase/server";
 
 const ProjectsTable = async ({ projects, phase }: ProjectsTableProps) => {
-  const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
-  const role = data.user?.user_metadata.role;
+  const user = await getUser();
+  const role = user.user_metadata.role;
 
   return (
     <Table>
