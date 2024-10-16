@@ -5,7 +5,6 @@ import { z } from "zod";
 
 export const getPathname = (pathname: string) => {
   // TODO: V konstante dodaj pathnames, kjer bodo shranjeni url-ji in naslovi, in nato v tej funkciji return-i object s title-om in url-jem
-
   const navDetail = nav_details.find((item) => item.url === `/${pathname}`);
 
   if (navDetail) return navDetail;
@@ -69,7 +68,7 @@ export const getCompleteData = (
       creatorId: user.id,
       creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
     };
-  } else if (values.current_phase === "priprava za tisk") {
+  } else if (values.current_phase === "priprava-za-tisk") {
     return {
       ...values,
       napredek: 3,
@@ -95,6 +94,59 @@ export const getCompleteData = (
       stanje: 80,
       creatorId: user.id,
       creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
+    };
+  }
+};
+
+export const updateData = (project: ProjectProps): updatedDataProps => {
+  console.log(project);
+  if (project.current_phase === "osnutek") {
+    return {
+      // ...project,
+      current_phase: "urednistvo",
+      napredek: 1,
+      status: "v teku",
+      stanje: 0,
+    };
+  } else if (project.current_phase === "urednistvo") {
+    return {
+      // ...project,
+      current_phase: "oblikovanje",
+      napredek: 2,
+      status: "v teku",
+      stanje: 20,
+    };
+  } else if (project.current_phase === "oblikovanje") {
+    return {
+      // ...project,
+      current_phase: "priprava-za-tisk",
+      napredek: 3,
+      status: "v teku",
+      stanje: 40,
+    };
+  } else if (project.current_phase === "priprava-za-tisk") {
+    return {
+      // ...project,
+      current_phase: "tisk",
+      napredek: 4,
+      status: "v teku",
+      stanje: 60,
+    };
+  } else if (project.current_phase === "tisk") {
+    return {
+      // ...project,
+      current_phase: "dostava",
+      napredek: 5,
+      status: "v teku",
+      stanje: 80,
+    };
+  } else if (project.current_phase === "dostava") {
+    return {
+      // ...project,
+      napredek: 5,
+      current_phase: "arhiv",
+      status: "zaključeno",
+      stanje: 100,
     };
   }
 };

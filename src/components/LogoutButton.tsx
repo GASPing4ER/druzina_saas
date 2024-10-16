@@ -7,7 +7,11 @@ const LogoutButton = () => {
     await logout();
   };
 
-  return <button onClick={handleLogout}>Odjavi se</button>;
+  return (
+    <button className="text-sm text-left" onClick={handleLogout}>
+      Odjavi se
+    </button>
+  );
 };
 
 export default LogoutButton;

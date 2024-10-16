@@ -1,5 +1,5 @@
 import { getProject } from "@/actions/projects";
-import { ProjectDetails, UtilityBox } from "@/components";
+import { NextPhaseButton, ProjectDetails, Redirector } from "@/components";
 
 const ProjectDetailsPage = async ({
   params,
@@ -9,13 +9,13 @@ const ProjectDetailsPage = async ({
   const projectId = params.projectId;
   const project = await getProject(projectId);
   if (!project) {
-    return <div>ProjectDetailsPage</div>;
+    return <div>Projekta nismo našli</div>;
   } else {
     return (
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white text-slate-900">
         <ProjectDetails project={project} />
-        <UtilityBox type="naloge" />
-        <UtilityBox type="datoteke" />
+        <NextPhaseButton project={project} />
+        <Redirector project={project} />
       </main>
     );
   }

@@ -22,17 +22,21 @@ const TopBar = ({ user }: { user: User }) => {
   const [open, setOpen] = useState(false);
   const path = usePathname();
   const paths = path.split("/");
-  const navDetails = getPathname(paths[1]);
+  const navDetails = path?.includes("phase")
+    ? getPathname(paths[2])
+    : getPathname(paths[1]);
 
   useEffect(() => {
     const getProjectData = async () => {
-      const project = await getProject(paths[2]);
+      const project = await getProject(
+        path?.includes("phase") ? paths[3] : paths[2]
+      );
 
       const projectName = project?.name || "";
       setProjectName(projectName);
     };
     getProjectData();
-  }, [paths]);
+  }, [path, paths]);
 
   return (
     <section className="w-full py-6 px-12 border-b border-black flex justify-between items-center">

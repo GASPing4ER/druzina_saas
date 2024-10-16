@@ -16,11 +16,14 @@ const SidebarNav = ({
             role === "superadmin" ||
             role === "admin" ||
             item.title.toLowerCase() === department;
+
+          const completeUrl =
+            title === "Procesi" ? `/phase/${item.url}` : item.url;
           return (
             <ul key={item.title}>
               <li>
                 <Link
-                  href={canAccess ? item.url : "/unauthorized"}
+                  href={canAccess ? completeUrl : "/unauthorized"}
                   className={`flex gap-2 ${
                     canAccess ? "text-gray-900" : "text-gray-400"
                   }`}

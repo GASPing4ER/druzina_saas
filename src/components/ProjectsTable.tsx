@@ -33,9 +33,9 @@ const ProjectsTable = async ({ projects, phase }: ProjectsTableProps) => {
         {projects?.map((project) => {
           let pathname: string;
           const path = phase
-            ? phase
+            ? `phase/${phase}`
             : role === "member"
-            ? project.current_phase
+            ? `/phase/${project.current_phase}`
             : "projekti";
           if (project.id) {
             pathname = `/${path}/${project.id}`;

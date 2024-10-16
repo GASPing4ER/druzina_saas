@@ -4,7 +4,7 @@ declare type TPhases =
   | "osnutek"
   | "urednistvo"
   | "oblikovanje"
-  | "priprava za tisk"
+  | "priprava-za-tisk"
   | "tisk"
   | "dostava"
   | "arhiv";
@@ -70,6 +70,15 @@ declare type completeDataProps =
       customer: string;
       quantity: string;
       start_date: Date;
+    }
+  | undefined;
+
+declare type updatedDataProps =
+  | {
+      current_phase: TPhases;
+      napredek: number;
+      status: string;
+      stanje: number;
     }
   | undefined;
 

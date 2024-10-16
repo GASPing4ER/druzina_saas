@@ -42,6 +42,11 @@ export const sidebar_navigation: SidebarNavigationProps = {
       imgUrl: "/icons/dostava.svg",
       url: "/dostava",
     },
+    {
+      title: "Arhiv",
+      imgUrl: "/icons/arhiv.svg",
+      url: "/arhiv",
+    },
   ],
   casovni_okvir: [
     {
@@ -93,6 +98,11 @@ export const nav_details: NavDetailsProps = [
     title: "Dostava",
     imgUrl: "/icons/dostava.svg",
     url: "/dostava",
+  },
+  {
+    title: "Arhiv",
+    imgUrl: "/icons/arhiv.svg",
+    url: "/arhiv",
   },
   {
     title: "Dostop zavrnjen",

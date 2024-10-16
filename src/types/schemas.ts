@@ -4,7 +4,7 @@ const TPhasesSchema = z.enum([
   "osnutek",
   "uredništvo",
   "oblikovanje",
-  "priprava za tisk",
+  "priprava-za-tisk",
   "tisk",
   "dostava",
   "arhiv",
@@ -24,7 +24,7 @@ export const formSchema = z.object({
     (val) => TPhasesSchema.options.includes(val),
     {
       message:
-        "Izberite pravilno začetno fazo (osnutek, uredništvo, oblikovanje, priprava za tisk, tisk, dostava).",
+        "Izberite pravilno začetno fazo (osnutek, uredništvo, oblikovanje, priprava-za-tisk, tisk, dostava).",
     }
   ),
   customer: z.string().min(2, {

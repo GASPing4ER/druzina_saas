@@ -12,6 +12,8 @@ import ProjectDetails from "./ProjectDetails";
 import ProjectForm from "./ProjectForm";
 import ProjectRow from "./ProjectRow";
 import UtilityBox from "./UtilityBox";
+import NextPhaseButton from "./NextPhaseButton";
+import Redirector from "./Redirector";
 
 export {
   Sidebar,
@@ -28,4 +30,6 @@ export {
   ProjectForm,
   ProjectRow,
   UtilityBox,
+  NextPhaseButton,
+  Redirector,
 };

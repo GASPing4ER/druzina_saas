@@ -1,5 +1,8 @@
+"use server";
+
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
+import { revalidatePath } from "next/cache";
 
 export const getProjects = async (user: User) => {
   if (
@@ -56,7 +59,19 @@ export const getProject = async (projectId: string) => {
 export const addProject = async (completeData: completeDataProps) => {
   try {
     await supabase.from("projects").insert({ ...completeData });
+    revalidatePath("/", "page");
   } catch (error) {
     console.log(error);
   }
+};
+
+export const updateProject = async (
+  updatedData: updatedDataProps,
+  projectId: string
+) => {
+  await supabase
+    .from("projects")
+    .update({ ...updatedData })
+    .eq("id", projectId);
+  revalidatePath("/", "page");
 };
