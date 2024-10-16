@@ -22,27 +22,30 @@ const TopBar = ({ user }: { user: User }) => {
   const [open, setOpen] = useState(false);
   const path = usePathname();
   const paths = path.split("/");
-  const navDetails = path?.includes("phase")
+  const includesPath = path.includes("phase");
+  const navDetails = includesPath
     ? getPathname(paths[2])
     : getPathname(paths[1]);
 
   useEffect(() => {
     const getProjectData = async () => {
-      const project = await getProject(
-        path?.includes("phase") ? paths[3] : paths[2]
-      );
+      const project = await getProject(includesPath ? paths[3] : paths[2]);
 
       const projectName = project?.name || "";
       setProjectName(projectName);
     };
     getProjectData();
-  }, [path, paths]);
+  }, [includesPath, paths]);
 
   return (
     <section className="w-full py-6 px-12 border-b border-black flex justify-between items-center">
       <div className="flex gap-2 items-center">
         <Link
-          href={navDetails?.url as string}
+          href={
+            includesPath
+              ? `/phase/${navDetails?.url as string}`
+              : (navDetails?.url as string)
+          }
           className="text-xl font-semibold"
         >
           {navDetails?.title || "Url nonexistant"}
