@@ -1,6 +1,5 @@
 "use client";
 
-import { getPathname } from "@/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,36 +15,29 @@ import {
 import { ProjectForm } from "@/components";
 import { User } from "@supabase/supabase-js";
 import { getProject } from "@/actions/projects";
+import { getPathname } from "@/utils";
 
 const TopBar = ({ user }: { user: User }) => {
   const [projectName, setProjectName] = useState("");
   const [open, setOpen] = useState(false);
   const path = usePathname();
   const paths = path.split("/");
-  const includesPath = path.includes("phase");
-  const navDetails = includesPath
-    ? getPathname(paths[2])
-    : getPathname(paths[1]);
+  const navDetails = getPathname(paths[1]);
 
   useEffect(() => {
     const getProjectData = async () => {
-      const project = await getProject(includesPath ? paths[3] : paths[2]);
-
-      const projectName = project?.name || "";
+      const { data } = await getProject(paths[2]);
+      const projectName = data?.name || "";
       setProjectName(projectName);
     };
     getProjectData();
-  }, [includesPath, paths]);
+  }, [paths]);
 
   return (
     <section className="w-full py-6 px-12 border-b border-black flex justify-between items-center">
       <div className="flex gap-2 items-center">
         <Link
-          href={
-            includesPath
-              ? `/phase/${navDetails?.url as string}`
-              : (navDetails?.url as string)
-          }
+          href={navDetails?.url as string}
           className="text-xl font-semibold"
         >
           {navDetails?.title || "Url nonexistant"}

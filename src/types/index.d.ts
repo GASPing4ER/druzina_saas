@@ -3,7 +3,7 @@
 declare type TPhases =
   | "osnutek"
   | "urednistvo"
-  | "oblikovanje"
+  // | "oblikovanje"
   | "priprava-za-tisk"
   | "tisk"
   | "dostava"
@@ -11,7 +11,7 @@ declare type TPhases =
 
 declare type TStatus = "v pripravi" | "v teku" | "zaključeno";
 
-declare type TNapredek = 0 | 1 | 2 | 3 | 4 | 5;
+declare type TNapredek = 0 | 1 | 2 | 3 | 4;
 
 // TODO: Type for types of projects -> časopis, knjiga etc.
 

@@ -15,7 +15,7 @@ const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
         return (
           <Link
             key={project.id}
-            href={`/phase/${project.current_phase}/${project.id}`}
+            href={`/${project.current_phase}/${project.id}`}
           >
             <div key={project.id} className="inline-block">
               <div

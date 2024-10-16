@@ -12,6 +12,7 @@ export const getPathname = (pathname: string) => {
 };
 
 export const formatDate = (inputDate: string) => {
+  console.log("DATE:", inputDate);
   const date = new Date(inputDate);
 
   const formattedDate = new Intl.DateTimeFormat("sl-SI", {
@@ -59,16 +60,18 @@ export const getCompleteData = (
       creatorId: user.id,
       creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
     };
-  } else if (values.current_phase === "oblikovanje") {
-    return {
-      ...values,
-      napredek: 2,
-      status: "v teku",
-      stanje: 20,
-      creatorId: user.id,
-      creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
-    };
-  } else if (values.current_phase === "priprava-za-tisk") {
+  }
+  // else if (values.current_phase === "oblikovanje") {
+  //   return {
+  //     ...values,
+  //     napredek: 2,
+  //     status: "v teku",
+  //     stanje: 20,
+  //     creatorId: user.id,
+  //     creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
+  //   };
+  // }
+  else if (values.current_phase === "priprava-za-tisk") {
     return {
       ...values,
       napredek: 3,
@@ -111,39 +114,41 @@ export const updateData = (project: ProjectProps): updatedDataProps => {
   } else if (project.current_phase === "urednistvo") {
     return {
       // ...project,
-      current_phase: "oblikovanje",
+      current_phase: "priprava-za-tisk",
       napredek: 2,
       status: "v teku",
-      stanje: 20,
+      stanje: 25,
     };
-  } else if (project.current_phase === "oblikovanje") {
-    return {
-      // ...project,
-      current_phase: "priprava-za-tisk",
-      napredek: 3,
-      status: "v teku",
-      stanje: 40,
-    };
-  } else if (project.current_phase === "priprava-za-tisk") {
+  }
+  // else if (project.current_phase === "oblikovanje") {
+  //   return {
+  //     // ...project,
+  //     current_phase: "priprava-za-tisk",
+  //     napredek: 3,
+  //     status: "v teku",
+  //     stanje: 40,
+  //   };
+  // }
+  else if (project.current_phase === "priprava-za-tisk") {
     return {
       // ...project,
       current_phase: "tisk",
-      napredek: 4,
+      napredek: 3,
       status: "v teku",
-      stanje: 60,
+      stanje: 50,
     };
   } else if (project.current_phase === "tisk") {
     return {
       // ...project,
       current_phase: "dostava",
-      napredek: 5,
+      napredek: 4,
       status: "v teku",
-      stanje: 80,
+      stanje: 75,
     };
   } else if (project.current_phase === "dostava") {
     return {
       // ...project,
-      napredek: 5,
+      napredek: 4,
       current_phase: "arhiv",
       status: "zaključeno",
       stanje: 100,

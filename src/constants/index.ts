@@ -22,11 +22,11 @@ export const sidebar_navigation: SidebarNavigationProps = {
       imgUrl: "/icons/urednistvo.svg",
       url: "/urednistvo",
     },
-    {
-      title: "Oblikovanje",
-      imgUrl: "/icons/oblikovanje.svg",
-      url: "/oblikovanje",
-    },
+    // {
+    //   title: "Oblikovanje",
+    //   imgUrl: "/icons/oblikovanje.svg",
+    //   url: "/oblikovanje",
+    // },
     {
       title: "Priprava za tisk",
       imgUrl: "/icons/priprava_za_tisk.svg",
@@ -79,11 +79,11 @@ export const nav_details: NavDetailsProps = [
     imgUrl: "/icons/urednistvo.svg",
     url: "/urednistvo",
   },
-  {
-    title: "Oblikovanje",
-    imgUrl: "/icons/oblikovanje.svg",
-    url: "/oblikovanje",
-  },
+  // {
+  //   title: "Oblikovanje",
+  //   imgUrl: "/icons/oblikovanje.svg",
+  //   url: "/oblikovanje",
+  // },
   {
     title: "Priprava za tisk",
     imgUrl: "/icons/priprava_za_tisk.svg",
@@ -191,13 +191,13 @@ export const phases: PhasesProps = [
     title: "Uredništvo",
     slug: "urednistvo",
   },
-  {
-    title: "Oblikovanje",
-    slug: "oblikovanje",
-  },
+  // {
+  //   title: "Oblikovanje",
+  //   slug: "oblikovanje",
+  // },
   {
     title: "Priprava za tisk",
-    slug: "priprava za tisk",
+    slug: "priprava-za-tisk",
   },
   {
     title: "Tisk",

@@ -16,9 +16,7 @@ const ProjectRow = ({
   const router = useRouter();
   return (
     <TableRow onClick={() => router.push(pathname)} className="cursor-pointer">
-      <TableCell className="capitalize">
-        {getPhaseName(project.current_phase)}
-      </TableCell>
+      <TableCell>{getPhaseName(project.current_phase)}</TableCell>
       <TableCell>{project.name}</TableCell>
       <TableCell className="capitalize">{project.type}</TableCell>
       <TableCell>{formatDate(project.start_date)}</TableCell>

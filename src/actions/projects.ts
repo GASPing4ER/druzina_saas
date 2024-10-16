@@ -1,7 +1,7 @@
 "use server";
 
 import { supabase } from "@/lib/supabase";
-import { User } from "@supabase/supabase-js";
+import { PostgrestError, User } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 
 export const getProjects = async (user: User) => {
@@ -45,15 +45,33 @@ export const getPhaseProjects = async (phase: string) => {
   return data;
 };
 
-export const getProject = async (projectId: string) => {
-  const response = await supabase
-    .from("projects")
-    .select()
-    .eq("id", projectId)
-    .maybeSingle();
+export const getProject = async (
+  projectId: string
+): Promise<{
+  data: ProjectProps | null;
+  error: PostgrestError | null | unknown;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("projects")
+      .select()
+      .eq("id", projectId)
+      .maybeSingle();
 
-  const project: ProjectProps | null = response.data;
-  return project;
+    const project: ProjectProps | null = data;
+    return {
+      data: project,
+      error,
+      message: "Successful Fetch of a Project",
+    };
+  } catch (error) {
+    return {
+      data: null,
+      error,
+      message: "Database Error: Failed to Fetch Project",
+    };
+  }
 };
 
 export const addProject = async (completeData: completeDataProps) => {
@@ -61,7 +79,10 @@ export const addProject = async (completeData: completeDataProps) => {
     await supabase.from("projects").insert({ ...completeData });
     revalidatePath("/", "page");
   } catch (error) {
-    console.log(error);
+    return {
+      error,
+      message: "Database Error: Failed to Create Project",
+    };
   }
 };
 
@@ -69,9 +90,16 @@ export const updateProject = async (
   updatedData: updatedDataProps,
   projectId: string
 ) => {
-  await supabase
-    .from("projects")
-    .update({ ...updatedData })
-    .eq("id", projectId);
-  revalidatePath("/", "page");
+  try {
+    await supabase
+      .from("projects")
+      .update({ ...updatedData })
+      .eq("id", projectId);
+    revalidatePath("/", "page");
+  } catch (error) {
+    return {
+      error,
+      message: "Database Error: Failed to Update Project",
+    };
+  }
 };

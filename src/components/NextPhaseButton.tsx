@@ -12,7 +12,7 @@ const NextPhaseButton = ({ project }: { project: ProjectProps }) => {
       try {
         console.log("Updating...");
         updateProject(updatedData, project.id);
-        router.push(`/phase/${updatedData.current_phase}/${project.id}`);
+        router.push(`/${updatedData.current_phase}/${project.id}`);
       } catch (error) {
         console.log(error);
       }
