@@ -1,5 +1,6 @@
 import { getProject } from "@/actions/projects";
-import { NextPhaseModal, ProjectDetails } from "@/components";
+import { getTasks } from "@/actions/tasks";
+import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
 
 const ProjectDetailsPage = async ({
   params,
@@ -7,13 +8,21 @@ const ProjectDetailsPage = async ({
   params: { projectId: string };
 }) => {
   const projectId = params.projectId;
-  const { data: project } = await getProject(projectId);
+  const [projectResponse, tasksResponse] = await Promise.all([
+    getProject(projectId),
+    getTasks(projectId),
+  ]);
+  const project = projectResponse.data;
+  const tasks = tasksResponse.data;
+  console.log(project);
   if (!project) {
     return <div>Projekta nismo našli</div>;
   } else {
     return (
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white text-slate-900">
         <ProjectDetails project={project} />
+        <UtilityBox type="naloge" data={tasks} />
+        <UtilityBox type="datoteke" data={tasks} />
         <NextPhaseModal phase="priprava-za-tisk" project={project} />
       </main>
     );

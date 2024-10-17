@@ -7,7 +7,7 @@ const Sidebar = async ({ user }: { user: User }) => {
   const role = user.user_metadata.role;
   const department = user.user_metadata.department;
   return (
-    <div className="w-[300px] border-r border-black flex flex-col justify-between">
+    <div className="w-[300px] h-full fixed z-10 bg-white top-0 left-0 border-r border-black flex flex-col justify-between">
       <div className="p-10 flex flex-col gap-8">
         <Image
           src="/images/logo.png"

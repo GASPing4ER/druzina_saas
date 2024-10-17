@@ -59,9 +59,8 @@ export const getProject = async (
       .eq("id", projectId)
       .maybeSingle();
 
-    const project: ProjectProps | null = data;
     return {
-      data: project,
+      data: data || null,
       error,
       message: "Successful Fetch of a Project",
     };
