@@ -14,6 +14,10 @@ import ProjectRow from "./ProjectRow";
 import UtilityBox from "./UtilityBox";
 import NextPhaseModal from "./NextPhaseModal";
 import NextPhaseForm from "./NextPhaseForm";
+import UtilityModal from "./UtilityModal";
+import TaskForm from "./TaskForm";
+import TasksTable from "./TasksTable";
+import TaskRow from "./TaskRow";
 
 export {
   Sidebar,
@@ -32,4 +36,8 @@ export {
   UtilityBox,
   NextPhaseModal,
   NextPhaseForm,
+  UtilityModal,
+  TaskForm,
+  TasksTable,
+  TaskRow,
 };

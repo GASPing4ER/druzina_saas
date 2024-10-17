@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { PostgrestError } from "@supabase/supabase-js";
+import { revalidatePath } from "next/cache";
 
 export const getTasks = async (
   projectId: string
@@ -25,6 +26,27 @@ export const getTasks = async (
       data: null,
       error,
       message: "Database Error: Failed to Fetch Tasks",
+    };
+  }
+};
+
+export const addTask = async (
+  values: NewTaskDataProps
+): Promise<{
+  error: PostgrestError | null | unknown;
+  message: string;
+}> => {
+  try {
+    const { error } = await supabase.from("tasks").insert({ ...values });
+    revalidatePath(`/urednistvo/${values.project_id}`, "page");
+    return {
+      error,
+      message: "Successful Creation of a Task",
+    };
+  } catch (error) {
+    return {
+      error,
+      message: "Database Error: Failed to Create Task",
     };
   }
 };

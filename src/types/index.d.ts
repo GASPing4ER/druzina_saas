@@ -101,18 +101,32 @@ declare type PhaseProps = {
 
 declare type TaskProps = {
   id: string;
-  urednistvo_id: string;
   employee_id: string;
   employee_name: string;
   project_id: string;
   assigner_id: string;
   assigner_name: string;
   name: string;
+  description: string;
   priority: string;
   start_date: string;
   end_date: string;
   status: string;
   created_at: string;
+};
+
+declare type NewTaskDataProps = {
+  employee_id: string;
+  employee_name: string;
+  project_id: string;
+  assigner_id: string;
+  assigner_name: string;
+  name: string;
+  description: string;
+  priority: string;
+  start_date: Date;
+  end_date: Date;
+  status: string;
 };
 
 declare type PhasesProps = PhaseProps[];
