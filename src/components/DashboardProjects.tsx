@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ProgressBar from "./ProgressBar";
 import Image from "next/image";
-import { formatDate } from "@/utils";
+import { formatDate, getPhaseName } from "@/utils";
 
 const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
   return (
@@ -13,15 +13,19 @@ const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
               href={`/${project.current_phase}/${project.id}`}
               className="flex justify-between items-center bg-slate-100 py-4 px-8 w-full rounded-xl"
             >
-              <h2 className="font-semibold">{project.name}</h2>
+              <div className="flex gap-4">
+                <h2 className="font-semibold">{project.name}</h2>
+                <h3>{getPhaseName(project.current_phase)}</h3>
+              </div>
               <div className="flex items-center gap-4">
                 <div className="w-[100px]">
                   <ProgressBar stanje={project.stanje} />
                 </div>
-                <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">
-                  {/* TODO: Dynamic tasks tracking */}
+                {project.stanje}%
+                {/* <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">
+                  TODO: Dynamic tasks tracking
                   1/3
-                </div>
+                </div> */}
                 <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">
                   {formatDate(project.end_date)}
                 </div>

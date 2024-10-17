@@ -13,6 +13,8 @@ declare type TStatus = "v pripravi" | "v teku" | "zaključeno";
 
 declare type TNapredek = 0 | 1 | 2 | 3 | 4;
 
+declare type TTaskStatus = "assigned" | "done" | "checked" | "completed";
+
 // TODO: Type for types of projects -> časopis, knjiga etc.
 
 declare type SidebarNavigationItemProps = {
@@ -111,7 +113,7 @@ declare type TaskProps = {
   priority: string;
   start_date: string;
   end_date: string;
-  status: string;
+  status: TTaskStatus;
   created_at: string;
 };
 
@@ -126,7 +128,7 @@ declare type NewTaskDataProps = {
   priority: string;
   start_date: Date;
   end_date: Date;
-  status: string;
+  status: TTaskStatus;
 };
 
 declare type PhasesProps = PhaseProps[];

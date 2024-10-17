@@ -82,7 +82,7 @@ const TaskForm = ({
         assigner_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
         assigner_id: user.id,
         project_id: projectId,
-        status: "dodeljena",
+        status: "assigned",
         employee_name,
       };
 

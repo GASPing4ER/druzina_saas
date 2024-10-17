@@ -1,3 +1,4 @@
+import { getUser } from "@/actions/auth";
 import { getProject } from "@/actions/projects";
 import { getTasks } from "@/actions/tasks";
 import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
@@ -8,13 +9,17 @@ const ProjectDetailsPage = async ({
   params: { projectId: string };
 }) => {
   const projectId = params.projectId;
-  const [projectResponse, tasksResponse] = await Promise.all([
+  const [projectResponse, tasksResponse, userResponse] = await Promise.all([
     getProject(projectId),
     getTasks(projectId),
+    getUser(),
   ]);
   const project = projectResponse.data;
   const tasks = tasksResponse.data;
-  console.log("LOOK AT THE TASKS:", tasks);
+  const role = userResponse.user_metadata.role;
+  const tasksCompleted =
+    tasks &&
+    (tasks.length === 0 || tasks.every((task) => task.status === "completed"));
   if (!project) {
     return <div>Projekta nismo našli</div>;
   } else {
@@ -23,7 +28,9 @@ const ProjectDetailsPage = async ({
         <ProjectDetails project={project} />
         <UtilityBox type="naloge" data={tasks} projectId={project.id} />
         {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
-        <NextPhaseModal phase="priprava-za-tisk" project={project} />
+        {tasksCompleted && role === "superadmin" && (
+          <NextPhaseModal phase="priprava-za-tisk" project={project} />
+        )}
       </main>
     );
   }

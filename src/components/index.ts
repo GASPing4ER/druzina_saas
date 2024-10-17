@@ -18,6 +18,7 @@ import UtilityModal from "./UtilityModal";
 import TaskForm from "./TaskForm";
 import TasksTable from "./TasksTable";
 import TaskRow from "./TaskRow";
+import TaskModal from "./TaskModal";
 
 export {
   Sidebar,
@@ -40,4 +41,5 @@ export {
   TaskForm,
   TasksTable,
   TaskRow,
+  TaskModal,
 };
