@@ -34,3 +34,8 @@ export const formSchema = z.object({
   start_date: z.date(),
   end_date: z.date(),
 });
+
+export const phaseSchema = z.object({
+  start_date: z.date(),
+  end_date: z.date(),
+});

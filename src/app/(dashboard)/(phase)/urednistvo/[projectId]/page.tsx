@@ -1,5 +1,5 @@
 import { getProject } from "@/actions/projects";
-import { NextPhaseButton, ProjectDetails } from "@/components";
+import { NextPhaseModal, ProjectDetails } from "@/components";
 
 const ProjectDetailsPage = async ({
   params,
@@ -14,7 +14,7 @@ const ProjectDetailsPage = async ({
     return (
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white text-slate-900">
         <ProjectDetails project={project} />
-        <NextPhaseButton project={project} />
+        <NextPhaseModal phase="priprava-za-tisk" project={project} />
       </main>
     );
   }

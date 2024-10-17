@@ -14,41 +14,48 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { formSchema } from "@/types/schemas";
-import { getCompleteData } from "@/utils";
-import { User } from "@supabase/supabase-js";
-import { useRouter } from "next/navigation";
+import { phaseSchema } from "@/types/schemas";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
-import { addProject } from "@/actions/projects";
+import { updateData } from "@/utils";
+import { updateProject } from "@/actions/projects";
+import { useRouter } from "next/navigation";
+import { addPhase } from "@/actions/phases";
 
-const ProjectForm = ({
-  user,
-  handleClose,
+const NextPhaseForm = ({
+  phase,
+  project,
 }: {
-  user: User;
-  handleClose: () => void;
+  phase: string;
+  project: ProjectProps;
 }) => {
-  // 1. Define your form.
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  // 1. Define your form.
+  const form = useForm<z.infer<typeof phaseSchema>>({
+    resolver: zodResolver(phaseSchema),
     defaultValues: {},
   });
 
   const startDate = form.watch("start_date");
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    const completeData = getCompleteData(values, user);
-
-    await addProject(completeData);
-    router.replace("/");
-    handleClose();
+  async function onSubmit(values: z.infer<typeof phaseSchema>) {
+    console.log("SUBMITTED");
+    console.log(values, phase, project);
+    const updatedData = updateData(project);
+    if (updatedData) {
+      try {
+        console.log("Updating...");
+        updateProject(updatedData, project.id);
+        addPhase(values, phase, project.id);
+        router.push(`/${updatedData.current_phase}/${project.id}`);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
   return (
     <Form {...form}>
@@ -57,114 +64,10 @@ const ProjectForm = ({
           <div className="flex-1">
             <FormField
               control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Naslov</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Družina, št.42" {...field} />
-                  </FormControl>
-                  <FormDescription>Naslov vašega projekta</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="author"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Avtor</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Janez Novak" {...field} />
-                  </FormControl>
-                  <FormDescription>Ime avtorja</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Vrsta</FormLabel>
-                  <FormControl>
-                    <Input placeholder="časopis" {...field} />
-                  </FormControl>
-                  <FormDescription>Vrsta vašega projekta</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="current_phase"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Začetna faza</FormLabel>
-                  <FormControl>
-                    <Input placeholder="uredništvo" {...field} />
-                  </FormControl>
-                  <FormDescription>Začetna faza projekta</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="customer"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Naročnik</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ana Novak" {...field} />
-                  </FormControl>
-                  <FormDescription>Naročnik vašega projekta</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="quantity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Količina</FormLabel>
-                  <FormControl>
-                    <Input placeholder="2000" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Količina izvodov vašega projekta
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <FormField
-              control={form.control}
               name="start_date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Začetek projekta</FormLabel>
+                  <FormLabel>Začetek faze</FormLabel>
                   <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -201,7 +104,7 @@ const ProjectForm = ({
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Začetek vašega projekta</FormDescription>
+                  <FormDescription>Začetek naslednje faze</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -213,7 +116,7 @@ const ProjectForm = ({
               name="end_date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Konec projekta</FormLabel>
+                  <FormLabel>Konec faze</FormLabel>
                   <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -251,7 +154,7 @@ const ProjectForm = ({
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Konec vašega projekta</FormDescription>
+                  <FormDescription>Konec naslednje faze</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -264,4 +167,4 @@ const ProjectForm = ({
   );
 };
 
-export default ProjectForm;
+export default NextPhaseForm;

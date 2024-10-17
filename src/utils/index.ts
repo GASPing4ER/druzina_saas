@@ -12,7 +12,6 @@ export const getPathname = (pathname: string) => {
 };
 
 export const formatDate = (inputDate: string) => {
-  console.log("DATE:", inputDate);
   const date = new Date(inputDate);
 
   const formattedDate = new Intl.DateTimeFormat("sl-SI", {
@@ -153,5 +152,19 @@ export const updateData = (project: ProjectProps): updatedDataProps => {
       status: "zaključeno",
       stanje: 100,
     };
+  }
+};
+
+export const getNextPhase = (phase: string) => {
+  if (phase === "osnutek") {
+    return "urednistvo";
+  } else if (phase === "urednistvo") {
+    return "priprava-za-tisk";
+  } else if (phase === "priprava-za-tisk") {
+    return "tisk";
+  } else if (phase === "tisk") {
+    return "dostava";
+  } else if (phase === "dostava") {
+    return "arhiv";
   }
 };

@@ -17,7 +17,7 @@ const DashboardProjectsDisplay = ({
     setPhase(chosenPhase);
   };
   return (
-    <div className="flex flex-col gap-8 w-[750px]">
+    <div className="flex flex-col gap-8 w-full">
       <DashboardProjectsFilter onHandlePhase={onHandlePhase} />
       <DashboardProjects projects={filteredProjects} />
     </div>

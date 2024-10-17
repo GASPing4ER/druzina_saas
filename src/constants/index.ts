@@ -117,63 +117,6 @@ export const nav_details: NavDetailsProps = [
   },
 ];
 
-// 00239b2c-bcc0-41be-84c1-9d8a43bd980b
-
-export const projectsDummyData = [
-  {
-    id: "1",
-    name: "Bič sem buli",
-    avtor: "John Doe",
-    trenutna_faza: "oblikovanje",
-    vrsta: "knjiga",
-    vodja_projekta: "user_2nFp6K3ysHhkdT8sjjFO9rRV4xf",
-    start_date: "24.09.2024",
-    end_date: "10.10.2024",
-    status: "v teku",
-    napredek: 2,
-    stanje: 24,
-  },
-  {
-    id: "2",
-    name: "Družina, št.42",
-    avtor: "John Doe",
-    trenutna_faza: "urednistvo",
-    vrsta: "Časopis",
-    vodja_projekta: "user_2nFp6K3ysHhkdT8sjjFO9rRV4xf",
-    start_date: "26.09.2024",
-    end_date: "12.10.2024",
-    status: "v teku",
-    napredek: 1,
-    stanje: 18,
-  },
-  {
-    id: "3",
-    name: "Hildegardino zdravilstvo",
-    avtor: "John Doe",
-    trenutna_faza: "tisk",
-    vrsta: "Knjiga",
-    vodja_projekta: "user_2nFp6K3ysHhkdT8sjjFO9rRV4xf",
-    start_date: "30.09.2024",
-    end_date: "18.10.2024",
-    status: "v pripravi",
-    napredek: 4,
-    stanje: 67,
-  },
-  {
-    id: "4",
-    name: "365 dni",
-    avtor: "John Doe",
-    trenutna_faza: "priprava za tisk",
-    vrsta: "knjiga",
-    vodja_projekta: "user_2nFp6K3ysHhkdT8sjjFO9rRV4xf",
-    start_date: "10.09.2024",
-    end_date: "1.10.2024",
-    status: "v teku",
-    napredek: 3,
-    stanje: 48,
-  },
-];
-
 export const carouselProjectBgColors = [
   "rgba(76,94,188,0.7)",
   "rgba(203,81,81,0.7)",
