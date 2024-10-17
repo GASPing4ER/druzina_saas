@@ -25,6 +25,14 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { addProject } from "@/actions/projects";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { projectTypes } from "@/constants";
 
 const ProjectForm = ({
   user,
@@ -41,6 +49,9 @@ const ProjectForm = ({
   });
 
   const startDate = form.watch("start_date");
+  if (user.user_metadata.role !== "superadmin") {
+    form.setValue("type", "drugo");
+  }
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -53,6 +64,62 @@ const ProjectForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Vrsta</FormLabel>
+                  <FormControl>
+                    {user.user_metadata.role === "superadmin" ? (
+                      // Superadmin: Can select any type
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Izberite vrsto" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {projectTypes.map((type) => (
+                            <SelectItem key={type} value={type}>
+                              {type}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      // Other users: Fixed to "drugo"
+                      <Input type="text" value="drugo" disabled />
+                    )}
+                  </FormControl>
+                  <FormDescription>Vrsta vašega projekta</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Količina</FormLabel>
+                  <FormControl>
+                    <Input placeholder="2000" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Količina izvodov vašega projekta
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
         <div className="flex gap-2">
           <div className="flex-1">
             <FormField
@@ -81,76 +148,6 @@ const ProjectForm = ({
                     <Input placeholder="Janez Novak" {...field} />
                   </FormControl>
                   <FormDescription>Ime avtorja</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Vrsta</FormLabel>
-                  <FormControl>
-                    <Input placeholder="časopis" {...field} />
-                  </FormControl>
-                  <FormDescription>Vrsta vašega projekta</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="current_phase"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Začetna faza</FormLabel>
-                  <FormControl>
-                    <Input placeholder="uredništvo" {...field} />
-                  </FormControl>
-                  <FormDescription>Začetna faza projekta</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="customer"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Naročnik</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ana Novak" {...field} />
-                  </FormControl>
-                  <FormDescription>Naročnik vašega projekta</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="quantity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Količina</FormLabel>
-                  <FormControl>
-                    <Input placeholder="2000" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Količina izvodov vašega projekta
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -258,7 +255,7 @@ const ProjectForm = ({
             />
           </div>
         </div>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Ustvari</Button>
       </form>
     </Form>
   );

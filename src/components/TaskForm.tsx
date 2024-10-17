@@ -35,6 +35,7 @@ import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { addTask } from "@/actions/tasks";
 import { useRouter } from "next/navigation";
+import { taskPriority } from "@/constants";
 
 const TaskForm = ({
   projectId,
@@ -174,7 +175,21 @@ const TaskForm = ({
                 <FormItem>
                   <FormLabel>Prioriteta</FormLabel>
                   <FormControl>
-                    <Input placeholder="Nizka" {...field} />
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Izberite prioriteto" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {taskPriority.map((task) => (
+                          <SelectItem key={task} value={task}>
+                            {task}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormDescription>Prioriteta</FormDescription>
                   <FormMessage />

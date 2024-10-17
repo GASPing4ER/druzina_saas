@@ -155,3 +155,7 @@ export const phases: PhasesProps = [
     slug: "arhiv",
   },
 ];
+
+export const taskPriority: TTaskPriority[] = ["nizka", "normalna", "visoka"];
+
+export const projectTypes: TType[] = ["družina", "revija", "knjiga", "drugo"];

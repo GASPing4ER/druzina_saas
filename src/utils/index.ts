@@ -40,16 +40,17 @@ export const getCompleteData = (
   user: User
 ) => {
   console.log(values);
-  if (values.current_phase === "osnutek") {
+  if (new Date(values.start_date) > new Date()) {
     return {
       ...values,
       napredek: 0,
       status: "v pripravi",
+      current_phase: "osnutek",
       stanje: 0,
       creatorId: user.id,
       creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
     };
-  } else if (values.current_phase === "uredništvo") {
+  } else if (values.type !== "drugo") {
     return {
       ...values,
       current_phase: "urednistvo",
@@ -59,41 +60,13 @@ export const getCompleteData = (
       creatorId: user.id,
       creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
     };
-  }
-  // else if (values.current_phase === "oblikovanje") {
-  //   return {
-  //     ...values,
-  //     napredek: 2,
-  //     status: "v teku",
-  //     stanje: 20,
-  //     creatorId: user.id,
-  //     creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
-  //   };
-  // }
-  else if (values.current_phase === "priprava-za-tisk") {
+  } else if (values.type === "drugo") {
     return {
       ...values,
+      current_phase: "priprava-za-tisk",
       napredek: 3,
       status: "v teku",
       stanje: 40,
-      creatorId: user.id,
-      creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
-    };
-  } else if (values.current_phase === "tisk") {
-    return {
-      ...values,
-      napredek: 4,
-      status: "v teku",
-      stanje: 60,
-      creatorId: user.id,
-      creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
-    };
-  } else if (values.current_phase === "dostava") {
-    return {
-      ...values,
-      napredek: 4,
-      status: "v teku",
-      stanje: 80,
       creatorId: user.id,
       creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
     };

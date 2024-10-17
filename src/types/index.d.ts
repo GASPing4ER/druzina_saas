@@ -15,6 +15,10 @@ declare type TNapredek = 0 | 1 | 2 | 3 | 4;
 
 declare type TTaskStatus = "assigned" | "done" | "checked" | "completed";
 
+declare type TTaskPriority = "nizka" | "normalna" | "visoka";
+
+declare type TType = "družina" | "revija" | "knjiga" | "drugo";
+
 // TODO: Type for types of projects -> časopis, knjiga etc.
 
 declare type SidebarNavigationItemProps = {
@@ -44,10 +48,9 @@ declare type ProjectProps = {
   name: string;
   author: string;
   current_phase: TPhases;
-  type: string;
+  type: TType;
   creatorId: string;
   creator_name: string;
-  customer: string;
   start_date: string;
   end_date: string;
   status: TStatus;
@@ -66,10 +69,9 @@ declare type completeDataProps =
       creatorId: string;
       creator_name: string;
       end_date: Date;
-      type: string;
+      type: TType;
       name: string;
       author: string;
-      customer: string;
       quantity: string;
       start_date: Date;
     }
@@ -110,7 +112,7 @@ declare type TaskProps = {
   assigner_name: string;
   name: string;
   description: string;
-  priority: string;
+  priority: TTaskPriority;
   start_date: string;
   end_date: string;
   status: TTaskStatus;
@@ -125,7 +127,7 @@ declare type NewTaskDataProps = {
   assigner_name: string;
   name: string;
   description: string;
-  priority: string;
+  priority: TTaskPriority;
   start_date: Date;
   end_date: Date;
   status: TTaskStatus;
