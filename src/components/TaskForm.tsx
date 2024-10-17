@@ -77,7 +77,7 @@ const TaskForm = ({
     const chosenUser = users.find((user) => user.id === values.employee_id);
     const employee_name = `${chosenUser?.user_metadata.firstName} ${chosenUser?.user_metadata.lastName}`;
     try {
-      const completeData = {
+      const completeData: NewTaskDataProps = {
         ...values,
         assigner_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
         assigner_id: user.id,
