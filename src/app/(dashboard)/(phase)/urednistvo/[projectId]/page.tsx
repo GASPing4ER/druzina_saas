@@ -2,6 +2,7 @@ import { getUser } from "@/actions/auth";
 import { getProject } from "@/actions/projects";
 import { getTasks } from "@/actions/tasks";
 import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ProjectDetailsPage = async ({
   params,
@@ -26,7 +27,19 @@ const ProjectDetailsPage = async ({
     return (
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white text-slate-900">
         <ProjectDetails project={project} />
-        <UtilityBox type="naloge" data={tasks} projectId={project.id} />
+        <Tabs defaultValue="naloge" className="w-full">
+          <TabsList>
+            <TabsTrigger value="naloge">Naloge</TabsTrigger>
+            <TabsTrigger value="datoteke">Datoteke</TabsTrigger>
+            <TabsTrigger value="aktivnosti">Aktivnosti</TabsTrigger>
+          </TabsList>
+          <TabsContent value="naloge">
+            <UtilityBox type="naloge" data={tasks} projectId={project.id} />
+          </TabsContent>
+          <TabsContent value="datoteke">Tukaj bodo datoteke.</TabsContent>
+          <TabsContent value="aktivnosti">Tukaj bodo aktivnosti.</TabsContent>
+        </Tabs>
+
         {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
         {tasksCompleted && role === "superadmin" && (
           <NextPhaseModal phase="priprava-za-tisk" project={project} />
