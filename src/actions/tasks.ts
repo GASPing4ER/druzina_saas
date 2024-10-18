@@ -50,3 +50,32 @@ export const addTask = async (
     };
   }
 };
+
+export const updateTaskStatus = async (task: TaskProps) => {
+  let status: TTaskStatus;
+
+  if (task.status === "assigned") {
+    status = "done";
+  } else if (task.status === "done") {
+    status = "checked";
+  } else {
+    status = "completed";
+  }
+
+  try {
+    const { error } = await supabase
+      .from("tasks")
+      .update({ status })
+      .eq("id", task.id);
+    revalidatePath(`/urednistvo/${task.project_id}`, "page");
+    return {
+      error,
+      message: "Successful Update of a Task Status",
+    };
+  } catch (error) {
+    return {
+      error,
+      message: "Database Error: Failed to Update Task Status",
+    };
+  }
+};

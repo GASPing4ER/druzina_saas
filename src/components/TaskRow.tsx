@@ -4,8 +4,10 @@ import { useState } from "react";
 import { TableCell, TableRow } from "./ui/table";
 import { formatDate, isPast } from "@/utils";
 import TaskModal from "./TaskModal";
+import { User } from "@supabase/supabase-js";
+import TaskStatusButton from "./TaskStatusButton";
 
-const TaskRow = ({ task }: { task: TaskProps }) => {
+const TaskRow = ({ task, user }: { task: TaskProps; user: User }) => {
   const [open, setOpen] = useState(false); // Manage dialog state
 
   const handleRowClick = () => {
@@ -21,7 +23,10 @@ const TaskRow = ({ task }: { task: TaskProps }) => {
           {formatDate(task.end_date)}
         </TableCell>
         <TableCell>{task.priority}</TableCell>
-        <TableCell>{task.name}</TableCell>
+        <TableCell className="flex justify-between gap-4">
+          <p>{task.name}</p>
+          <TaskStatusButton task={task} user={user} />
+        </TableCell>
       </TableRow>
       <TaskModal task={task} open={open} setOpen={setOpen} />
     </>

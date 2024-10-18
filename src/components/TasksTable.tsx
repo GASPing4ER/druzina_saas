@@ -7,8 +7,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import TaskRow from "./TaskRow";
+import { getUser } from "@/actions/auth";
 
 const TasksTable = async ({ tasks }: { tasks: TaskProps[] }) => {
+  const user = await getUser();
   return (
     <Table>
       <TableCaption>A list of your recent projects.</TableCaption>
@@ -24,7 +26,7 @@ const TasksTable = async ({ tasks }: { tasks: TaskProps[] }) => {
       </TableHeader>
       <TableBody>
         {tasks?.map((task) => {
-          return <TaskRow task={task} />;
+          return <TaskRow key={task.id} task={task} user={user} />;
         })}
       </TableBody>
     </Table>
