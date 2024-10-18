@@ -1,7 +1,7 @@
 import { getUser } from "@/actions/auth";
 import { getFiles } from "@/actions/files";
 import { getProject } from "@/actions/projects";
-import { getTasks } from "@/actions/tasks";
+import { getTasksWithNames } from "@/actions/tasks";
 import {
   NextPhaseModal,
   ProgressBar,
@@ -19,7 +19,7 @@ const ProjectDetailsPage = async ({
   const [projectResponse, tasksResponse, filesResponse, userResponse] =
     await Promise.all([
       getProject(projectId),
-      getTasks(projectId),
+      getTasksWithNames(projectId),
       getFiles(projectId),
       getUser(),
     ]);

@@ -32,10 +32,10 @@ import { Calendar } from "./ui/calendar";
 import { Input } from "./ui/input";
 import { getUser } from "@/actions/auth";
 import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
 import { addTask } from "@/actions/tasks";
 import { useRouter } from "next/navigation";
 import { taskPriority } from "@/constants";
+import { getUsers } from "@/actions/users";
 
 const TaskForm = ({
   projectId,
@@ -45,7 +45,7 @@ const TaskForm = ({
   handleClose: () => void;
 }) => {
   const router = useRouter();
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserProps[]>([]);
   // 1. Define your form.
   const form = useForm<z.infer<typeof taskSchema>>({
     resolver: zodResolver(taskSchema),
@@ -54,16 +54,15 @@ const TaskForm = ({
 
   useEffect(() => {
     const getUsersData = async () => {
-      const response = await fetch("/api/get-users");
-      if (!response.ok) throw new Error("Failed to fetch users");
+      const response = await getUsers();
 
-      const { users } = await response.json();
-      const result = users.filter(
-        (user: User) =>
-          user.user_metadata.department === "urednistvo" &&
-          user.user_metadata.role === "member"
-      );
-      setUsers(result);
+      if (response.data) {
+        const result = response.data.filter(
+          (user: UserProps) =>
+            user.department === "urednistvo" && user.role === "member"
+        );
+        setUsers(result);
+      }
     };
 
     getUsersData();
@@ -75,16 +74,12 @@ const TaskForm = ({
   async function onSubmit(values: z.infer<typeof taskSchema>) {
     const user = await getUser();
     console.log("SUBMITTED");
-    const chosenUser = users.find((user) => user.id === values.employee_id);
-    const employee_name = `${chosenUser?.user_metadata.firstName} ${chosenUser?.user_metadata.lastName}`;
     try {
       const completeData: NewTaskDataProps = {
         ...values,
-        assigner_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
         assigner_id: user.id,
         project_id: projectId,
         status: "assigned",
-        employee_name,
       };
 
       addTask(completeData);
@@ -153,7 +148,7 @@ const TaskForm = ({
                       <SelectContent>
                         {users.map((user) => (
                           <SelectItem key={user.id} value={user.id}>
-                            {`${user.user_metadata.firstName} ${user.user_metadata.lastName}`}
+                            {`${user.first_name} ${user.last_name}`}
                           </SelectItem>
                         ))}
                       </SelectContent>

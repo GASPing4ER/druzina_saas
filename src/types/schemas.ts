@@ -2,6 +2,13 @@ import { z } from "zod";
 
 const TTypeSchema = z.enum(["družina", "revija", "knjiga", "drugo"]);
 const TPrioritySchema = z.enum(["nizka", "normalna", "visoka"]);
+const TDepartment = z.enum([
+  "urednistvo",
+  "priprava-za-tisk",
+  "tisk",
+  "dostava",
+]);
+const TRoleSchema = z.enum(["member", "admin", "superadmin"]);
 
 export const formSchema = z.object({
   name: z.string().min(2, {
@@ -52,5 +59,35 @@ export const fileSchema = z.object({
   }),
   link: z.string().min(2, {
     message: "Link mora imeti vsaj 2 karakterja.",
+  }),
+});
+
+export const userSchema = z.object({
+  first_name: z.string().min(2, {
+    message: "Ime mora imeti vsaj 2 karakterja.",
+  }),
+  last_name: z.string().min(2, {
+    message: "Priimek mora imeti vsaj 2 karakterja.",
+  }),
+  email: z.string().min(2, {
+    message: "Email mora imeti vsaj 2 karakterja.",
+  }),
+  role: TRoleSchema.refine((val) => TRoleSchema.options.includes(val), {
+    message: "Izberite pravilno vlogo.",
+  }),
+  department: TDepartment.refine((val) => TDepartment.options.includes(val), {
+    message: "Izberite pravilen oddelek.",
+  }),
+  password: z.string().min(8, {
+    message: "Password mora imeti vsaj 8 karakterja.",
+  }),
+});
+
+export const loginUserSchema = z.object({
+  email: z.string().min(2, {
+    message: "Email mora imeti vsaj 2 karakterja.",
+  }),
+  password: z.string().min(8, {
+    message: "Password mora imeti vsaj 8 karakterja.",
   }),
 });

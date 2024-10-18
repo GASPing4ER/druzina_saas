@@ -46,7 +46,7 @@ const Sidebar = async ({ user }: { user: User }) => {
             className="bg-green-300 p-1 rounded-full"
           />
           <p className="text-sm">
-            {user?.user_metadata.firstName} {user?.user_metadata.lastName}
+            {user?.user_metadata.first_name} {user?.user_metadata.last_name}
           </p>
         </div>
         <p className="font-bold text-lg cursor-pointer">...</p>

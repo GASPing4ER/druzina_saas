@@ -3,33 +3,31 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { addUser } from "./users";
 
-export const signup = async (formData: FormData) => {
+export const signup = async (formData: NewUserDataProps) => {
   const supabaseAuth = createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-    firstName: formData.get("firstName") as string,
-    lastname: formData.get("lastName") as string,
-    role: formData.get("role") as string,
-    department: formData.get("department") as string,
-  };
-
-  const { error } = await supabaseAuth.auth.signUp({
-    email: data.email,
-    password: data.password,
+  const { data, error } = await supabaseAuth.auth.signUp({
+    email: formData.email,
+    password: formData.password!,
     options: {
       data: {
-        firstName: data.firstName.trim(),
-        lastName: data.lastname.trim(),
-        role: data.role.trim(),
-        department: data.department.trim(),
+        first_name: formData.first_name.trim(),
+        last_name: formData.last_name.trim(),
+        role: formData.role.trim(),
+        department: formData.department.trim(),
       },
     },
   });
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { password, ...rest } = formData;
+
+  if (data.user) {
+    console.log("Adding user...");
+    await addUser({ ...rest, id: data.user.id });
+  }
 
   if (error) {
     return { error: error.message };
@@ -39,15 +37,10 @@ export const signup = async (formData: FormData) => {
   redirect("/");
 };
 
-export const login = async (formData: FormData) => {
+export const login = async (formData: LoginUserProps) => {
   const supabaseAuth = createClient();
 
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  };
-
-  const { error } = await supabaseAuth.auth.signInWithPassword(data);
+  const { error } = await supabaseAuth.auth.signInWithPassword(formData);
 
   if (error?.code === "email_not_confirmed") {
     // Return the error message to the page for display

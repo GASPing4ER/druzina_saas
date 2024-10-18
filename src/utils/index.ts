@@ -48,7 +48,7 @@ export const getCompleteData = (
       current_phase: "osnutek",
       stanje: 0,
       creatorId: user.id,
-      creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
+      creator_name: `${user.user_metadata.first_name} ${user.user_metadata.last_name}`,
     };
   } else if (values.type !== "drugo") {
     return {
@@ -58,7 +58,7 @@ export const getCompleteData = (
       status: "v teku",
       stanje: 0,
       creatorId: user.id,
-      creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
+      creator_name: `${user.user_metadata.first_name} ${user.user_metadata.last_name}`,
     };
   } else if (values.type === "drugo") {
     return {
@@ -68,7 +68,7 @@ export const getCompleteData = (
       status: "v teku",
       stanje: 40,
       creatorId: user.id,
-      creator_name: `${user.user_metadata.firstName} ${user.user_metadata.lastName}`,
+      creator_name: `${user.user_metadata.first_name} ${user.user_metadata.last_name}`,
     };
   }
 };

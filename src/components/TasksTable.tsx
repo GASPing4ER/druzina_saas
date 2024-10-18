@@ -8,7 +8,7 @@ import {
 import TaskRow from "./TaskRow";
 import { getUser } from "@/actions/auth";
 
-const TasksTable = async ({ tasks }: { tasks: TaskProps[] }) => {
+const TasksTable = async ({ tasks }: { tasks: TaskWithNamesProps[] }) => {
   const user = await getUser();
   return (
     <Table>

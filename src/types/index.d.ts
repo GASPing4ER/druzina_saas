@@ -9,6 +9,12 @@ declare type TPhases =
   | "dostava"
   | "arhiv";
 
+declare type TDepartment =
+  | "urednistvo"
+  | "priprava-za-tisk"
+  | "tisk"
+  | "dostava";
+
 declare type TStatus = "v pripravi" | "v teku" | "zaključeno";
 
 declare type TNapredek = 0 | 1 | 2 | 3 | 4;
@@ -18,6 +24,8 @@ declare type TTaskStatus = "assigned" | "done" | "checked" | "completed";
 declare type TTaskPriority = "nizka" | "normalna" | "visoka";
 
 declare type TType = "družina" | "revija" | "knjiga" | "drugo";
+
+declare type TRole = "member" | "admin" | "superadmin";
 
 // TODO: Type for types of projects -> časopis, knjiga etc.
 
@@ -91,11 +99,25 @@ declare type ProjectsProps = ProjectProps[];
 declare type UserProps = {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  department: string | null; // TODO: ENUM,
-  role: string; // TODO: ENUM,
-  created_at: string;
+  first_name: string;
+  last_name: string;
+  department: TDepartment;
+  role: TRole; // TODO: ENUM,
+  created_at?: string;
+};
+
+declare type LoginUserProps = {
+  email: string;
+  password: string;
+};
+
+declare type NewUserDataProps = {
+  email: string;
+  password?: string;
+  first_name: string;
+  last_name: string;
+  department: TDepartment;
+  role: TRole;
 };
 
 declare type PhaseProps = {
@@ -106,10 +128,30 @@ declare type PhaseProps = {
 declare type TaskProps = {
   id: string;
   employee_id: string;
-  employee_name: string;
   project_id: string;
   assigner_id: string;
-  assigner_name: string;
+  name: string;
+  description: string;
+  priority: TTaskPriority;
+  start_date: string;
+  end_date: string;
+  status: TTaskStatus;
+  created_at: string;
+};
+
+declare type TaskWithNamesProps = {
+  id: string;
+  employee_id: string;
+  employee: {
+    first_name: string;
+    last_name: string;
+  };
+  project_id: string;
+  assigner_id: string;
+  assigner: {
+    first_name: string;
+    last_name: string;
+  };
   name: string;
   description: string;
   priority: TTaskPriority;
@@ -121,10 +163,8 @@ declare type TaskProps = {
 
 declare type NewTaskDataProps = {
   employee_id: string;
-  employee_name: string;
   project_id: string;
   assigner_id: string;
-  assigner_name: string;
   name: string;
   description: string;
   priority: TTaskPriority;
@@ -185,7 +225,7 @@ declare type ProjectDetailsProps = {
 declare type UtilityBoxProps =
   | {
       type: "naloge";
-      data: TaskProps[] | null;
+      data: TaskWithNamesProps[] | null;
       projectId: string;
       role: string;
     }
