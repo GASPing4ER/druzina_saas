@@ -10,7 +10,11 @@ const UtilityBox = ({
   projectId: string;
 }) => {
   return (
-    <div className="border w-full shadow-2xl p-4 rounded-xl flex flex-col gap-2">
+    <div
+      className={`border bg-white w-full shadow-2xl p-4 rounded-xl flex flex-col gap-2 ${
+        type === "opombe" && "min-h-[200px]"
+      }`}
+    >
       <div className="flex items-center gap-4">
         <h2 className="uppercase text-lg">{type}</h2>
         <UtilityModal type={type} projectId={projectId} />
@@ -18,10 +22,20 @@ const UtilityBox = ({
       {data && data?.length > 0 ? (
         <TasksTable tasks={data} />
       ) : (
-        <p className="text-sm">
-          Nobena {type === "naloge" ? "naloga" : "datoteka"} ni bila najdena.
-          Dodaj naloge
-        </p>
+        <>
+          <p className="text-sm">
+            Nobena{" "}
+            {type === "naloge"
+              ? "naloga"
+              : type === "datoteke"
+              ? "datoteka"
+              : "opomba"}{" "}
+            ni bila najdena. Dodaj {type}!
+          </p>
+          <p>
+            OPOZORILO: DATOTEKE IN OPOMBE ŠE NE DELUJEJO, ZATO JIH NE DODAJAJ!
+          </p>
+        </>
       )}
     </div>
   );

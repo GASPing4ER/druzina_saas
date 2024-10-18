@@ -1,7 +1,12 @@
 import { getUser } from "@/actions/auth";
 import { getProject } from "@/actions/projects";
 import { getTasks } from "@/actions/tasks";
-import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
+import {
+  NextPhaseModal,
+  ProgressBar,
+  ProjectDetails,
+  UtilityBox,
+} from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ProjectDetailsPage = async ({
@@ -27,18 +32,27 @@ const ProjectDetailsPage = async ({
     return (
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white text-slate-900">
         <ProjectDetails project={project} />
-        <Tabs defaultValue="naloge" className="w-full">
-          <TabsList>
-            <TabsTrigger value="naloge">Naloge</TabsTrigger>
-            <TabsTrigger value="datoteke">Datoteke</TabsTrigger>
-            <TabsTrigger value="aktivnosti">Aktivnosti</TabsTrigger>
-          </TabsList>
-          <TabsContent value="naloge">
-            <UtilityBox type="naloge" data={tasks} projectId={project.id} />
-          </TabsContent>
-          <TabsContent value="datoteke">Tukaj bodo datoteke.</TabsContent>
-          <TabsContent value="aktivnosti">Tukaj bodo aktivnosti.</TabsContent>
-        </Tabs>
+        <div className="flex w-full gap-10">
+          <Tabs defaultValue="naloge" className="w-[60%]">
+            <TabsList>
+              <TabsTrigger value="naloge">Naloge</TabsTrigger>
+              <TabsTrigger value="datoteke">Datoteke</TabsTrigger>
+              <TabsTrigger value="aktivnosti">Aktivnosti</TabsTrigger>
+            </TabsList>
+            <TabsContent value="naloge">
+              <UtilityBox type="naloge" data={tasks} projectId={project.id} />
+            </TabsContent>
+            <TabsContent value="datoteke">Tukaj bodo datoteke.</TabsContent>
+            <TabsContent value="aktivnosti">Tukaj bodo aktivnosti.</TabsContent>
+          </Tabs>
+          <div className="flex-1 flex flex-col gap-2">
+            <div className="flex flex-col gap-2 border shadow-2xl rounded-xl p-4">
+              <h2 className="text-black text-2xl">Še 6 dni</h2>
+              <ProgressBar stanje={70} />
+            </div>
+            <UtilityBox type="opombe" data={[]} projectId={projectId} />
+          </div>
+        </div>
 
         {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
         {tasksCompleted && role === "superadmin" && (

@@ -16,7 +16,7 @@ const TaskRow = ({ task, user }: { task: TaskProps; user: User }) => {
   return (
     <>
       <TableRow className="cursor-pointer" onClick={handleRowClick}>
-        <TableCell>{task.assigner_name}</TableCell>
+        {/* <TableCell>{task.assigner_name}</TableCell> */}
         <TableCell>{task.employee_name}</TableCell>
         <TableCell>{formatDate(task.start_date)}</TableCell>
         <TableCell className={`${isPast(task.end_date) && "text-red-500"}`}>

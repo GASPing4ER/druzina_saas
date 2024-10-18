@@ -16,7 +16,7 @@ const TasksTable = async ({ tasks }: { tasks: TaskProps[] }) => {
       <TableCaption>A list of your recent projects.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead>Dodeljeno od</TableHead>
+          {/* <TableHead>Dodeljeno od</TableHead> */}
           <TableHead>Izvajalec</TableHead>
           <TableHead>Začetek</TableHead>
           <TableHead>Rok</TableHead>
