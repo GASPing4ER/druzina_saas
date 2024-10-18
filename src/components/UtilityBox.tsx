@@ -1,6 +1,6 @@
 import { FilesTable, TasksTable, UtilityModal } from "@/components";
 
-const UtilityBox = ({ type, data, projectId }: UtilityBoxProps) => {
+const UtilityBox = ({ type, data, projectId, role }: UtilityBoxProps) => {
   return (
     <div
       className={`border bg-white w-full shadow-2xl p-4 rounded-xl flex flex-col gap-2 ${
@@ -9,7 +9,10 @@ const UtilityBox = ({ type, data, projectId }: UtilityBoxProps) => {
     >
       <div className="flex items-center gap-4">
         <h2 className="uppercase text-lg">{type}</h2>
-        <UtilityModal type={type} projectId={projectId} />
+        {(role === "superadmin" ||
+          (type !== "naloge" && type !== "opombe")) && (
+          <UtilityModal type={type} projectId={projectId} />
+        )}
       </div>
       {data && data.length > 0 ? (
         type === "naloge" ? (
@@ -27,9 +30,6 @@ const UtilityBox = ({ type, data, projectId }: UtilityBoxProps) => {
               ? "datoteka"
               : "opomba"}{" "}
             ni bila najdena. Dodaj {type}!
-          </p>
-          <p>
-            OPOZORILO: DATOTEKE IN OPOMBE ŠE NE DELUJEJO, ZATO JIH NE DODAJAJ!
           </p>
         </>
       )}

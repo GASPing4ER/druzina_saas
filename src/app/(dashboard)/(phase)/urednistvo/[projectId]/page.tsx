@@ -44,10 +44,20 @@ const ProjectDetailsPage = async ({
               <TabsTrigger value="aktivnosti">Aktivnosti</TabsTrigger>
             </TabsList>
             <TabsContent value="naloge">
-              <UtilityBox type="naloge" data={tasks} projectId={projectId} />
+              <UtilityBox
+                type="naloge"
+                data={tasks}
+                projectId={projectId}
+                role={role}
+              />
             </TabsContent>
             <TabsContent value="datoteke">
-              <UtilityBox type="datoteke" data={files} projectId={projectId} />
+              <UtilityBox
+                type="datoteke"
+                data={files}
+                projectId={projectId}
+                role={role}
+              />
             </TabsContent>
             <TabsContent value="aktivnosti">Tukaj bodo aktivnosti.</TabsContent>
           </Tabs>
@@ -56,7 +66,12 @@ const ProjectDetailsPage = async ({
               <h2 className="text-black text-2xl">Še 6 dni</h2>
               <ProgressBar stanje={70} />
             </div>
-            <UtilityBox type="opombe" data={[]} projectId={projectId} />
+            <UtilityBox
+              type="opombe"
+              data={[]}
+              projectId={projectId}
+              role={role}
+            />
           </div>
         </div>
 

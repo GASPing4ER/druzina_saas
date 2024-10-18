@@ -25,7 +25,9 @@ const TaskStatusButton = ({ task, user }: { task: TaskProps; user: User }) => {
           : "border-green-400 bg-green-400"
       }`}
       disabled={
-        (task.status === "assigned" && user.id !== task.employee_id) ||
+        (user.user_metadata.role !== "superadmin" &&
+          task.status === "assigned" &&
+          user.id !== task.employee_id) ||
         (task.status === "done" && user.id !== task.assigner_id) ||
         (task.status === "checked" &&
           user.user_metadata.role !== "superadmin") ||

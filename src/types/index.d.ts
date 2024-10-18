@@ -187,14 +187,17 @@ declare type UtilityBoxProps =
       type: "naloge";
       data: TaskProps[] | null;
       projectId: string;
+      role: string;
     }
   | {
       type: "datoteke";
       data: FileProps[] | null;
       projectId: string;
+      role: string;
     }
   | {
       type: "opombe";
       data: [] | null;
       projectId: string;
+      role: string;
     };
