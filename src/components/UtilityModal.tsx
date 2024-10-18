@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import TaskForm from "./TaskForm";
+import { TaskForm, FileForm } from "@/components";
 
 const UtilityModal = ({
   type,
@@ -41,7 +41,7 @@ const UtilityModal = ({
               handleClose={() => setOpen(false)}
             />
           ) : (
-            <TaskForm
+            <FileForm
               projectId={projectId}
               handleClose={() => setOpen(false)}
             />

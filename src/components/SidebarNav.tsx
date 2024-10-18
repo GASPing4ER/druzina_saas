@@ -15,8 +15,7 @@ const SidebarNav = ({
             title !== "Procesi" ||
             role === "superadmin" ||
             role === "admin" ||
-            item.title.toLowerCase() === department;
-
+            item.url.split("/")[1] === department;
           return (
             <ul key={item.title}>
               <li>

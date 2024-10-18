@@ -1,4 +1,5 @@
 import { getUser } from "@/actions/auth";
+import { getFiles } from "@/actions/files";
 import { getProject } from "@/actions/projects";
 import { getTasks } from "@/actions/tasks";
 import {
@@ -15,13 +16,16 @@ const ProjectDetailsPage = async ({
   params: { projectId: string };
 }) => {
   const projectId = params.projectId;
-  const [projectResponse, tasksResponse, userResponse] = await Promise.all([
-    getProject(projectId),
-    getTasks(projectId),
-    getUser(),
-  ]);
+  const [projectResponse, tasksResponse, filesResponse, userResponse] =
+    await Promise.all([
+      getProject(projectId),
+      getTasks(projectId),
+      getFiles(projectId),
+      getUser(),
+    ]);
   const project = projectResponse.data;
   const tasks = tasksResponse.data;
+  const files = filesResponse.data;
   const role = userResponse.user_metadata.role;
   const tasksCompleted =
     tasks &&
@@ -40,9 +44,11 @@ const ProjectDetailsPage = async ({
               <TabsTrigger value="aktivnosti">Aktivnosti</TabsTrigger>
             </TabsList>
             <TabsContent value="naloge">
-              <UtilityBox type="naloge" data={tasks} projectId={project.id} />
+              <UtilityBox type="naloge" data={tasks} projectId={projectId} />
             </TabsContent>
-            <TabsContent value="datoteke">Tukaj bodo datoteke.</TabsContent>
+            <TabsContent value="datoteke">
+              <UtilityBox type="datoteke" data={files} projectId={projectId} />
+            </TabsContent>
             <TabsContent value="aktivnosti">Tukaj bodo aktivnosti.</TabsContent>
           </Tabs>
           <div className="flex-1 flex flex-col gap-2">

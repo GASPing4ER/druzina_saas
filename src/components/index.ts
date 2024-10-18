@@ -20,6 +20,9 @@ import TasksTable from "./TasksTable";
 import TaskRow from "./TaskRow";
 import TaskModal from "./TaskModal";
 import TaskStatusButton from "./TaskStatusButton";
+import FileForm from "./FileForm";
+import FilesTable from "./FilesTable";
+import FileRow from "./FileRow";
 
 export {
   Sidebar,
@@ -44,4 +47,7 @@ export {
   TaskRow,
   TaskModal,
   TaskStatusButton,
+  FileForm,
+  FilesTable,
+  FileRow,
 };

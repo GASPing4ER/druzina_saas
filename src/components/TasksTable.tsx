@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableHead,
   TableHeader,
   TableRow,
@@ -13,7 +12,6 @@ const TasksTable = async ({ tasks }: { tasks: TaskProps[] }) => {
   const user = await getUser();
   return (
     <Table>
-      <TableCaption>A list of your recent projects.</TableCaption>
       <TableHeader>
         <TableRow>
           {/* <TableHead>Dodeljeno od</TableHead> */}

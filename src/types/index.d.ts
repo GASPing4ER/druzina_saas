@@ -133,6 +133,22 @@ declare type NewTaskDataProps = {
   status: TTaskStatus;
 };
 
+declare type FileProps = {
+  id: string;
+  project_id: string;
+  name: string;
+  description: string;
+  link: string;
+  created_at: string;
+};
+
+declare type NewFileDataProps = {
+  project_id: string;
+  name: string;
+  description: string;
+  link: string;
+};
+
 declare type PhasesProps = PhaseProps[];
 
 // COMPONENTS
@@ -165,3 +181,20 @@ declare type ProjectsTableProps = {
 declare type ProjectDetailsProps = {
   project: ProjectProps;
 };
+
+declare type UtilityBoxProps =
+  | {
+      type: "naloge";
+      data: TaskProps[] | null;
+      projectId: string;
+    }
+  | {
+      type: "datoteke";
+      data: FileProps[] | null;
+      projectId: string;
+    }
+  | {
+      type: "opombe";
+      data: [] | null;
+      projectId: string;
+    };

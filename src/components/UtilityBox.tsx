@@ -1,14 +1,6 @@
-import { TasksTable, UtilityModal } from "@/components";
+import { FilesTable, TasksTable, UtilityModal } from "@/components";
 
-const UtilityBox = ({
-  type,
-  data,
-  projectId,
-}: {
-  type: string;
-  data: TaskProps[] | null;
-  projectId: string;
-}) => {
+const UtilityBox = ({ type, data, projectId }: UtilityBoxProps) => {
   return (
     <div
       className={`border bg-white w-full shadow-2xl p-4 rounded-xl flex flex-col gap-2 ${
@@ -19,8 +11,12 @@ const UtilityBox = ({
         <h2 className="uppercase text-lg">{type}</h2>
         <UtilityModal type={type} projectId={projectId} />
       </div>
-      {data && data?.length > 0 ? (
-        <TasksTable tasks={data} />
+      {data && data.length > 0 ? (
+        type === "naloge" ? (
+          <TasksTable tasks={data} />
+        ) : (
+          <FilesTable files={data} />
+        )
       ) : (
         <>
           <p className="text-sm">
