@@ -15,7 +15,7 @@ const TaskStatusButton = ({ task, user }: { task: TaskProps; user: User }) => {
   return (
     <button
       onClick={handleStatusChange}
-      className={`h-6 w-6 rounded-full border flex items-center justify-center ${
+      className={`h-6 w-6 rounded-full border flex items-center justify-center bg-gray-100 ${
         task.status === "assigned"
           ? "border-black disabled:border-gray-400"
           : task.status === "done"
