@@ -1,10 +1,8 @@
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogDescription,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { formatDate } from "@/utils";
 import { Dispatch, SetStateAction } from "react";
@@ -14,7 +12,7 @@ const TaskModal = ({
   open,
   setOpen,
 }: {
-  task: TaskProps;
+  task: TaskWithNamesProps;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
@@ -30,10 +28,12 @@ const TaskModal = ({
             </p>
             <p>{task.description}</p>
             <p>
-              <strong>Dodelil:</strong> {task.assigner_name}
+              <strong>Dodelil:</strong> {task.assigner.first_name}{" "}
+              {task.assigner.last_name}
             </p>
             <p>
-              <strong>Izvaja:</strong> {task.employee_name}
+              <strong>Izvaja:</strong> {task.employee.first_name}{" "}
+              {task.employee.last_name}
             </p>
             <p>
               <strong>Prioriteta:</strong> {task.priority}

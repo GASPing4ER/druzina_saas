@@ -16,7 +16,6 @@ const TaskRow = ({ task, user }: { task: TaskWithNamesProps; user: User }) => {
   return (
     <>
       <TableRow className="cursor-pointer" onClick={handleRowClick}>
-        {/* <TableCell>{task.assigner}</TableCell> */}
         <TableCell>
           {task.employee.first_name} {task.employee.last_name}
         </TableCell>
