@@ -7,7 +7,7 @@ export const getFiles = async (
   projectId: string
 ): Promise<{
   data: FileProps[] | null;
-  error: PostgrestError | null | unknown;
+  error: PostgrestError | null;
   message: string;
 }> => {
   try {
@@ -16,16 +16,28 @@ export const getFiles = async (
       .select()
       .eq("project_id", projectId);
 
+    if (error) {
+      // If there's an error from Supabase, handle it explicitly
+      return {
+        data: null,
+        error,
+        message: "Failed to fetch files: " + error.message,
+      };
+    }
+
     return {
       data: data || null,
-      error,
-      message: "Successful Fetch of a Files",
+      error: null,
+      message: "Successfully fetched files",
     };
-  } catch (error) {
+  } catch (error: unknown) {
+    // Log the error for debugging (optional)
+    console.error("Unexpected error:", error);
+
     return {
       data: null,
-      error,
-      message: "Database Error: Failed to Fetch Files",
+      error: error as PostgrestError,
+      message: "An unexpected error occurred while fetching files",
     };
   }
 };
@@ -33,20 +45,32 @@ export const getFiles = async (
 export const addFile = async (
   values: NewFileDataProps
 ): Promise<{
-  error: PostgrestError | null | unknown;
+  error: PostgrestError | null;
   message: string;
 }> => {
   try {
     const { error } = await supabase.from("files").insert({ ...values });
+
+    if (error) {
+      return {
+        error,
+        message: "Failed to create file: " + error.message,
+      };
+    }
+
     revalidatePath(`/urednistvo/${values.project_id}`, "page");
+
     return {
-      error,
-      message: "Successful Creation of a File",
+      error: null,
+      message: "Successfully created file",
     };
-  } catch (error) {
+  } catch (error: unknown) {
+    // Log unexpected errors (optional)
+    console.error("Unexpected error:", error);
+
     return {
-      error,
-      message: "Database Error: Failed to Create File",
+      error: error as PostgrestError,
+      message: "An unexpected error occurred while creating a file",
     };
   }
 };

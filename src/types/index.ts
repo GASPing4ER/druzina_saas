@@ -35,37 +35,37 @@ export type ProjectProps = {
   type: TType;
   creatorId: string;
   creator_name: string;
-  start_date: string;
-  end_date: string;
+  start_date: Date;
+  end_date: Date;
   status: TStatus;
   napredek: TNapredek;
   quantity: number;
   stanje: number;
-  created_at: string;
+  created_at: Date;
 };
 
 export type NewProjectDataProps =
   | {
-      current_phase: string;
-      napredek: number;
-      status: string;
+      current_phase: TPhases;
+      napredek: TNapredek;
+      status: TStatus;
       stanje: number;
       creatorId: string;
       creator_name: string;
-      end_date: Date;
       type: TType;
       name: string;
       author: string;
       quantity: string;
       start_date: Date;
+      end_date: Date;
     }
   | undefined;
 
 export type UpdatedProjectDataProps =
   | {
       current_phase: TPhases;
-      napredek: number;
-      status: string;
+      napredek: TNapredek;
+      status: TStatus;
       stanje: number;
     }
   | undefined;
@@ -80,7 +80,7 @@ export type FileProps = {
   name: string;
   description: string;
   link: string;
-  created_at: string;
+  created_at: Date;
 };
 
 export type NewFileDataProps = {
@@ -99,7 +99,7 @@ export type UserProps = {
   last_name: string;
   department: TDepartment;
   role: TRole; // TODO: ENUM,
-  created_at?: string;
+  created_at?: Date;
 };
 
 export type NewUserDataProps = {
@@ -129,7 +129,7 @@ export type TaskProps = {
   start_date: Date;
   end_date: Date;
   status: TTaskStatus;
-  created_at: string;
+  created_at: Date;
 };
 
 export type NewTaskDataProps = {
@@ -163,7 +163,7 @@ export type TaskWithNamesProps = {
   start_date: Date;
   end_date: Date;
   status: TTaskStatus;
-  created_at: string;
+  created_at: Date;
 };
 
 // PHASE TYPES
@@ -171,6 +171,14 @@ export type TaskWithNamesProps = {
 export type PhaseProps = {
   title: string;
   slug: string;
+};
+
+export type NewPhaseProps = {
+  id: string;
+  project_id: string;
+  start_date: Date;
+  end_date: Date;
+  created_at: Date;
 };
 
 // SIDEBAR NAVIGATION

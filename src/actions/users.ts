@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export const getUsers = async (): Promise<{
   data: UserProps[] | null;
-  error: PostgrestError | null | unknown;
+  error: PostgrestError | null;
   message: string;
 }> => {
   try {
@@ -16,10 +16,10 @@ export const getUsers = async (): Promise<{
       error,
       message: "Successful Fetch of a Users",
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       data: null,
-      error,
+      error: error as PostgrestError,
       message: "Database Error: Failed to Fetch Users",
     };
   }
@@ -28,20 +28,23 @@ export const getUsers = async (): Promise<{
 export const addUser = async (
   values: UserProps
 ): Promise<{
-  error: PostgrestError | null | unknown;
+  data: UserProps | null;
+  error: PostgrestError | null;
   message: string;
 }> => {
   try {
-    const { error } = await supabase.from("users").insert({ ...values });
+    const { data, error } = await supabase.from("users").insert({ ...values });
     console.log("Error:", error);
     revalidatePath(`/`, "page");
     return {
+      data,
       error,
       message: "Successful Creation of a User",
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
-      error,
+      data: null,
+      error: error as PostgrestError,
       message: "Database Error: Failed to Create User",
     };
   }

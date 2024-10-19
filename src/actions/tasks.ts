@@ -12,7 +12,7 @@ export const getTasks = async (
   projectId: string
 ): Promise<{
   data: TaskProps[] | null;
-  error: PostgrestError | null | unknown;
+  error: PostgrestError | null;
   message: string;
 }> => {
   try {
@@ -22,14 +22,14 @@ export const getTasks = async (
       .eq("project_id", projectId);
 
     return {
-      data: data || null,
+      data: data,
       error,
       message: "Successful Fetch of a Tasks",
     };
   } catch (error) {
     return {
       data: null,
-      error,
+      error: error as PostgrestError,
       message: "Database Error: Failed to Fetch Tasks",
     };
   }
@@ -39,7 +39,7 @@ export const getTasksWithNames = async (
   projectId: string
 ): Promise<{
   data: TaskWithNamesProps[] | null;
-  error: PostgrestError | null | unknown;
+  error: PostgrestError | null;
   message: string;
 }> => {
   try {
@@ -55,14 +55,14 @@ export const getTasksWithNames = async (
       .eq("project_id", projectId);
 
     return {
-      data: data || null,
+      data: data,
       error,
       message: "Successful Fetch of a Tasks",
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       data: null,
-      error,
+      error: error as PostgrestError,
       message: "Database Error: Failed to Fetch Tasks",
     };
   }
@@ -71,19 +71,22 @@ export const getTasksWithNames = async (
 export const addTask = async (
   values: NewTaskDataProps
 ): Promise<{
-  error: PostgrestError | null | unknown;
+  data: TaskProps | null;
+  error: PostgrestError | null;
   message: string;
 }> => {
   try {
-    const { error } = await supabase.from("tasks").insert({ ...values });
+    const { data, error } = await supabase.from("tasks").insert({ ...values });
     revalidatePath(`/urednistvo/${values.project_id}`, "page");
     return {
+      data,
       error,
       message: "Successful Creation of a Task",
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
-      error,
+      data: null,
+      error: error as PostgrestError,
       message: "Database Error: Failed to Create Task",
     };
   }
@@ -92,51 +95,61 @@ export const addTask = async (
 export const updateTask = async (
   values: NewTaskDataProps
 ): Promise<{
+  data: TaskProps | null;
   error: PostgrestError | null | unknown;
   message: string;
 }> => {
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("tasks")
       .update({ ...values })
       .eq("project_id", values.project_id);
     revalidatePath(`/urednistvo/${values.project_id}`, "page");
     return {
+      data,
       error,
       message: "Successful Creation of a Task",
     };
   } catch (error) {
     return {
+      data: null,
       error,
       message: "Database Error: Failed to Create Task",
     };
   }
 };
 
-export const updateTaskStatus = async (task: TaskProps) => {
-  let status: TTaskStatus;
-
-  if (task.status === "assigned") {
-    status = "done";
-  } else if (task.status === "done") {
-    status = "checked";
-  } else {
-    status = "completed";
-  }
-
+export const updateTaskStatus = async (
+  task: TaskProps
+): Promise<{
+  data: TaskProps | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
   try {
-    const { error } = await supabase
+    let status: TTaskStatus;
+    if (task.status === "assigned") {
+      status = "done";
+    } else if (task.status === "done") {
+      status = "checked";
+    } else {
+      status = "completed";
+    }
+
+    const { data, error } = await supabase
       .from("tasks")
       .update({ status })
       .eq("id", task.id);
     revalidatePath(`/urednistvo/${task.project_id}`, "page");
     return {
+      data,
       error,
       message: "Successful Update of a Task Status",
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
-      error,
+      data: null,
+      error: error as PostgrestError,
       message: "Database Error: Failed to Update Task Status",
     };
   }

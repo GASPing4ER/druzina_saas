@@ -1,5 +1,9 @@
 import { nav_details, phases } from "@/constants";
-import { ProjectProps, UpdatedProjectDataProps } from "@/types";
+import {
+  NewProjectDataProps,
+  ProjectProps,
+  UpdatedProjectDataProps,
+} from "@/types";
 import { formSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
 import { z } from "zod";
@@ -39,7 +43,7 @@ export const getPhaseName = (inputPhase: string) => {
 export const getCompleteData = (
   values: z.infer<typeof formSchema>,
   user: User
-) => {
+): NewProjectDataProps => {
   console.log(values);
   if (new Date(values.start_date) > new Date()) {
     return {

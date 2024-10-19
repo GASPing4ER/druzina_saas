@@ -1,9 +1,8 @@
 import { getPhaseProjects } from "@/actions/projects";
 import { ProjectsTable } from "@/components";
-import { ProjectsProps } from "@/types";
 
 const OsnutekPage = async () => {
-  const projects: ProjectsProps | null = await getPhaseProjects("osnutek");
+  const { data: projects } = await getPhaseProjects("osnutek");
 
   return (
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white">
