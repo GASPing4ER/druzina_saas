@@ -44,22 +44,7 @@ export type ProjectProps = {
   created_at: Date;
 };
 
-export type NewProjectDataProps =
-  | {
-      current_phase: TPhases;
-      napredek: TNapredek;
-      status: TStatus;
-      stanje: number;
-      creatorId: string;
-      creator_name: string;
-      type: TType;
-      name: string;
-      author: string;
-      quantity: string;
-      start_date: Date;
-      end_date: Date;
-    }
-  | undefined;
+export type NewProjectDataProps = Omit<ProjectProps, "id" | "created_name">;
 
 export type UpdatedProjectDataProps =
   | {
@@ -83,12 +68,7 @@ export type FileProps = {
   created_at: Date;
 };
 
-export type NewFileDataProps = {
-  project_id: string;
-  name: string;
-  description: string;
-  link: string;
-};
+export type NewFileDataProps = Omit<FileProps, "id" | "created_at">;
 
 // USER TYPES
 
@@ -132,38 +112,17 @@ export type TaskProps = {
   created_at: Date;
 };
 
-export type NewTaskDataProps = {
-  employee_id: string;
-  project_id: string;
-  assigner_id: string;
-  name: string;
-  description: string;
-  priority: TTaskPriority;
-  start_date: Date;
-  end_date: Date;
-  status: TTaskStatus;
-};
+export type NewTaskDataProps = Omit<TaskProps, "id" | "created_at">;
 
-export type TaskWithNamesProps = {
-  id: string;
-  employee_id: string;
+export type TaskWithNamesProps = TaskProps & {
   employee: {
     first_name: string;
     last_name: string;
   };
-  project_id: string;
-  assigner_id: string;
   assigner: {
     first_name: string;
     last_name: string;
   };
-  name: string;
-  description: string;
-  priority: TTaskPriority;
-  start_date: Date;
-  end_date: Date;
-  status: TTaskStatus;
-  created_at: Date;
 };
 
 // PHASE TYPES
