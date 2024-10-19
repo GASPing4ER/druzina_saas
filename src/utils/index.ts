@@ -12,7 +12,7 @@ export const getPathname = (pathname: string) => {
   return null;
 };
 
-export const formatDate = (inputDate: string) => {
+export const formatDate = (inputDate: Date) => {
   const date = new Date(inputDate);
 
   const formattedDate = new Intl.DateTimeFormat("sl-SI", {
@@ -24,7 +24,7 @@ export const formatDate = (inputDate: string) => {
   return formattedDate;
 };
 
-export const isPast = (endDate: string) => {
+export const isPast = (endDate: Date) => {
   const currentDate = new Date();
   const projectEndDate = new Date(endDate);
 

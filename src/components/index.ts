@@ -25,6 +25,8 @@ import FilesTable from "./FilesTable";
 import FileRow from "./FileRow";
 import UserForm from "./UserForm";
 import LoginUserForm from "./LoginUserForm";
+import TaskEditModal from "./TaskEditModal";
+import TaskEditForm from "./TaskEditForm";
 
 export {
   Sidebar,
@@ -54,4 +56,6 @@ export {
   FileRow,
   UserForm,
   LoginUserForm,
+  TaskEditModal,
+  TaskEditForm,
 };

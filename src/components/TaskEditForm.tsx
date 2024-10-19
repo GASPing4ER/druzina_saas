@@ -36,24 +36,32 @@ import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { getUser } from "@/actions/auth";
 import { useEffect, useState } from "react";
-import { addTask } from "@/actions/tasks";
+import { updateTask } from "@/actions/tasks";
 import { useRouter } from "next/navigation";
 import { taskPriority } from "@/constants";
 import { getUsers } from "@/actions/users";
-import { NewTaskDataProps, UserProps } from "@/types";
+import { NewTaskDataProps, TaskWithNamesProps, UserProps } from "@/types";
 
-type TaskFormProps = {
+type TaskEditFormProps = {
+  task: TaskWithNamesProps;
   projectId: string;
   handleClose: () => void;
 };
 
-const TaskForm = ({ projectId, handleClose }: TaskFormProps) => {
+const TaskEditForm = ({ task, projectId, handleClose }: TaskEditFormProps) => {
   const router = useRouter();
   const [users, setUsers] = useState<UserProps[]>([]);
   // 1. Define your form.
   const form = useForm<z.infer<typeof taskSchema>>({
     resolver: zodResolver(taskSchema),
-    defaultValues: {},
+    defaultValues: {
+      name: task.name,
+      description: task.description,
+      employee_id: task.employee_id,
+      priority: task.priority,
+      start_date: new Date(task.start_date),
+      end_date: new Date(task.end_date),
+    },
   });
 
   useEffect(() => {
@@ -86,7 +94,7 @@ const TaskForm = ({ projectId, handleClose }: TaskFormProps) => {
         status: "assigned",
       };
 
-      addTask(completeData);
+      updateTask(completeData);
       router.refresh();
       handleClose();
     } catch (error) {
@@ -298,10 +306,10 @@ const TaskForm = ({ projectId, handleClose }: TaskFormProps) => {
             />
           </div>
         </div>
-        <Button type="submit">Dodaj</Button>
+        <Button type="submit">Uredi</Button>
       </form>
     </Form>
   );
 };
 
-export default TaskForm;
+export default TaskEditForm;

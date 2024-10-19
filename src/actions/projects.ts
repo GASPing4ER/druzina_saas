@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import {
   NewProjectDataProps,
   ProjectProps,
+  ProjectsProps,
   UpdatedProjectDataProps,
 } from "@/types";
 import { PostgrestError, User } from "@supabase/supabase-js";
@@ -37,7 +38,9 @@ export const getProjects = async (user: User) => {
   }
 };
 
-export const getPhaseProjects = async (phase: string) => {
+export const getPhaseProjects = async (
+  phase: string
+): Promise<ProjectsProps> => {
   const { data, error } = await supabase
     .from("projects")
     .select()
@@ -47,7 +50,7 @@ export const getPhaseProjects = async (phase: string) => {
     console.log(error);
   }
 
-  return data;
+  return data ?? [];
 };
 
 export const getProject = async (

@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatDate, isPast } from "@/utils";
-import { TaskModal, TaskStatusButton } from "@/components";
+import { TaskEditModal, TaskModal, TaskStatusButton } from "@/components";
 import { User } from "@supabase/supabase-js";
 import { TaskWithNamesProps } from "@/types";
+import Image from "next/image";
 
 type TaskRowProps = {
   task: TaskWithNamesProps;
@@ -14,6 +15,7 @@ type TaskRowProps = {
 
 const TaskRow = ({ task, user }: TaskRowProps) => {
   const [open, setOpen] = useState(false); // Manage dialog state
+  const [openForm, setOpenForm] = useState(false); // Manage dialog state
 
   const handleRowClick = () => {
     setOpen(true); // Open dialog when row is clicked
@@ -21,6 +23,18 @@ const TaskRow = ({ task, user }: TaskRowProps) => {
   return (
     <>
       <TableRow className="cursor-pointer" onClick={handleRowClick}>
+        <TableCell>
+          <Image
+            onClick={(e: MouseEvent) => {
+              e.stopPropagation();
+              setOpenForm(true);
+            }}
+            src="/icons/edit.svg"
+            alt="edit"
+            width={25}
+            height={25}
+          />
+        </TableCell>
         <TableCell>
           {task.employee.first_name} {task.employee.last_name}
         </TableCell>
@@ -35,6 +49,7 @@ const TaskRow = ({ task, user }: TaskRowProps) => {
         </TableCell>
       </TableRow>
       <TaskModal task={task} open={open} setOpen={setOpen} />
+      <TaskEditModal task={task} open={openForm} setOpen={setOpenForm} />
     </>
   );
 };

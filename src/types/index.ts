@@ -126,8 +126,8 @@ export type TaskProps = {
   name: string;
   description: string;
   priority: TTaskPriority;
-  start_date: string;
-  end_date: string;
+  start_date: Date;
+  end_date: Date;
   status: TTaskStatus;
   created_at: string;
 };
@@ -160,8 +160,8 @@ export type TaskWithNamesProps = {
   name: string;
   description: string;
   priority: TTaskPriority;
-  start_date: string;
-  end_date: string;
+  start_date: Date;
+  end_date: Date;
   status: TTaskStatus;
   created_at: string;
 };

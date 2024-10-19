@@ -89,6 +89,30 @@ export const addTask = async (
   }
 };
 
+export const updateTask = async (
+  values: NewTaskDataProps
+): Promise<{
+  error: PostgrestError | null | unknown;
+  message: string;
+}> => {
+  try {
+    const { error } = await supabase
+      .from("tasks")
+      .update({ ...values })
+      .eq("project_id", values.project_id);
+    revalidatePath(`/urednistvo/${values.project_id}`, "page");
+    return {
+      error,
+      message: "Successful Creation of a Task",
+    };
+  } catch (error) {
+    return {
+      error,
+      message: "Database Error: Failed to Create Task",
+    };
+  }
+};
+
 export const updateTaskStatus = async (task: TaskProps) => {
   let status: TTaskStatus;
 

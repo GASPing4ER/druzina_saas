@@ -9,6 +9,7 @@ import {
   UtilityBox,
 } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { redirect } from "next/navigation";
 
 const ProjectDetailsPage = async ({
   params,
@@ -16,17 +17,24 @@ const ProjectDetailsPage = async ({
   params: { projectId: string };
 }) => {
   const projectId = params.projectId;
-  const [projectResponse, tasksResponse, filesResponse, userResponse] =
+  const [projectResponse, tasksResponse, filesResponse, user] =
     await Promise.all([
       getProject(projectId),
       getTasksWithNames(projectId),
       getFiles(projectId),
       getUser(),
     ]);
+
+  if (
+    user.user_metadata.department !== "urednistvo" &&
+    user.user_metadata.role !== "superadmin"
+  )
+    redirect("/unauthorized");
+
   const project = projectResponse.data;
   const tasks = tasksResponse.data;
   const files = filesResponse.data;
-  const role = userResponse.user_metadata.role;
+  const role = user.user_metadata.role;
   const tasksCompleted =
     tasks &&
     (tasks.length === 0 || tasks.every((task) => task.status === "completed"));

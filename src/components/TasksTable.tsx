@@ -19,7 +19,7 @@ const TasksTable = async ({ tasks }: TaskTableProps) => {
     <Table>
       <TableHeader>
         <TableRow>
-          {/* <TableHead>Dodeljeno od</TableHead> */}
+          <TableHead></TableHead>
           <TableHead>Izvajalec</TableHead>
           <TableHead>Začetek</TableHead>
           <TableHead>Rok</TableHead>

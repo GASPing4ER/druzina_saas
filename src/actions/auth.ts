@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { addUser } from "./users";
 import { LoginUserProps, NewUserDataProps } from "@/types";
+import { User } from "@supabase/supabase-js";
 
 export const signup = async (formData: NewUserDataProps) => {
   const supabaseAuth = createClient();
@@ -60,7 +61,7 @@ export const logout = async () => {
   await supabase.auth.signOut();
 };
 
-export const getUser = async () => {
+export const getUser = async (): Promise<User> => {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
 
