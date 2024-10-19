@@ -44,7 +44,7 @@ export type ProjectProps = {
   created_at: Date;
 };
 
-export type NewProjectDataProps = Omit<ProjectProps, "id" | "created_name">;
+export type NewProjectDataProps = Omit<ProjectProps, "id" | "created_at">;
 
 export type UpdatedProjectDataProps =
   | {

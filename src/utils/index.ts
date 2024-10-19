@@ -65,17 +65,16 @@ export const getCompleteData = (
       creatorId: user.id,
       creator_name: `${user.user_metadata.first_name} ${user.user_metadata.last_name}`,
     };
-  } else if (values.type === "drugo") {
-    return {
-      ...values,
-      current_phase: "priprava-za-tisk",
-      napredek: 3,
-      status: "v teku",
-      stanje: 40,
-      creatorId: user.id,
-      creator_name: `${user.user_metadata.first_name} ${user.user_metadata.last_name}`,
-    };
   }
+  return {
+    ...values,
+    current_phase: "priprava-za-tisk",
+    napredek: 3,
+    status: "v teku",
+    stanje: 40,
+    creatorId: user.id,
+    creator_name: `${user.user_metadata.first_name} ${user.user_metadata.last_name}`,
+  };
 };
 
 export const updateData = (project: ProjectProps): UpdatedProjectDataProps => {
