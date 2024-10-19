@@ -1,4 +1,5 @@
 import { nav_details, phases } from "@/constants";
+import { ProjectProps, UpdatedProjectDataProps } from "@/types";
 import { formSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
 import { z } from "zod";
@@ -73,7 +74,7 @@ export const getCompleteData = (
   }
 };
 
-export const updateData = (project: ProjectProps): updatedDataProps => {
+export const updateData = (project: ProjectProps): UpdatedProjectDataProps => {
   console.log(project);
   if (project.current_phase === "osnutek") {
     return {

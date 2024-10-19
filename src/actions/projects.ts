@@ -1,6 +1,11 @@
 "use server";
 
 import { supabase } from "@/lib/supabase";
+import {
+  NewProjectDataProps,
+  ProjectProps,
+  UpdatedProjectDataProps,
+} from "@/types";
 import { PostgrestError, User } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 
@@ -73,7 +78,7 @@ export const getProject = async (
   }
 };
 
-export const addProject = async (completeData: completeDataProps) => {
+export const addProject = async (completeData: NewProjectDataProps) => {
   try {
     await supabase.from("projects").insert({ ...completeData });
     revalidatePath("/", "page");
@@ -86,7 +91,7 @@ export const addProject = async (completeData: completeDataProps) => {
 };
 
 export const updateProject = async (
-  updatedData: updatedDataProps,
+  updatedData: UpdatedProjectDataProps,
   projectId: string
 ) => {
   try {

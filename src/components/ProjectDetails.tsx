@@ -1,6 +1,11 @@
 import { formatDate } from "@/utils";
-import ProgressBar from "./ProgressBar";
+import { ProgressBar } from "@/components";
 import Image from "next/image";
+import { ProjectProps } from "@/types";
+
+type ProjectDetailsProps = {
+  project: ProjectProps;
+};
 
 const ProjectDetails = ({ project }: ProjectDetailsProps) => {
   return (

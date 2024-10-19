@@ -11,13 +11,12 @@ import {
 import { useState } from "react";
 import { TaskForm, FileForm } from "@/components";
 
-const UtilityModal = ({
-  type,
-  projectId,
-}: {
+type UtilityModalProps = {
   type: string;
   projectId: string;
-}) => {
+};
+
+const UtilityModal = ({ type, projectId }: UtilityModalProps) => {
   const [open, setOpen] = useState(false);
   return (
     <div>

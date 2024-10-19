@@ -3,16 +3,16 @@
 import React from "react";
 import { TableCell, TableRow } from "./ui/table";
 import { formatDate, getPhaseName, isPast } from "@/utils";
-import ProgressBar from "./ProgressBar";
+import { ProgressBar } from "@/components";
 import { useRouter } from "next/navigation";
+import { ProjectProps } from "@/types";
 
-const ProjectRow = ({
-  project,
-  pathname,
-}: {
+type ProjectRowProps = {
   project: ProjectProps;
   pathname: string;
-}) => {
+};
+
+const ProjectRow = ({ project, pathname }: ProjectRowProps) => {
   const router = useRouter();
   return (
     <TableRow onClick={() => router.push(pathname)} className="cursor-pointer">

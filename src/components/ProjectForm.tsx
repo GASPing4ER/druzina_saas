@@ -19,11 +19,15 @@ import { formSchema } from "@/types/schemas";
 import { getCompleteData } from "@/utils";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "./ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 import { addProject } from "@/actions/projects";
 import {
   Select,
@@ -31,16 +35,15 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "@/components/ui/select";
 import { projectTypes } from "@/constants";
 
-const ProjectForm = ({
-  user,
-  handleClose,
-}: {
+type ProjectFormProps = {
   user: User;
   handleClose: () => void;
-}) => {
+};
+
+const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({

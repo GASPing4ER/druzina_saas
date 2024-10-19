@@ -7,8 +7,13 @@ import {
 } from "@/components/ui/table";
 
 import { FileRow } from "@/components";
+import { FileProps } from "@/types";
 
-const FilesTable = async ({ files }: { files: FileProps[] }) => {
+type FileTableProps = {
+  files: FileProps[];
+};
+
+const FilesTable = async ({ files }: FileTableProps) => {
   return (
     <Table>
       <TableHeader>

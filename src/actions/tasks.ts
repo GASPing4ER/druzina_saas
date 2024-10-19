@@ -1,4 +1,10 @@
 import { supabase } from "@/lib/supabase";
+import {
+  NewTaskDataProps,
+  TaskProps,
+  TaskWithNamesProps,
+  TTaskStatus,
+} from "@/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 

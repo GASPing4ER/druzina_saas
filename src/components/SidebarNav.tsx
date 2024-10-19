@@ -1,4 +1,12 @@
+import { SidebarNavigationItemProps } from "@/types";
 import Link from "next/link";
+
+type SidebarNavProps = {
+  title: string;
+  navigation: SidebarNavigationItemProps[];
+  department?: string;
+  role?: string;
+};
 
 const SidebarNav = ({
   title,

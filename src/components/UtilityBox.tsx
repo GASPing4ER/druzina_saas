@@ -1,4 +1,25 @@
 import { FilesTable, TasksTable, UtilityModal } from "@/components";
+import { FileProps, TaskWithNamesProps } from "@/types";
+
+type UtilityBoxProps =
+  | {
+      type: "naloge";
+      data: TaskWithNamesProps[] | null;
+      projectId: string;
+      role: string;
+    }
+  | {
+      type: "datoteke";
+      data: FileProps[] | null;
+      projectId: string;
+      role: string;
+    }
+  | {
+      type: "opombe";
+      data: [] | null;
+      projectId: string;
+      role: string;
+    };
 
 const UtilityBox = ({ type, data, projectId, role }: UtilityBoxProps) => {
   return (

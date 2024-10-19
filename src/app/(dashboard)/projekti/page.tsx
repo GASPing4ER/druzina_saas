@@ -1,6 +1,7 @@
 import { getUser } from "@/actions/auth";
 import { getProjects } from "@/actions/projects";
 import { ProjectsTable } from "@/components";
+import { ProjectsProps } from "@/types";
 
 const ProjektiPage = async () => {
   const user = await getUser();

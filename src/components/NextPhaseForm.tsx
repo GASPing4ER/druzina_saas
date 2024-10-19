@@ -1,10 +1,17 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Form,
   FormControl,
@@ -15,23 +22,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { phaseSchema } from "@/types/schemas";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "./ui/calendar";
 import { updateData } from "@/utils";
-import { updateProject } from "@/actions/projects";
-import { useRouter } from "next/navigation";
-import { addPhase } from "@/actions/phases";
 
-const NextPhaseForm = ({
-  phase,
-  project,
-}: {
+import { updateProject } from "@/actions/projects";
+import { addPhase } from "@/actions/phases";
+import { ProjectProps } from "@/types";
+
+type NextPhaseFormProps = {
   phase: string;
   project: ProjectProps;
-}) => {
+};
+
+const NextPhaseForm = ({ phase, project }: NextPhaseFormProps) => {
   const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof phaseSchema>>({

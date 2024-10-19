@@ -24,26 +24,30 @@ import {
 } from "@/components/ui/select";
 
 import { taskSchema } from "@/types/schemas";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "./ui/calendar";
-import { Input } from "./ui/input";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
 import { getUser } from "@/actions/auth";
 import { useEffect, useState } from "react";
 import { addTask } from "@/actions/tasks";
 import { useRouter } from "next/navigation";
 import { taskPriority } from "@/constants";
 import { getUsers } from "@/actions/users";
+import { NewTaskDataProps, UserProps } from "@/types";
 
-const TaskForm = ({
-  projectId,
-  handleClose,
-}: {
+type TaskFormProps = {
   projectId: string;
   handleClose: () => void;
-}) => {
+};
+
+const TaskForm = ({ projectId, handleClose }: TaskFormProps) => {
   const router = useRouter();
   const [users, setUsers] = useState<UserProps[]>([]);
   // 1. Define your form.

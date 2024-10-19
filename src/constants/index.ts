@@ -1,3 +1,18 @@
+import {
+  PhaseProps,
+  SidebarNavigationItemProps,
+  TDepartment,
+  TRole,
+  TTaskPriority,
+  TType,
+} from "@/types";
+
+type SidebarNavigationProps = {
+  pregled: SidebarNavigationItemProps[];
+  procesi: SidebarNavigationItemProps[];
+  casovni_okvir: SidebarNavigationItemProps[];
+};
+
 export const sidebar_navigation: SidebarNavigationProps = {
   pregled: [
     {
@@ -57,6 +72,8 @@ export const sidebar_navigation: SidebarNavigationProps = {
     },
   ],
 };
+
+type NavDetailsProps = SidebarNavigationItemProps[];
 
 export const nav_details: NavDetailsProps = [
   {
@@ -124,6 +141,8 @@ export const carouselProjectBgColors = [
 ];
 
 export const carouselProjectUserColors = ["#95B37E", "#B099B4", "#BA908E"];
+
+type PhasesProps = PhaseProps[];
 
 export const phases: PhasesProps = [
   {

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { addUser } from "./users";
+import { LoginUserProps, NewUserDataProps } from "@/types";
 
 export const signup = async (formData: NewUserDataProps) => {
   const supabaseAuth = createClient();

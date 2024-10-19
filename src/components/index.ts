@@ -23,6 +23,8 @@ import TaskStatusButton from "./TaskStatusButton";
 import FileForm from "./FileForm";
 import FilesTable from "./FilesTable";
 import FileRow from "./FileRow";
+import UserForm from "./UserForm";
+import LoginUserForm from "./LoginUserForm";
 
 export {
   Sidebar,
@@ -50,4 +52,6 @@ export {
   FileForm,
   FilesTable,
   FileRow,
+  UserForm,
+  LoginUserForm,
 };

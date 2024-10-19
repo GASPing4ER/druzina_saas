@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { UserProps } from "@/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 

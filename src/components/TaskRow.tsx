@@ -1,13 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { TableCell, TableRow } from "./ui/table";
+import { TableCell, TableRow } from "@/components/ui/table";
 import { formatDate, isPast } from "@/utils";
-import TaskModal from "./TaskModal";
+import { TaskModal, TaskStatusButton } from "@/components";
 import { User } from "@supabase/supabase-js";
-import TaskStatusButton from "./TaskStatusButton";
+import { TaskWithNamesProps } from "@/types";
 
-const TaskRow = ({ task, user }: { task: TaskWithNamesProps; user: User }) => {
+type TaskRowProps = {
+  task: TaskWithNamesProps;
+  user: User;
+};
+
+const TaskRow = ({ task, user }: TaskRowProps) => {
   const [open, setOpen] = useState(false); // Manage dialog state
 
   const handleRowClick = () => {

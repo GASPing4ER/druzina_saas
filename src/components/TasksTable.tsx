@@ -5,10 +5,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import TaskRow from "./TaskRow";
+import { TaskRow } from "@/components";
 import { getUser } from "@/actions/auth";
+import { TaskWithNamesProps } from "@/types";
 
-const TasksTable = async ({ tasks }: { tasks: TaskWithNamesProps[] }) => {
+type TaskTableProps = {
+  tasks: TaskWithNamesProps[];
+};
+
+const TasksTable = async ({ tasks }: TaskTableProps) => {
   const user = await getUser();
   return (
     <Table>

@@ -1,5 +1,9 @@
 import { phases } from "@/constants";
 
+type DashboardProjectsFilterProps = {
+  onHandlePhase: (chosenPhase: string) => void;
+};
+
 const DashboardProjectsFilter = ({
   onHandlePhase,
 }: DashboardProjectsFilterProps) => {

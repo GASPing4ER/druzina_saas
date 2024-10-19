@@ -4,18 +4,17 @@ import {
   DialogHeader,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { TaskWithNamesProps } from "@/types";
 import { formatDate } from "@/utils";
 import { Dispatch, SetStateAction } from "react";
 
-const TaskModal = ({
-  task,
-  open,
-  setOpen,
-}: {
+type TaskModalProps = {
   task: TaskWithNamesProps;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-}) => {
+};
+
+const TaskModal = ({ task, open, setOpen }: TaskModalProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>

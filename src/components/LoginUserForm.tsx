@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "./ui/input";
 import {
   Form,
   FormControl,
@@ -15,9 +16,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { loginUserSchema } from "@/types/schemas";
-import { Input } from "./ui/input";
 import { login } from "@/actions/auth";
+
+import { loginUserSchema } from "@/types/schemas";
+import { LoginUserProps } from "@/types";
 
 const LoginUserForm = () => {
   const form = useForm<z.infer<typeof loginUserSchema>>({

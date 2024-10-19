@@ -1,7 +1,12 @@
 import Link from "next/link";
-import ProgressBar from "./ProgressBar";
+import { ProgressBar } from "@/components";
 import Image from "next/image";
 import { formatDate, getPhaseName } from "@/utils";
+import { ProjectsProps } from "@/types";
+
+type DashboardProjectsProps = {
+  projects: ProjectsProps;
+};
 
 const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
   return (

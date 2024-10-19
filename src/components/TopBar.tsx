@@ -17,7 +17,11 @@ import { User } from "@supabase/supabase-js";
 import { getProject } from "@/actions/projects";
 import { getPathname } from "@/utils";
 
-const TopBar = ({ user }: { user: User }) => {
+type TopBarProps = {
+  user: User;
+};
+
+const TopBar = ({ user }: TopBarProps) => {
   const [projectName, setProjectName] = useState("");
   const [open, setOpen] = useState(false);
   const path = usePathname();

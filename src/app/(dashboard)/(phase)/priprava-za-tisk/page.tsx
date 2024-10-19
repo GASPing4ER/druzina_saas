@@ -1,5 +1,6 @@
 import { getPhaseProjects } from "@/actions/projects";
 import { ProjectsTable } from "@/components";
+import { ProjectsProps } from "@/types";
 
 const PripravaZaTiskPage = async () => {
   const projects: ProjectsProps | null = await getPhaseProjects(

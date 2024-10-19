@@ -3,8 +3,13 @@
 import Link from "next/link";
 import { TableCell, TableRow } from "./ui/table";
 import { formatDate } from "@/utils";
+import { FileProps } from "@/types";
 
-const FileRow = ({ file }: { file: FileProps }) => {
+type FileRowProps = {
+  file: FileProps;
+};
+
+const FileRow = ({ file }: FileRowProps) => {
   return (
     <>
       <TableRow className="cursor-pointer">

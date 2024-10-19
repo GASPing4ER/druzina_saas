@@ -3,7 +3,11 @@ import Image from "next/image";
 import { SidebarNav, LogoutButton } from "@/components";
 import { User } from "@supabase/supabase-js";
 
-const Sidebar = async ({ user }: { user: User }) => {
+type SidebarProps = {
+  user: User;
+};
+
+const Sidebar = async ({ user }: SidebarProps) => {
   const role = user.user_metadata.role;
   const department = user.user_metadata.department;
   return (

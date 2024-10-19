@@ -24,9 +24,10 @@ import {
 } from "@/components/ui/select";
 
 import { userSchema } from "@/types/schemas";
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
 import { departmentTypes, roleTypes } from "@/constants";
 import { signup } from "@/actions/auth";
+import { NewUserDataProps } from "@/types";
 
 const UserForm = () => {
   const form = useForm<z.infer<typeof userSchema>>({

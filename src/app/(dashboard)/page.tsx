@@ -1,6 +1,7 @@
 import { getUser } from "@/actions/auth";
 import { getProjects } from "@/actions/projects";
 import { DashboardProjectsDisplay, ProjectsCarousel } from "@/components";
+import { ProjectsProps } from "@/types";
 
 export default async function Home() {
   const user = await getUser();

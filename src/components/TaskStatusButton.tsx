@@ -1,11 +1,17 @@
 "use client";
 
 import { updateTaskStatus } from "@/actions/tasks";
+import { TaskProps } from "@/types";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { MouseEvent } from "react";
 
-const TaskStatusButton = ({ task, user }: { task: TaskProps; user: User }) => {
+type TaskStatusButtonProps = {
+  task: TaskProps;
+  user: User;
+};
+
+const TaskStatusButton = ({ task, user }: TaskStatusButtonProps) => {
   const router = useRouter();
   const handleStatusChange = async (e: MouseEvent) => {
     e.stopPropagation();

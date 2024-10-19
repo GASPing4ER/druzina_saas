@@ -8,17 +8,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import NextPhaseForm from "./NextPhaseForm";
+import { NextPhaseForm } from "@/components";
 import { useState } from "react";
 import { getPhaseName } from "@/utils";
+import { ProjectProps } from "@/types";
 
-const NextPhaseModal = ({
-  phase,
-  project,
-}: {
+type NextPhaseModalProps = {
   phase: string;
   project: ProjectProps;
-}) => {
+};
+
+const NextPhaseModal = ({ phase, project }: NextPhaseModalProps) => {
   const [open, setOpen] = useState(false);
   return (
     <div className="bg-slate-300 text-white py-1 px-8 rounded-xl">

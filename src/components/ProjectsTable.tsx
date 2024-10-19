@@ -8,6 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ProjectsProps } from "@/types";
+
+type ProjectsTableProps = {
+  projects: ProjectsProps;
+  phase?: string;
+};
 
 const ProjectsTable = async ({ projects, phase }: ProjectsTableProps) => {
   const user = await getUser();

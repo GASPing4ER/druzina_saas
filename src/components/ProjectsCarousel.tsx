@@ -1,11 +1,16 @@
 import Image from "next/image";
-import ProgressBar from "./ProgressBar";
+import { ProgressBar } from "@/components";
 import {
   carouselProjectBgColors,
   carouselProjectUserColors,
 } from "@/constants";
 import { formatDate } from "@/utils";
 import Link from "next/link";
+import { ProjectsProps } from "@/types";
+
+type ProjectsCarouselProps = {
+  projects: ProjectsProps;
+};
 
 const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
   return (

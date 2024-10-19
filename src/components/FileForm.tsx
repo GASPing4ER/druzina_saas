@@ -19,14 +19,14 @@ import { fileSchema } from "@/types/schemas";
 import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
 import { addFile } from "@/actions/files";
+import { NewFileDataProps } from "@/types";
 
-const FileForm = ({
-  projectId,
-  handleClose,
-}: {
+type FileFormProps = {
   projectId: string;
   handleClose: () => void;
-}) => {
+};
+
+const FileForm = ({ projectId, handleClose }: FileFormProps) => {
   const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof fileSchema>>({

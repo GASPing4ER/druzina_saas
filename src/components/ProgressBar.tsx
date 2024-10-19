@@ -1,3 +1,7 @@
+type ProgressBarProps = {
+  stanje: number;
+};
+
 const ProgressBar = ({ stanje }: ProgressBarProps) => {
   return (
     <div className="relative w-full h-[8px] rounded-xl bg-slate-200">

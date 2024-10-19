@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import DashboardProjects from "./DashboardProjects";
-import DashboardProjectsFilter from "./DashboardProjectsFilter";
+import { DashboardProjects, DashboardProjectsFilter } from "@/components";
+import { ProjectsProps } from "@/types";
+
+type DashboardProjectsDisplayProps = {
+  projects: ProjectsProps;
+};
 
 const DashboardProjectsDisplay = ({
   projects,
