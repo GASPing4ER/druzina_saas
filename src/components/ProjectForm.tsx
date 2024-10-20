@@ -112,7 +112,7 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
                 <FormItem>
                   <FormLabel>Količina</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="2000" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormDescription>
                     Količina izvodov vašega projekta

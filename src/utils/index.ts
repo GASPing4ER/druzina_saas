@@ -48,6 +48,7 @@ export const getCompleteData = (
   if (new Date(values.start_date) > new Date()) {
     return {
       ...values,
+      quantity: values.quantity as number,
       napredek: 0,
       status: "v pripravi",
       current_phase: "osnutek",
