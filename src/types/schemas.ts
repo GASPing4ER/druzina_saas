@@ -20,7 +20,7 @@ export const formSchema = z.object({
   type: TTypeSchema.refine((val) => TTypeSchema.options.includes(val), {
     message: "Izberite pravilno vrsto.",
   }),
-  quantity: z.number(),
+  quantity: z.string().transform((val) => Number(val)),
   start_date: z.date(),
   end_date: z.date(),
 });
