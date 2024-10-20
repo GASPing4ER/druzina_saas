@@ -41,6 +41,7 @@ import { useRouter } from "next/navigation";
 import { taskPriority } from "@/constants";
 import { getUsers } from "@/actions/users";
 import { NewTaskDataProps, TaskWithNamesProps, UserProps } from "@/types";
+// import DeleteDialog from "./DeleteDialog";
 
 type TaskEditFormProps = {
   task: TaskWithNamesProps;
@@ -50,6 +51,7 @@ type TaskEditFormProps = {
 
 const TaskEditForm = ({ task, projectId, handleClose }: TaskEditFormProps) => {
   const router = useRouter();
+  // const [openDelete, setOpenDelete] = useState(false);
   const [users, setUsers] = useState<UserProps[]>([]);
   // 1. Define your form.
   const form = useForm<z.infer<typeof taskSchema>>({
@@ -306,7 +308,17 @@ const TaskEditForm = ({ task, projectId, handleClose }: TaskEditFormProps) => {
             />
           </div>
         </div>
-        <Button type="submit">Uredi</Button>
+        <div className="flex gap-4">
+          <Button type="submit">Uredi</Button>
+          {/* <Button
+            onClick={() => setOpenDelete(true)}
+            type="submit"
+            variant="ghost"
+          >
+            Zbriši
+          </Button> */}
+        </div>
+        {/* <DeleteDialog open={openDelete} setOpen={setOpenDelete} /> */}
       </form>
     </Form>
   );
