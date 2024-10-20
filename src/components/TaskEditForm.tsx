@@ -96,7 +96,7 @@ const TaskEditForm = ({ task, projectId, handleClose }: TaskEditFormProps) => {
         status: "assigned",
       };
 
-      updateTask(completeData);
+      updateTask({ ...task, ...completeData });
       router.refresh();
       handleClose();
     } catch (error) {

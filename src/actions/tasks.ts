@@ -93,7 +93,7 @@ export const addTask = async (
 };
 
 export const updateTask = async (
-  values: NewTaskDataProps
+  values: TaskProps
 ): Promise<{
   data: TaskProps | null;
   error: PostgrestError | null | unknown;
@@ -103,7 +103,7 @@ export const updateTask = async (
     const { data, error } = await supabase
       .from("tasks")
       .update({ ...values })
-      .eq("project_id", values.project_id);
+      .eq("id", values.id);
     revalidatePath(`/urednistvo/${values.project_id}`, "page");
     return {
       data,
