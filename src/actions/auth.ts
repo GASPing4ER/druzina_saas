@@ -42,18 +42,15 @@ export const signup = async (formData: NewUserDataProps) => {
 export const login = async (formData: LoginUserProps) => {
   const supabaseAuth = createClient();
 
-  const { error } = await supabaseAuth.auth.signInWithPassword(formData);
+  const { data, error } = await supabaseAuth.auth.signInWithPassword(formData);
+  console.log("Login response data:", data);
+  console.log("Login error:", error);
 
-  if (error?.code === "email_not_confirmed") {
-    // Return the error message to the page for display
-    console.log(error);
-    return { error: "Potrdi svoj email." };
-  } else if (error) {
+  if (error) {
     return { error: error.message };
   }
-
-  // Optionally return something upon success, like redirect instructions
-  return { success: true };
+  revalidatePath("/", "layout");
+  redirect("/");
 };
 
 export const logout = async () => {

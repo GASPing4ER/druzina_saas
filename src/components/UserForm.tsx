@@ -42,7 +42,7 @@ const UserForm = () => {
         ...values,
       };
 
-      signup(completeData);
+      await signup(completeData);
     } catch (error) {
       console.log(error);
     }
@@ -184,7 +184,7 @@ const UserForm = () => {
             />
           </div>
         </div>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Registriraj se</Button>
       </form>
     </Form>
   );

@@ -34,7 +34,7 @@ const LoginUserForm = () => {
         ...values,
       };
 
-      login(completeData);
+      await login(completeData);
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +80,7 @@ const LoginUserForm = () => {
             />
           </div>
         </div>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Prijavi se</Button>
       </form>
     </Form>
   );
