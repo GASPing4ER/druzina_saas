@@ -74,3 +74,30 @@ export const addFile = async (
     };
   }
 };
+
+export const updateFile = async (
+  values: NewFileDataProps
+): Promise<{
+  data: FileProps | null;
+  error: PostgrestError | null | unknown;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("files")
+      .update({ ...values })
+      .eq("project_id", values.project_id);
+    revalidatePath(`/urednistvo/${values.project_id}`, "page");
+    return {
+      data,
+      error,
+      message: "Successful Creation of a File",
+    };
+  } catch (error) {
+    return {
+      data: null,
+      error,
+      message: "Database Error: Failed to Create File",
+    };
+  }
+};

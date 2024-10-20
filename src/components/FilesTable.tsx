@@ -18,6 +18,7 @@ const FilesTable = async ({ files }: FileTableProps) => {
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead></TableHead>
           <TableHead>Naslov</TableHead>
           <TableHead>Opis</TableHead>
           <TableHead>Link</TableHead>

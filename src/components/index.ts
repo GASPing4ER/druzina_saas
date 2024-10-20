@@ -27,6 +27,8 @@ import UserForm from "./UserForm";
 import LoginUserForm from "./LoginUserForm";
 import TaskEditModal from "./TaskEditModal";
 import TaskEditForm from "./TaskEditForm";
+import FileEditModal from "./FileEditModal";
+import FileEditForm from "./FileEditForm";
 
 export {
   Sidebar,
@@ -58,4 +60,6 @@ export {
   LoginUserForm,
   TaskEditModal,
   TaskEditForm,
+  FileEditModal,
+  FileEditForm,
 };
