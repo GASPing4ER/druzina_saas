@@ -16,27 +16,22 @@ import {
 } from "@/components/ui/form";
 
 import { fileSchema } from "@/types/schemas";
-import { Input } from "@/components/ui/input";
+import { Input } from "../ui/input";
 import { useRouter } from "next/navigation";
-import { FileProps, NewFileDataProps } from "@/types";
-import { updateFile } from "@/actions/files";
+import { addFile } from "@/actions/files";
+import { NewFileDataProps } from "@/types";
 
-type FileEditFormProps = {
-  file: FileProps;
+type FileFormProps = {
   projectId: string;
   handleClose: () => void;
 };
 
-const FileEditForm = ({ file, projectId, handleClose }: FileEditFormProps) => {
+const FileForm = ({ projectId, handleClose }: FileFormProps) => {
   const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof fileSchema>>({
     resolver: zodResolver(fileSchema),
-    defaultValues: {
-      name: file.name,
-      description: file.description,
-      link: file.link,
-    },
+    defaultValues: {},
   });
 
   // 2. Define a submit handler.
@@ -47,7 +42,7 @@ const FileEditForm = ({ file, projectId, handleClose }: FileEditFormProps) => {
         project_id: projectId,
       };
 
-      updateFile(completeData);
+      addFile(completeData);
       router.refresh();
       handleClose();
     } catch (error) {
@@ -112,10 +107,10 @@ const FileEditForm = ({ file, projectId, handleClose }: FileEditFormProps) => {
             />
           </div>
         </div>
-        <Button type="submit">Uredi</Button>
+        <Button type="submit">Ustvari</Button>
       </form>
     </Form>
   );
 };
 
-export default FileEditForm;
+export default FileForm;

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { TableCell, TableRow } from "./ui/table";
+import { TableCell, TableRow } from "../ui/table";
 import { formatDate, getPhaseName, isPast } from "@/utils";
 import { ProgressBar } from "@/components";
 import { useRouter } from "next/navigation";

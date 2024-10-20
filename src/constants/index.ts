@@ -27,11 +27,11 @@ export const sidebar_navigation: SidebarNavigationProps = {
     },
   ],
   procesi: [
-    {
-      title: "Osnutek",
-      imgUrl: "/icons/osnutek.svg",
-      url: "/osnutek",
-    },
+    // {
+    //   title: "Osnutek",
+    //   imgUrl: "/icons/osnutek.svg",
+    //   url: "/osnutek",
+    // },
     {
       title: "Uredništvo",
       imgUrl: "/icons/urednistvo.svg",
@@ -57,11 +57,11 @@ export const sidebar_navigation: SidebarNavigationProps = {
       imgUrl: "/icons/dostava.svg",
       url: "/dostava",
     },
-    {
-      title: "Arhiv",
-      imgUrl: "/icons/arhiv.svg",
-      url: "/arhiv",
-    },
+    // {
+    //   title: "Arhiv",
+    //   imgUrl: "/icons/arhiv.svg",
+    //   url: "/arhiv",
+    // },
   ],
   casovni_okvir: [
     {

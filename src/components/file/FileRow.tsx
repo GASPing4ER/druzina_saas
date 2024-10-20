@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { TableCell, TableRow } from "./ui/table";
+import { TableCell, TableRow } from "../ui/table";
 import { formatDate } from "@/utils";
 import { FileProps } from "@/types";
 import Image from "next/image";

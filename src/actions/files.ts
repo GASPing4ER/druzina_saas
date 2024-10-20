@@ -70,7 +70,7 @@ export const addFile = async (
 };
 
 export const updateFile = async (
-  values: NewFileDataProps
+  values: FileProps
 ): Promise<{
   data: FileProps | null;
   error: PostgrestError | null | unknown;
@@ -80,7 +80,7 @@ export const updateFile = async (
     const { data, error } = await supabase
       .from("files")
       .update({ ...values })
-      .eq("project_id", values.project_id);
+      .eq("id", values.id);
     revalidatePath(`/urednistvo/${values.project_id}`, "page");
     return {
       data,

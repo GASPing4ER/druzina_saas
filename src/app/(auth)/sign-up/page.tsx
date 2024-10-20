@@ -1,4 +1,4 @@
-import UserForm from "@/components/UserForm";
+import UserForm from "@/components/auth/UserForm";
 
 export default function LoginPage() {
   return (
