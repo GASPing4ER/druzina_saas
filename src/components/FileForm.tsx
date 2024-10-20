@@ -36,7 +36,6 @@ const FileForm = ({ projectId, handleClose }: FileFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof fileSchema>) {
-    console.log("SUBMITTED");
     try {
       const completeData: NewFileDataProps = {
         ...values,

@@ -44,7 +44,6 @@ export const getCompleteData = (
   values: z.infer<typeof formSchema>,
   user: User
 ): NewProjectDataProps => {
-  console.log(values);
   if (new Date(values.start_date) > new Date()) {
     return {
       ...values,
@@ -79,7 +78,6 @@ export const getCompleteData = (
 };
 
 export const updateData = (project: ProjectProps): UpdatedProjectDataProps => {
-  console.log(project);
   if (project.current_phase === "osnutek") {
     return {
       // ...project,

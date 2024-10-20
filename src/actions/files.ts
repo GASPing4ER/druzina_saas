@@ -31,9 +31,6 @@ export const getFiles = async (
       message: "Successfully fetched files",
     };
   } catch (error: unknown) {
-    // Log the error for debugging (optional)
-    console.error("Unexpected error:", error);
-
     return {
       data: null,
       error: error as PostgrestError,
@@ -65,9 +62,6 @@ export const addFile = async (
       message: "Successfully created file",
     };
   } catch (error: unknown) {
-    // Log unexpected errors (optional)
-    console.error("Unexpected error:", error);
-
     return {
       error: error as PostgrestError,
       message: "An unexpected error occurred while creating a file",

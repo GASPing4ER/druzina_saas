@@ -3,7 +3,6 @@ import { Sidebar, TopBar } from "@/components";
 
 const AppLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getUser();
-  console.log(user);
 
   return (
     <div className="flex bg-white text-black h-screen w-full">

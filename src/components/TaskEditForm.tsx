@@ -34,13 +34,12 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
-import { getUser } from "@/actions/auth";
 import { useEffect, useState } from "react";
 import { updateTask } from "@/actions/tasks";
 import { useRouter } from "next/navigation";
 import { taskPriority } from "@/constants";
 import { getUsers } from "@/actions/users";
-import { NewTaskDataProps, TaskWithNamesProps, UserProps } from "@/types";
+import { TaskProps, TaskWithNamesProps, UserProps } from "@/types";
 // import DeleteDialog from "./DeleteDialog";
 
 type TaskEditFormProps = {
@@ -49,7 +48,7 @@ type TaskEditFormProps = {
   handleClose: () => void;
 };
 
-const TaskEditForm = ({ task, projectId, handleClose }: TaskEditFormProps) => {
+const TaskEditForm = ({ task, handleClose }: TaskEditFormProps) => {
   const router = useRouter();
   // const [openDelete, setOpenDelete] = useState(false);
   const [users, setUsers] = useState<UserProps[]>([]);
@@ -86,17 +85,18 @@ const TaskEditForm = ({ task, projectId, handleClose }: TaskEditFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof taskSchema>) {
-    const user = await getUser();
-    console.log("SUBMITTED");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { assigner, employee, ...rest } = task;
     try {
-      const completeData: NewTaskDataProps = {
+      const completeData: TaskProps = {
+        ...rest,
         ...values,
-        assigner_id: user.id,
-        project_id: projectId,
-        status: "assigned",
       };
 
-      updateTask({ ...task, ...completeData });
+      const { data, error, message } = await updateTask({ ...completeData });
+      console.log("DATA:", data);
+      console.log("ERROR:", error);
+      console.log("MESSAGE:", message);
       router.refresh();
       handleClose();
     } catch (error) {

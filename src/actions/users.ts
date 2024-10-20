@@ -34,7 +34,6 @@ export const addUser = async (
 }> => {
   try {
     const { data, error } = await supabase.from("users").insert({ ...values });
-    console.log("Error:", error);
     revalidatePath(`/`, "page");
     return {
       data,

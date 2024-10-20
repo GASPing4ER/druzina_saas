@@ -77,7 +77,6 @@ const TaskForm = ({ projectId, handleClose }: TaskFormProps) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof taskSchema>) {
     const user = await getUser();
-    console.log("SUBMITTED");
     try {
       const completeData: NewTaskDataProps = {
         ...values,

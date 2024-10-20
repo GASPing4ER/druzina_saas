@@ -27,7 +27,6 @@ export const signup = async (formData: NewUserDataProps) => {
   const { password, ...rest } = formData;
 
   if (data.user) {
-    console.log("Adding user...");
     await addUser({ ...rest, id: data.user.id });
   }
 
@@ -42,9 +41,7 @@ export const signup = async (formData: NewUserDataProps) => {
 export const login = async (formData: LoginUserProps) => {
   const supabaseAuth = createClient();
 
-  const { data, error } = await supabaseAuth.auth.signInWithPassword(formData);
-  console.log("Login response data:", data);
-  console.log("Login error:", error);
+  const { error } = await supabaseAuth.auth.signInWithPassword(formData);
 
   if (error) {
     return { error: error.message };

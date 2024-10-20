@@ -48,12 +48,9 @@ const NextPhaseForm = ({ phase, project }: NextPhaseFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseSchema>) {
-    console.log("SUBMITTED");
-    console.log(values, phase, project);
     const updatedData = updateData(project);
     if (updatedData) {
       try {
-        console.log("Updating...");
         updateProject(updatedData, project.id);
         addPhase(values, phase, project.id);
         router.push(`/${updatedData.current_phase}/${project.id}`);

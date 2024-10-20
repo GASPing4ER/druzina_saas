@@ -1,3 +1,5 @@
+"use server";
+
 import { supabase } from "@/lib/supabase";
 import {
   NewTaskDataProps,
@@ -99,22 +101,22 @@ export const updateTask = async (
   error: PostgrestError | null | unknown;
   message: string;
 }> => {
+  console.log("task:", values);
   try {
     const { data, error } = await supabase
       .from("tasks")
       .update({ ...values })
       .eq("id", values.id);
-    revalidatePath(`/urednistvo/${values.project_id}`, "page");
     return {
       data,
       error,
-      message: "Successful Creation of a Task",
+      message: "Successful Update of a Task",
     };
   } catch (error) {
     return {
       data: null,
       error,
-      message: "Database Error: Failed to Create Task",
+      message: "Database Error: Failed to Update Task",
     };
   }
 };
