@@ -29,6 +29,9 @@ import TaskEditModal from "./task/TaskEditModal";
 import TaskEditForm from "./task/TaskEditForm";
 import FileEditModal from "./file/FileEditModal";
 import FileEditForm from "./file/FileEditForm";
+import ProjectTimeline from "./project/ProjectTimeline";
+import PhaseDateModal from "./PhaseDateModal";
+import PhaseDateForm from "./PhaseDateForm";
 
 export {
   Sidebar,
@@ -62,4 +65,7 @@ export {
   TaskEditForm,
   FileEditModal,
   FileEditForm,
+  ProjectTimeline,
+  PhaseDateModal,
+  PhaseDateForm,
 };

@@ -1,7 +1,7 @@
 import { nav_details, phases } from "@/constants";
 import {
+  CompleteProjectPhaseProps,
   NewProjectDataProps,
-  ProjectProps,
   UpdatedProjectDataProps,
 } from "@/types";
 import { formSchema } from "@/types/schemas";
@@ -50,81 +50,72 @@ export const getCompleteData = (
       quantity: values.quantity as number,
       napredek: 0,
       status: "v pripravi",
-      current_phase: "osnutek",
       stanje: 0,
-      creatorId: user.id,
-      creator_name: `${user.user_metadata.first_name} ${user.user_metadata.last_name}`,
+      creator_id: user.id,
     };
   } else if (values.type !== "drugo") {
     return {
       ...values,
-      current_phase: "urednistvo",
       napredek: 1,
       status: "v teku",
       stanje: 0,
-      creatorId: user.id,
-      creator_name: `${user.user_metadata.first_name} ${user.user_metadata.last_name}`,
+      creator_id: user.id,
     };
   }
   return {
     ...values,
-    current_phase: "priprava-za-tisk",
     napredek: 3,
     status: "v teku",
     stanje: 40,
-    creatorId: user.id,
-    creator_name: `${user.user_metadata.first_name} ${user.user_metadata.last_name}`,
+    creator_id: user.id,
   };
 };
 
-export const updateData = (project: ProjectProps): UpdatedProjectDataProps => {
-  if (project.current_phase === "osnutek") {
+export const updateData = (
+  project: CompleteProjectPhaseProps
+): UpdatedProjectDataProps => {
+  if (project.name === "osnutek") {
     return {
       // ...project,
-      current_phase: "urednistvo",
       napredek: 1,
       status: "v teku",
       stanje: 0,
     };
-  } else if (project.current_phase === "urednistvo") {
+  } else if (project.name === "urednistvo") {
     return {
       // ...project,
-      current_phase: "priprava-za-tisk",
       napredek: 2,
       status: "v teku",
       stanje: 25,
     };
   }
-  // else if (project.current_phase === "oblikovanje") {
+  // else if (project.name === "oblikovanje") {
   //   return {
   //     // ...project,
-  //     current_phase: "priprava-za-tisk",
+  //     name: "priprava-in-oblikovanje",
   //     napredek: 3,
   //     status: "v teku",
   //     stanje: 40,
   //   };
   // }
-  else if (project.current_phase === "priprava-za-tisk") {
+  else if (project.name === "priprava-in-oblikovanje") {
     return {
       // ...project,
-      current_phase: "tisk",
       napredek: 3,
       status: "v teku",
       stanje: 50,
     };
-  } else if (project.current_phase === "tisk") {
+  } else if (project.name === "tisk") {
     return {
       // ...project,
-      current_phase: "dostava",
       napredek: 4,
       status: "v teku",
       stanje: 75,
     };
-  } else if (project.current_phase === "dostava") {
+  } else if (project.name === "dostava") {
     return {
       // ...project,
       napredek: 4,
-      current_phase: "arhiv",
       status: "zaključeno",
       stanje: 100,
     };
@@ -135,8 +126,8 @@ export const getNextPhase = (phase: string) => {
   if (phase === "osnutek") {
     return "urednistvo";
   } else if (phase === "urednistvo") {
-    return "priprava-za-tisk";
-  } else if (phase === "priprava-za-tisk") {
+    return "priprava-in-oblikovanje";
+  } else if (phase === "priprava-in-oblikovanje") {
     return "tisk";
   } else if (phase === "tisk") {
     return "dostava";

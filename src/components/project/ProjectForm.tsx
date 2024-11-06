@@ -36,7 +36,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { projectTypes } from "@/constants";
+import { phases, projectTypes } from "@/constants";
+import { addProjectPhase } from "@/actions/project-phases";
 
 type ProjectFormProps = {
   user: User;
@@ -59,8 +60,15 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const completeData = getCompleteData(values, user);
+    const { data } = await addProject(completeData);
+    console.log(data);
+    const phase = phases[completeData.napredek].slug;
+    await addProjectPhase({
+      project_id: data!.id,
+      name: phase,
+      status: completeData.status,
+    });
 
-    await addProject(completeData);
     router.replace("/");
     handleClose();
   }

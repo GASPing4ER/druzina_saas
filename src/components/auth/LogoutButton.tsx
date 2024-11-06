@@ -8,8 +8,8 @@ const LogoutButton = () => {
   };
 
   return (
-    <button className="text-sm text-left" onClick={handleLogout}>
-      Odjavi se
+    <button className="font-bold text-lg cursor-pointer" onClick={handleLogout}>
+      ...
     </button>
   );
 };

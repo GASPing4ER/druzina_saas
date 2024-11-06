@@ -2,7 +2,12 @@ import { getUser } from "@/actions/auth";
 import { getFiles } from "@/actions/files";
 import { getProject } from "@/actions/projects";
 import { getTasksWithNames } from "@/actions/tasks";
-import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
+import {
+  NextPhaseModal,
+  PhaseDateModal,
+  ProjectDetails,
+  UtilityBox,
+} from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { redirect } from "next/navigation";
 
@@ -14,7 +19,7 @@ const ProjectDetailsPage = async ({
   const projectId = params.projectId;
   const [projectResponse, tasksResponse, filesResponse, user] =
     await Promise.all([
-      getProject(projectId),
+      getProject(projectId, "urednistvo"),
       getTasksWithNames(projectId),
       getFiles(projectId),
       getUser(),
@@ -30,6 +35,11 @@ const ProjectDetailsPage = async ({
   const tasks = tasksResponse.data;
   const files = filesResponse.data;
   const role = user.user_metadata.role;
+
+  const isOpen =
+    (project && project.start_date === null && project.end_date === null) ||
+    false;
+
   const tasksCompleted =
     tasks &&
     (tasks.length === 0 || tasks.every((task) => task.status === "completed"));
@@ -77,8 +87,9 @@ const ProjectDetailsPage = async ({
           </div> */}
 
         {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
+        <PhaseDateModal isOpen={isOpen} project={project} />
         {tasksCompleted && role === "superadmin" && (
-          <NextPhaseModal phase="priprava-za-tisk" project={project} />
+          <NextPhaseModal phase="priprava-in-oblikovanje" project={project} />
         )}
       </main>
     );

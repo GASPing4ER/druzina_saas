@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { DashboardProjects, DashboardProjectsFilter } from "@/components";
-import { ProjectsProps } from "@/types";
+import { CompleteProjectPhaseProps } from "@/types";
 
 type DashboardProjectsDisplayProps = {
-  projects: ProjectsProps;
+  projects: CompleteProjectPhaseProps[];
 };
 
 const DashboardProjectsDisplay = ({
@@ -14,8 +14,8 @@ const DashboardProjectsDisplay = ({
   const [phase, setPhase] = useState("");
   const filteredProjects =
     phase !== ""
-      ? [...projects].filter((project) => project.current_phase === phase)
-      : projects.filter((project) => project.current_phase !== "osnutek");
+      ? [...projects].filter((project) => project.name === phase)
+      : projects.filter((project) => project.name !== "osnutek");
 
   const onHandlePhase = (chosenPhase: string) => {
     setPhase(chosenPhase);

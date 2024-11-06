@@ -2,9 +2,9 @@
 
 import { supabase } from "@/lib/supabase";
 import {
+  CompleteProjectPhaseProps,
   NewProjectDataProps,
   ProjectProps,
-  ProjectsProps,
   UpdatedProjectDataProps,
 } from "@/types";
 import { PostgrestError, User } from "@supabase/supabase-js";
@@ -13,7 +13,7 @@ import { revalidatePath } from "next/cache";
 export const getProjects = async (
   user: User
 ): Promise<{
-  data: ProjectsProps | null;
+  data: CompleteProjectPhaseProps[] | null;
   error: PostgrestError | null;
   message: string;
 }> => {
@@ -23,8 +23,18 @@ export const getProjects = async (
       user.user_metadata.role === "admin"
     ) {
       const { data, error } = await supabase
-        .from("projects")
-        .select()
+        .from("project_phases")
+        .select(
+          `
+        *,
+        project_data (
+          *,
+          creator:users (
+          *
+        )
+        )
+      `
+        )
         .neq("status", "zaključeno")
         .order("end_date");
 
@@ -35,10 +45,20 @@ export const getProjects = async (
       };
     } else {
       const { data, error } = await supabase
-        .from("projects")
-        .select()
+        .from("project_phases")
+        .select(
+          `
+        *,
+        project_data (
+          *,
+          creator:users (
+          *
+        )
+        )
+      `
+        )
+        .eq("name", user.user_metadata.department)
         .neq("status", "zaključeno")
-        .eq("current_phase", user.user_metadata.department)
         .order("end_date");
 
       return {
@@ -59,15 +79,26 @@ export const getProjects = async (
 export const getPhaseProjects = async (
   phase: string
 ): Promise<{
-  data: ProjectsProps | null;
+  data: CompleteProjectPhaseProps[] | null;
   error: PostgrestError | null;
   message: string;
 }> => {
   try {
     const { data, error } = await supabase
-      .from("projects")
-      .select()
-      .eq("current_phase", phase)
+      .from("project_phases")
+      .select(
+        `
+    *,
+    project_data (
+      *,
+      creator:users (
+      *
+    )
+    )
+  `
+      )
+      .eq("name", phase)
+      .neq("status", "zaključeno")
       .order("end_date");
 
     return {
@@ -85,21 +116,37 @@ export const getPhaseProjects = async (
 };
 
 export const getProject = async (
-  projectId: string
+  projectId: string,
+  phase?: string
 ): Promise<{
-  data: ProjectProps | null;
+  data: CompleteProjectPhaseProps | null;
   error: PostgrestError | null | unknown;
   message: string;
 }> => {
   try {
-    const { data, error } = await supabase
-      .from("projects")
-      .select()
-      .eq("id", projectId)
-      .maybeSingle();
+    let query = supabase
+      .from("project_phases")
+      .select(
+        `
+      *,
+      project_data (
+        *,
+        creator:users (
+        *
+      )
+      )
+    `
+      )
+      .eq("project_id", projectId)
+      .neq("status", "zaključeno")
+      .order("end_date");
+    if (phase) {
+      query = query.eq("name", phase);
+    }
+    const { data, error } = await query.maybeSingle();
 
     return {
-      data: data || null,
+      data: data,
       error,
       message: "Successful Fetch of a Project",
     };
@@ -108,6 +155,37 @@ export const getProject = async (
       data: null,
       error,
       message: "Database Error: Failed to Fetch Project",
+    };
+  }
+};
+
+export const getProjectData = async (
+  projectId: string
+): Promise<{
+  data: ProjectProps | null;
+  error: PostgrestError | null | unknown;
+  message: string;
+}> => {
+  try {
+    const query = supabase
+      .from("project_data")
+      .select()
+      .eq("id", projectId)
+      .neq("status", "zaključeno")
+      .order("end_date");
+
+    const { data, error } = await query.maybeSingle();
+
+    return {
+      data: data,
+      error,
+      message: "Successful Fetch of a Project Data",
+    };
+  } catch (error) {
+    return {
+      data: null,
+      error,
+      message: "Database Error: Failed to Fetch Project Data",
     };
   }
 };
@@ -121,12 +199,14 @@ export const addProject = async (
 }> => {
   try {
     const { data, error } = await supabase
-      .from("projects")
-      .insert({ ...completeData });
+      .from("project_data")
+      .insert({ ...completeData })
+      .select()
+      .maybeSingle();
     revalidatePath("/", "page");
 
     return {
-      data,
+      data: data as ProjectProps,
       error,
       message: "Successfully Created a new Project",
     };
@@ -149,7 +229,7 @@ export const updateProject = async (
 }> => {
   try {
     const { data, error } = await supabase
-      .from("projects")
+      .from("project_data")
       .update({ ...updatedData })
       .eq("id", projectId);
     revalidatePath("/", "page");

@@ -16,6 +16,7 @@ import { ProjectForm } from "@/components";
 import { User } from "@supabase/supabase-js";
 import { getProject } from "@/actions/projects";
 import { getPathname } from "@/utils";
+import Image from "next/image";
 
 type TopBarProps = {
   user: User;
@@ -31,7 +32,7 @@ const TopBar = ({ user }: TopBarProps) => {
   useEffect(() => {
     const getProjectData = async () => {
       const { data } = await getProject(paths[2]);
-      const projectName = data?.name || "";
+      const projectName = data?.project_data.name || "";
       setProjectName(projectName);
     };
     getProjectData();
@@ -42,8 +43,14 @@ const TopBar = ({ user }: TopBarProps) => {
       <div className="flex gap-2 items-center">
         <Link
           href={navDetails?.url as string}
-          className="text-xl font-semibold"
+          className="text-xl font-semibold flex gap-4 items-center"
         >
+          <Image
+            src={navDetails?.imgUrl || ""}
+            alt={navDetails?.title || ""}
+            width={25}
+            height={25}
+          />
           {navDetails?.title || "Url nonexistant"}
         </Link>
         {projectName !== "" && (

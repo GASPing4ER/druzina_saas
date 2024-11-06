@@ -11,11 +11,11 @@ import {
 import { NextPhaseForm } from "@/components";
 import { useState } from "react";
 import { getPhaseName } from "@/utils";
-import { ProjectProps } from "@/types";
+import { CompleteProjectPhaseProps } from "@/types";
 
 type NextPhaseModalProps = {
   phase: string;
-  project: ProjectProps;
+  project: CompleteProjectPhaseProps;
 };
 
 const NextPhaseModal = ({ phase, project }: NextPhaseModalProps) => {

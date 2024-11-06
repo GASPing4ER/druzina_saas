@@ -6,20 +6,22 @@ import { User } from "@supabase/supabase-js";
 type SidebarProps = {
   user: User;
 };
-
 const Sidebar = async ({ user }: SidebarProps) => {
   const role = user.user_metadata.role;
   const department = user.user_metadata.department;
   return (
     <div className="w-[300px] h-full fixed z-10 bg-white top-0 left-0 border-r border-black flex flex-col justify-between">
-      <div className="p-10 flex flex-col gap-8">
-        <Image
-          src="/images/logo.png"
-          alt="logo"
-          width={60}
-          height={60}
-          className="object-contain"
-        />
+      <div className="px-4 py-10 flex flex-col gap-4">
+        <div className="flex flex-col gap-4">
+          <Image
+            src="/images/logo.png"
+            alt="logo"
+            width={60}
+            height={60}
+            className="object-contain self-center"
+          />
+          <hr />
+        </div>
         <SidebarNav
           title="Pregled"
           navigation={sidebar_navigation.pregled}
@@ -32,13 +34,6 @@ const Sidebar = async ({ user }: SidebarProps) => {
           department={department}
           role={role}
         />
-        <SidebarNav
-          title="Časovni okvir"
-          navigation={sidebar_navigation.casovni_okvir}
-          department={department}
-          role={role}
-        />
-        <LogoutButton />
       </div>
       <div className="border-t border-black p-6 flex justify-between items-center">
         <div className="flex items-center gap-4">
@@ -53,7 +48,7 @@ const Sidebar = async ({ user }: SidebarProps) => {
             {user?.user_metadata.first_name} {user?.user_metadata.last_name}
           </p>
         </div>
-        <p className="font-bold text-lg cursor-pointer">...</p>
+        <LogoutButton />
       </div>
     </div>
   );

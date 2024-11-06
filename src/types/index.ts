@@ -2,22 +2,22 @@
 export type TPhases =
   | "osnutek"
   | "urednistvo"
-  | "priprava-za-tisk"
+  | "priprava-in-oblikovanje"
   | "tisk"
-  | "dostava"
+  | "prevzem"
   | "arhiv";
 
 export type TType = "družina" | "revija" | "knjiga" | "drugo";
 
-export type TStatus = "v pripravi" | "v teku" | "zaključeno";
+export type TStatus = "v čakanju" | "v pripravi" | "v teku" | "zaključeno";
 
 export type TNapredek = 0 | 1 | 2 | 3 | 4;
 
 export type TDepartment =
   | "urednistvo"
-  | "priprava-za-tisk"
+  | "priprava-in-oblikovanje"
   | "tisk"
-  | "dostava";
+  | "prevzem";
 
 export type TRole = "member" | "admin" | "superadmin";
 
@@ -31,10 +31,8 @@ export type ProjectProps = {
   id: string;
   name: string;
   author: string;
-  current_phase: TPhases;
   type: TType;
-  creatorId: string;
-  creator_name: string;
+  creator_id: string;
   start_date: Date;
   end_date: Date;
   status: TStatus;
@@ -48,7 +46,6 @@ export type NewProjectDataProps = Omit<ProjectProps, "id" | "created_at">;
 
 export type UpdatedProjectDataProps =
   | {
-      current_phase: TPhases;
       napredek: TNapredek;
       status: TStatus;
       stanje: number;
@@ -56,6 +53,29 @@ export type UpdatedProjectDataProps =
   | undefined;
 
 export type ProjectsProps = ProjectProps[];
+
+export type ProjectPhaseProps = {
+  id: string;
+  project_id: string;
+  name: string;
+  status: TStatus;
+  start_date?: Date;
+  end_date?: Date;
+  created_at: Date;
+};
+
+export type NewProjectPhaseDataProps = Omit<
+  ProjectPhaseProps,
+  "id" | "created_at"
+>;
+
+export type ProjectWithCreatorProps = ProjectProps & {
+  creator: UserProps;
+};
+
+export type CompleteProjectPhaseProps = ProjectPhaseProps & {
+  project_data: ProjectWithCreatorProps;
+};
 
 // FILE TYPES
 
@@ -144,7 +164,7 @@ export type NewPhaseProps = {
 
 export type SidebarNavigationItemProps = {
   title: string;
-  imgUrl: string;
+  imgUrl?: string;
   url: string;
-  children?: string[];
+  children?: SidebarNavigationItemProps[];
 };

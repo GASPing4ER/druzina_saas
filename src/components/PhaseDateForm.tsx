@@ -25,18 +25,14 @@ import { phaseSchema } from "@/types/schemas";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { updateData } from "@/utils";
-
-import { updateProject } from "@/actions/projects";
-import { addProjectPhase, closeProjectPhase } from "@/actions/project-phases";
+import { updateProjectPhase } from "@/actions/project-phases";
 import { CompleteProjectPhaseProps } from "@/types";
 
-type NextPhaseFormProps = {
-  phase: string;
+type PhaseDateFormProps = {
   project: CompleteProjectPhaseProps;
 };
 
-const NextPhaseForm = ({ phase, project }: NextPhaseFormProps) => {
+const PhaseDateForm = ({ project }: PhaseDateFormProps) => {
   const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof phaseSchema>>({
@@ -48,26 +44,16 @@ const NextPhaseForm = ({ phase, project }: NextPhaseFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseSchema>) {
-    const updatedData = updateData(project);
-    if (updatedData) {
-      try {
-        await updateProject(updatedData, project.project_data.id);
-        await closeProjectPhase(project.id);
-        const { data, error } = await addProjectPhase({
-          ...values,
-          name: phase,
-          project_id: project.project_data.id,
-          status: "v teku",
-        });
+    try {
+      const { data, error } = await updateProjectPhase(project.id, values);
 
-        if (data) {
-          router.push(`/${phase}/${data!.project_id}`);
-        } else {
-          throw new Error(error?.message);
-        }
-      } catch (error) {
-        console.log(error);
+      if (data) {
+        router.refresh();
+      } else {
+        throw new Error(error?.message);
       }
+    } catch (error) {
+      console.log(error);
     }
   }
   return (
@@ -180,4 +166,4 @@ const NextPhaseForm = ({ phase, project }: NextPhaseFormProps) => {
   );
 };
 
-export default NextPhaseForm;
+export default PhaseDateForm;

@@ -4,9 +4,9 @@ const TTypeSchema = z.enum(["družina", "revija", "knjiga", "drugo"]);
 const TPrioritySchema = z.enum(["nizka", "normalna", "visoka"]);
 const TDepartment = z.enum([
   "urednistvo",
-  "priprava-za-tisk",
+  "priprava-in-oblikovanje",
   "tisk",
-  "dostava",
+  "prevzem",
 ]);
 const TRoleSchema = z.enum(["member", "admin", "superadmin"]);
 

@@ -9,7 +9,7 @@ const geistSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Družina SAAS",
+  title: "Družina Business Management",
   description: "Orodje za sledenje projektom",
 };
 

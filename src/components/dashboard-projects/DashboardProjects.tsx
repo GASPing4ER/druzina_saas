@@ -2,10 +2,10 @@ import Link from "next/link";
 import { ProgressBar } from "@/components";
 import Image from "next/image";
 import { formatDate, getPhaseName } from "@/utils";
-import { ProjectsProps } from "@/types";
+import { CompleteProjectPhaseProps } from "@/types";
 
 type DashboardProjectsProps = {
-  projects: ProjectsProps;
+  projects: CompleteProjectPhaseProps[];
 };
 
 const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
@@ -13,26 +13,26 @@ const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
     <ul className="flex flex-col gap-3 w-full">
       {projects.map((project) => {
         return (
-          <li key={project.id}>
+          <li key={project.project_data.id}>
             <Link
-              href={`/${project.current_phase}/${project.id}`}
+              href={`/${project.name}/${project.project_data.id}`}
               className="flex justify-between items-center bg-slate-100 py-4 px-8 w-full rounded-xl"
             >
               <div className="flex gap-4">
-                <h2 className="font-semibold">{project.name}</h2>
-                <h3>{getPhaseName(project.current_phase)}</h3>
+                <h2 className="font-semibold">{project.project_data.name}</h2>
+                <h3>{getPhaseName(project.name)}</h3>
               </div>
               <div className="flex items-center gap-4">
                 <div className="w-[100px]">
-                  <ProgressBar stanje={project.stanje} />
+                  <ProgressBar stanje={project.project_data.stanje} />
                 </div>
-                {project.stanje}%
+                {project.project_data.stanje}%
                 {/* <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">
                   TODO: Dynamic tasks tracking
                   1/3
                 </div> */}
                 <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">
-                  {formatDate(project.end_date)}
+                  {formatDate(project.project_data.end_date)}
                 </div>
                 <Image
                   src="/icons/user.svg"

@@ -6,10 +6,10 @@ import {
 } from "@/constants";
 import { formatDate } from "@/utils";
 import Link from "next/link";
-import { ProjectsProps } from "@/types";
+import { CompleteProjectPhaseProps } from "@/types";
 
 type ProjectsCarouselProps = {
-  projects: ProjectsProps;
+  projects: CompleteProjectPhaseProps[];
 };
 
 const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
@@ -19,8 +19,8 @@ const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
         const colorIndex = index % 3;
         return (
           <Link
-            key={project.id}
-            href={`/${project.current_phase}/${project.id}`}
+            key={project.project_data.id}
+            href={`/${project.name}/${project.project_data.id}`}
           >
             <div key={project.id} className="inline-block">
               <div
@@ -29,17 +29,19 @@ const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
                   backgroundColor: `${carouselProjectBgColors[colorIndex]}`,
                 }}
               >
-                <h2 className="text-white font-bold">{project.name}</h2>
+                <h2 className="text-white font-bold">
+                  {project.project_data.name}
+                </h2>
                 <div className="flex flex-col gap-2">
                   <div className="flex justify-between items-center text-white">
                     <p>Napredek</p>
-                    <p>{project.stanje} %</p>
+                    <p>{project.project_data.stanje} %</p>
                   </div>
-                  <ProgressBar stanje={project.stanje} />
+                  <ProgressBar stanje={project.project_data.stanje} />
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-sm text-white font-semibold bg-slate-300 py-1 px-4 rounded-xl">
-                    {formatDate(project.end_date)}
+                    {formatDate(project.project_data.end_date)}
                   </p>
                   <div className="flex">
                     {carouselProjectUserColors.map((color: string) => (

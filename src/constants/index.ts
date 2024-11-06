@@ -10,14 +10,13 @@ import {
 type SidebarNavigationProps = {
   pregled: SidebarNavigationItemProps[];
   procesi: SidebarNavigationItemProps[];
-  casovni_okvir: SidebarNavigationItemProps[];
 };
 
 export const sidebar_navigation: SidebarNavigationProps = {
   pregled: [
     {
       title: "Nadzorna plošča",
-      imgUrl: "/icons/nadzorna_plosca.svg",
+      imgUrl: "/icons/nadzorna-plosca.svg",
       url: "/",
     },
     {
@@ -25,50 +24,70 @@ export const sidebar_navigation: SidebarNavigationProps = {
       imgUrl: "/icons/projekti.svg",
       url: "/projekti",
     },
+    {
+      title: "Statistika",
+      imgUrl: "/icons/statistika.svg",
+      url: "/statistika",
+    },
   ],
   procesi: [
-    // {
-    //   title: "Osnutek",
-    //   imgUrl: "/icons/osnutek.svg",
-    //   url: "/osnutek",
-    // },
     {
       title: "Uredništvo",
       imgUrl: "/icons/urednistvo.svg",
       url: "/urednistvo",
+      children: [
+        {
+          title: "Družina",
+          imgUrl: "/icons/druzina.svg",
+          url: "/urednistvo?type=druzina",
+        },
+        {
+          title: "Revije",
+          imgUrl: "/icons/revija.svg",
+          url: "/urednistvo?type=revija",
+        },
+        {
+          title: "Knjige",
+          imgUrl: "/icons/knjiga.svg",
+          url: "/urednistvo?type=knjiga",
+        },
+      ],
     },
-    // {
-    //   title: "Oblikovanje",
-    //   imgUrl: "/icons/oblikovanje.svg",
-    //   url: "/oblikovanje",
-    // },
     {
-      title: "Priprava za tisk",
-      imgUrl: "/icons/priprava_za_tisk.svg",
-      url: "/priprava-za-tisk",
+      title: "Tehnika (grafika in tisk)",
+      imgUrl: "/icons/tehnika.svg",
+      url: "/tehnika",
+      children: [
+        {
+          title: "Priprava in oblikovanje",
+          imgUrl: "/icons/priprava-in-oblikovanje.svg",
+          url: "/priprava-in-oblikovanje",
+        },
+        {
+          title: "Tisk",
+          imgUrl: "/icons/tisk.svg",
+          url: "/tisk",
+          children: [
+            {
+              title: "Notranji",
+              url: "/tisk?type=notranji",
+            },
+            {
+              title: "Dtisk",
+              url: "/tisk?type=dtisk",
+            },
+            {
+              title: "Zunanji",
+              url: "/tisk?type=zunanji",
+            },
+          ],
+        },
+      ],
     },
     {
-      title: "Tisk",
-      imgUrl: "/icons/tisk.svg",
-      url: "/tisk",
-    },
-    {
-      title: "Dostava",
-      imgUrl: "/icons/dostava.svg",
-      url: "/dostava",
-    },
-    // {
-    //   title: "Arhiv",
-    //   imgUrl: "/icons/arhiv.svg",
-    //   url: "/arhiv",
-    // },
-  ],
-  casovni_okvir: [
-    {
-      title: "Koledar",
-      imgUrl: "/icons/koledar.svg",
-      url: "/koledar",
-      children: ["dan", "teden", "mesec", "leto"],
+      title: "Prevzem",
+      imgUrl: "/icons/prevzem.svg",
+      url: "/prevzem",
     },
   ],
 };
@@ -78,7 +97,7 @@ type NavDetailsProps = SidebarNavigationItemProps[];
 export const nav_details: NavDetailsProps = [
   {
     title: "Nadzorna plošča",
-    imgUrl: "/icons/nadzorna_plosca.svg",
+    imgUrl: "/icons/nadzorna-plosca.svg",
     url: "/",
   },
   {
@@ -92,19 +111,19 @@ export const nav_details: NavDetailsProps = [
     url: "/projekti",
   },
   {
+    title: "Statistika",
+    imgUrl: "/icons/statistika.svg",
+    url: "/statistika",
+  },
+  {
     title: "Uredništvo",
     imgUrl: "/icons/urednistvo.svg",
     url: "/urednistvo",
   },
-  // {
-  //   title: "Oblikovanje",
-  //   imgUrl: "/icons/oblikovanje.svg",
-  //   url: "/oblikovanje",
-  // },
   {
-    title: "Priprava za tisk",
-    imgUrl: "/icons/priprava_za_tisk.svg",
-    url: "/priprava-za-tisk",
+    title: "Priprava in oblikovanje",
+    imgUrl: "/icons/priprava-in-oblikovanje.svg",
+    url: "/priprava-in-oblikovanje",
   },
   {
     title: "Tisk",
@@ -112,9 +131,9 @@ export const nav_details: NavDetailsProps = [
     url: "/tisk",
   },
   {
-    title: "Dostava",
-    imgUrl: "/icons/dostava.svg",
-    url: "/dostava",
+    title: "Prevzem",
+    imgUrl: "/icons/prevzem.svg",
+    url: "/prevzem",
   },
   {
     title: "Arhiv",
@@ -123,14 +142,8 @@ export const nav_details: NavDetailsProps = [
   },
   {
     title: "Dostop zavrnjen",
-    imgUrl: "/icons/dostava.svg",
+    imgUrl: "/icons/prevzem.svg",
     url: "/unauthorized",
-  },
-  {
-    title: "Koledar",
-    imgUrl: "/icons/koledar.svg",
-    url: "/koledar",
-    children: ["dan", "teden", "mesec", "leto"],
   },
 ];
 
@@ -153,21 +166,17 @@ export const phases: PhasesProps = [
     title: "Uredništvo",
     slug: "urednistvo",
   },
-  // {
-  //   title: "Oblikovanje",
-  //   slug: "oblikovanje",
-  // },
   {
-    title: "Priprava za tisk",
-    slug: "priprava-za-tisk",
+    title: "Priprava in oblikovanje",
+    slug: "priprava-in-oblikovanje",
   },
   {
     title: "Tisk",
     slug: "tisk",
   },
   {
-    title: "Dostava",
-    slug: "dostava",
+    title: "Prevzem",
+    slug: "prevzem",
   },
   {
     title: "Arhiv",
@@ -183,7 +192,30 @@ export const roleTypes: TRole[] = ["member", "admin", "superadmin"];
 
 export const departmentTypes: TDepartment[] = [
   "urednistvo",
-  "priprava-za-tisk",
+  "priprava-in-oblikovanje",
   "tisk",
-  "dostava",
+  "prevzem",
+];
+
+export const project_phases: NavDetailsProps = [
+  {
+    title: "Uredništvo",
+    imgUrl: "/icons/urednistvo.svg",
+    url: "urednistvo",
+  },
+  {
+    title: "Priprava in oblikovanje",
+    imgUrl: "/icons/priprava-in-oblikovanje.svg",
+    url: "priprava-in-oblikovanje",
+  },
+  {
+    title: "Tisk",
+    imgUrl: "/icons/tisk.svg",
+    url: "tisk",
+  },
+  {
+    title: "Prevzem",
+    imgUrl: "/icons/prevzem.svg",
+    url: "prevzem",
+  },
 ];

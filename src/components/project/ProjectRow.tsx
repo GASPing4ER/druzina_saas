@@ -5,10 +5,10 @@ import { TableCell, TableRow } from "../ui/table";
 import { formatDate, getPhaseName, isPast } from "@/utils";
 import { ProgressBar } from "@/components";
 import { useRouter } from "next/navigation";
-import { ProjectProps } from "@/types";
+import { CompleteProjectPhaseProps } from "@/types";
 
 type ProjectRowProps = {
-  project: ProjectProps;
+  project: CompleteProjectPhaseProps;
   pathname: string;
 };
 
@@ -16,14 +16,19 @@ const ProjectRow = ({ project, pathname }: ProjectRowProps) => {
   const router = useRouter();
   return (
     <TableRow onClick={() => router.push(pathname)} className="cursor-pointer">
-      <TableCell>{getPhaseName(project.current_phase)}</TableCell>
-      <TableCell>{project.name}</TableCell>
-      <TableCell className="capitalize">{project.type}</TableCell>
-      <TableCell>{formatDate(project.start_date)}</TableCell>
-      <TableCell className={`${isPast(project.end_date) && "text-red-500"}`}>
-        {formatDate(project.end_date)}
+      <TableCell>{getPhaseName(project.name)}</TableCell>
+      <TableCell>{project.project_data.name}</TableCell>
+      <TableCell className="capitalize">{project.project_data.type}</TableCell>
+      <TableCell>{formatDate(project.project_data.start_date)}</TableCell>
+      <TableCell
+        className={`${isPast(project.project_data.end_date) && "text-red-500"}`}
+      >
+        {formatDate(project.project_data.end_date)}
       </TableCell>
-      <TableCell>{project.creator_name}</TableCell>
+      <TableCell>
+        {project.project_data.creator.first_name}{" "}
+        {project.project_data.creator.last_name}
+      </TableCell>
       <TableCell
         className={`${
           project.status === "v teku"
@@ -35,10 +40,12 @@ const ProjectRow = ({ project, pathname }: ProjectRowProps) => {
       >
         {project.status}
       </TableCell>
-      <TableCell className="text-center">{project.napredek}/5</TableCell>
+      <TableCell className="text-center">
+        {project.project_data.napredek}/4
+      </TableCell>
       <TableCell>
-        <ProgressBar stanje={project.stanje} />
-        {project.stanje}%
+        <ProgressBar stanje={project.project_data.stanje} />
+        {project.project_data.stanje}%
       </TableCell>
     </TableRow>
   );
