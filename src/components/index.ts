@@ -32,6 +32,7 @@ import FileEditForm from "./file/FileEditForm";
 import ProjectTimeline from "./project/ProjectTimeline";
 import PhaseDateModal from "./PhaseDateModal";
 import PhaseDateForm from "./PhaseDateForm";
+import PhaseSpecifications from "./PhaseSpecifications";
 
 export {
   Sidebar,
@@ -68,4 +69,5 @@ export {
   ProjectTimeline,
   PhaseDateModal,
   PhaseDateForm,
+  PhaseSpecifications,
 };

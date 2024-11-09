@@ -1,6 +1,10 @@
 import { getProjectPhases } from "@/actions/project-phases";
 import { getProject } from "@/actions/projects";
-import { ProjectDetails, ProjectTimeline } from "@/components";
+import {
+  PhaseSpecifications,
+  ProjectDetails,
+  ProjectTimeline,
+} from "@/components";
 
 const ProjectDetailsPage = async ({
   params,
@@ -22,12 +26,15 @@ const ProjectDetailsPage = async ({
     return (
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white text-slate-900">
         <ProjectDetails project={project} />
-        {projectPhases && (
-          <ProjectTimeline
-            project_end_date={project.project_data.end_date}
-            phases={projectPhases}
-          />
-        )}
+        <div className="flex gap-10 w-full">
+          {projectPhases && (
+            <ProjectTimeline
+              project_end_date={project.project_data.end_date}
+              phases={projectPhases}
+            />
+          )}
+          <PhaseSpecifications />
+        </div>
       </main>
     );
   }

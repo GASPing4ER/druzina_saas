@@ -21,7 +21,7 @@ const ProjectTimeline = ({
         return (
           <div key={project_phase.url} className="flex gap-8 items-start">
             <p className="w-[100px] mt-3 text-center">
-              {project_phase.url === "prevzem"
+              {project_phase.url === "prevzem" && !phaseData?.end_date
                 ? formatDate(project_end_date)
                 : phaseData?.end_date
                 ? formatDate(phaseData.end_date)
