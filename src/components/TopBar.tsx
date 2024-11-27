@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ProjectForm } from "@/components";
+import { BookForm, ProjectForm, TypeChoice } from "@/components";
 import { User } from "@supabase/supabase-js";
 import { getProject } from "@/actions/projects";
 import { getPathname } from "@/utils";
@@ -25,6 +25,7 @@ type TopBarProps = {
 const TopBar = ({ user }: TopBarProps) => {
   const [projectName, setProjectName] = useState("");
   const [open, setOpen] = useState(false);
+  const [type, setType] = useState("");
   const path = usePathname();
   const paths = path.split("/");
   const navDetails = getPathname(paths[1]);
@@ -74,10 +75,18 @@ const TopBar = ({ user }: TopBarProps) => {
               <DialogHeader>
                 <DialogTitle>Dodaj nov projekt</DialogTitle>
                 <DialogDescription>
-                  Dobrodošli v obrazcu za dodajanje novega projekta.
+                  {type === ""
+                    ? "Pozdravljeni! Izberite vrsto projekta za nadaljne ustvarjanje"
+                    : "Dobrodošli v obrazcu za dodajanje novega projekta."}
                 </DialogDescription>
               </DialogHeader>
-              <ProjectForm user={user} handleClose={() => setOpen(false)} />
+              {type === "" ? (
+                <TypeChoice setType={setType} />
+              ) : type === "knjiga" ? (
+                <BookForm user={user} handleClose={() => setOpen(false)} />
+              ) : (
+                <ProjectForm user={user} handleClose={() => setOpen(false)} />
+              )}
             </DialogContent>
           </Dialog>
         </div>

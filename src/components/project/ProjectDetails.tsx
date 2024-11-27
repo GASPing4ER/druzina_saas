@@ -9,12 +9,21 @@ type ProjectDetailsProps = {
 
 const ProjectDetails = ({ project }: ProjectDetailsProps) => {
   return (
-    <div className="flex flex-col gap-2 w-full rounded-xl shadow-2xl p-8 border-b-8 border-orange-300">
-      <div>
+    <div className="flex items-end gap-20 w-full rounded-xl shadow-2xl p-8 border-b-4 border-orange-300">
+      <div className="flex-1">
+        <p className="capitalize font-semibold">{project.project_data.type}</p>
         <h1 className="text-4xl">{project.project_data.name}</h1>
         <h2 className="text-xl">{project.project_data.author}</h2>
+        <div>
+          <p>Stanje</p>
+          <div className="flex gap-2 items-center w-[300px]">
+            <ProgressBar stanje={project.project_data.stanje} />
+            <p>{project.project_data.stanje}%</p>
+          </div>
+          <hr className="w-full border-1 border-slate-500" />
+        </div>
       </div>
-      <div className="flex gap-20">
+      <div className="flex-1 flex gap-20">
         <div className="flex-1 flex flex-col gap-4">
           <div>
             <p>Začetek</p>
@@ -30,17 +39,12 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
             </p>
             <hr className="w-full border-1 border-slate-500" />
           </div>
-          <div>
-            <p>Vrsta</p>
-            <p className="capitalize font-semibold">
-              {project.project_data.type}
-            </p>
-            <hr className="w-full border-1 border-slate-500" />
-          </div>
         </div>
+      </div>
+      <div className="flex-1">
         <div className="flex-1 flex flex-col gap-4">
           <div>
-            <p>Vodja projekta</p>
+            <p>Naročnik</p>
             <div className="flex gap-4 items-end">
               <Image
                 src="/icons/user.svg"
@@ -57,7 +61,7 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
             <hr className="w-full border-1 border-slate-500" />
           </div>
           <div>
-            <p>Nadzornik faze</p>
+            <p>Projekt obdeluje:</p>
             {/* TODO: make it dynamic */}
             <div className="flex gap-4 items-end">
               <Image
@@ -68,14 +72,6 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
                 className=" bg-blue-400 rounded-full p-[2px]"
               />
               <p className="font-semibold">Andrej Špes</p>
-            </div>
-            <hr className="w-full border-1 border-slate-500" />
-          </div>
-          <div>
-            <p>Stanje</p>
-            <div className="flex gap-2 items-center w-[300px]">
-              <ProgressBar stanje={project.project_data.stanje} />
-              <p>{project.project_data.stanje}%</p>
             </div>
             <hr className="w-full border-1 border-slate-500" />
           </div>

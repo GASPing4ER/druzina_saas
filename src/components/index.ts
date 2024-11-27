@@ -33,6 +33,8 @@ import ProjectTimeline from "./project/ProjectTimeline";
 import PhaseDateModal from "./PhaseDateModal";
 import PhaseDateForm from "./PhaseDateForm";
 import PhaseSpecifications from "./PhaseSpecifications";
+import TypeChoice from "./TypeChoice";
+import BookForm from "./BookForm";
 
 export {
   Sidebar,
@@ -70,4 +72,6 @@ export {
   PhaseDateModal,
   PhaseDateForm,
   PhaseSpecifications,
+  TypeChoice,
+  BookForm,
 };
