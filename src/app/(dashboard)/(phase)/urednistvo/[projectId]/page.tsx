@@ -9,6 +9,8 @@ import {
   UtilityBox,
 } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { formatDate } from "@/utils";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const ProjectDetailsPage = async ({
@@ -49,12 +51,38 @@ const ProjectDetailsPage = async ({
     return (
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white text-slate-900">
         <ProjectDetails project={project} />
-        <Tabs defaultValue="naloge" className="w-full">
-          <TabsList>
-            <TabsTrigger value="naloge">Naloge</TabsTrigger>
-            <TabsTrigger value="datoteke">Datoteke</TabsTrigger>
-            <TabsTrigger value="tehnični-podatki">Tehnični podatki</TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="naloge" className="w-full flex-1">
+          <div className="flex justify-between">
+            <TabsList className="py-8 rounded-[30px]">
+              <TabsTrigger className="py-4 px-8 rounded-[30px]" value="naloge">
+                Naloge
+              </TabsTrigger>
+              <TabsTrigger
+                className="py-4 px-8 rounded-[30px]"
+                value="datoteke"
+              >
+                Datoteke
+              </TabsTrigger>
+              <TabsTrigger
+                className="py-4 px-8 rounded-[30px]"
+                value="tehnični-podatki"
+              >
+                Tehnični podatki
+              </TabsTrigger>
+            </TabsList>
+            <div className="flex flex-col gap-2">
+              <p>
+                Začetek faze:{" "}
+                {project.start_date
+                  ? formatDate(project.start_date)
+                  : formatDate(project.project_data.start_date)}
+              </p>
+              <p>
+                Konec faze:{" "}
+                {project.end_date ? formatDate(project.end_date) : ""}
+              </p>
+            </div>
+          </div>
           <TabsContent value="naloge">
             <UtilityBox
               type="naloge"
@@ -89,6 +117,12 @@ const ProjectDetailsPage = async ({
             </div>
           </TabsContent>
         </Tabs>
+        <Link
+          className="border border-black py-2 px-4 rounded-full"
+          href={`/projekti/${project.project_data.id}`}
+        >
+          Pregled projekta
+        </Link>
         {/* <div className="flex-1 flex flex-col gap-2">
             <div className="flex flex-col gap-2 border shadow-2xl rounded-xl p-4">
               <h2 className="text-black text-2xl">Še 6 dni</h2>

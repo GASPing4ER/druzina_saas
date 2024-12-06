@@ -44,7 +44,7 @@ const PhaseTable = async ({ projects, phase }: PhaseTableProps) => {
             ? `${project.name}`
             : "projekti";
           if (project.id) {
-            pathname = `/${path}/${project.id}`;
+            pathname = `/${path}/${project.project_data.id}`;
           } else {
             pathname = `/${path}`;
           }

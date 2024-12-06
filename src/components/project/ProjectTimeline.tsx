@@ -2,6 +2,7 @@ import { ProjectPhaseProps } from "@/types";
 import { project_phases } from "@/constants";
 import { formatDate } from "@/utils";
 import Image from "next/image";
+import Link from "next/link";
 
 type ProjectTimelineProps = {
   phases: ProjectPhaseProps[];
@@ -51,7 +52,9 @@ const ProjectTimeline = ({
                 ✔️
               </div>
               <div className="flex flex-col gap-2">
-                <h3 className="text-lg font-bold">{project_phase.title}</h3>
+                <Link href={`/${phaseData?.name}/${phaseData?.project_id}`}>
+                  <h3 className="text-lg font-bold">{project_phase.title}</h3>
+                </Link>
                 {phaseData?.status === "zaključeno"
                   ? "končano, potrjeno"
                   : phaseData?.status === "v teku"
