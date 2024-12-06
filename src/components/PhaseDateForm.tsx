@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -25,7 +25,7 @@ import { phaseSchema } from "@/types/schemas";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { updateProjectPhase } from "@/actions/project-phases";
+// import { updateProjectPhase } from "@/actions/project-phases";
 import { CompleteProjectPhaseProps } from "@/types";
 
 type PhaseDateFormProps = {
@@ -33,7 +33,7 @@ type PhaseDateFormProps = {
 };
 
 const PhaseDateForm = ({ project }: PhaseDateFormProps) => {
-  const router = useRouter();
+  // const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof phaseSchema>>({
     resolver: zodResolver(phaseSchema),
@@ -45,13 +45,14 @@ const PhaseDateForm = ({ project }: PhaseDateFormProps) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseSchema>) {
     try {
-      const { data, error } = await updateProjectPhase(project.id, values);
+      // const { data, error } = await updateProjectPhase(project.id, values);
 
-      if (data) {
-        router.refresh();
-      } else {
-        throw new Error(error?.message);
-      }
+      // if (data) {
+      //   router.refresh();
+      // } else {
+      //   throw new Error(error?.message);
+      // }
+      console.log(values, project);
     } catch (error) {
       console.log(error);
     }
