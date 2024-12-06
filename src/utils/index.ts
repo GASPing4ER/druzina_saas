@@ -2,9 +2,10 @@ import { nav_details, phases } from "@/constants";
 import {
   CompleteProjectPhaseProps,
   NewProjectDataProps,
+  ProjectPhaseProps,
   UpdatedProjectDataProps,
 } from "@/types";
-import { formSchema } from "@/types/schemas";
+import { bookFormSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
 import { z } from "zod";
 
@@ -41,13 +42,12 @@ export const getPhaseName = (inputPhase: string) => {
 };
 
 export const getCompleteData = (
-  values: z.infer<typeof formSchema>,
+  values: z.infer<typeof bookFormSchema>,
   user: User
 ): NewProjectDataProps => {
   if (new Date(values.start_date) > new Date()) {
     return {
       ...values,
-      quantity: values.quantity as number,
       napredek: 0,
       status: "v pripravi",
       stanje: 0,
@@ -133,5 +133,22 @@ export const getNextPhase = (phase: string) => {
     return "dostava";
   } else if (phase === "dostava") {
     return "arhiv";
+  }
+};
+
+export const getProjectPhase = (
+  project_phases: ProjectPhaseProps[] | null,
+  phase: string
+) => {
+  if (project_phases === null) {
+    return null;
+  }
+  const phase_found = project_phases.find(
+    (project_phase) => project_phase.name === phase
+  );
+  if (phase_found === undefined) {
+    return null;
+  } else {
+    return phase_found;
   }
 };

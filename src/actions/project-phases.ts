@@ -1,11 +1,13 @@
 "use server";
 
 import { supabase } from "@/lib/supabase";
-import { NewProjectPhaseDataProps, ProjectPhaseProps } from "@/types";
-import { phaseSchema } from "@/types/schemas";
+import {
+  AddUrednistvoPhaseDataProps,
+  NewProjectPhaseDataProps,
+  ProjectPhaseProps,
+} from "@/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
 
 export const addProjectPhase = async (
   values: NewProjectPhaseDataProps
@@ -65,9 +67,9 @@ export const closeProjectPhase = async (
   }
 };
 
-export const updateProjectPhase = async (
+export const updateUrednistvoPhase = async (
   projectId: string,
-  values: z.infer<typeof phaseSchema>
+  values: AddUrednistvoPhaseDataProps
 ): Promise<{
   error: PostgrestError | null;
   data: ProjectPhaseProps | null;
@@ -78,6 +80,35 @@ export const updateProjectPhase = async (
       .from("project_phases")
       .update({ ...values })
       .eq("id", projectId)
+      .maybeSingle();
+
+    revalidatePath("/", "page");
+    return {
+      error,
+      data,
+      message: "Successfully added a new project phase",
+    };
+  } catch (error: unknown) {
+    return {
+      error: error as PostgrestError,
+      data: null,
+      message: "Database Error: Failed to Add Project Phase",
+    };
+  }
+};
+
+export const addUrednistvoPhase = async (
+  values: AddUrednistvoPhaseDataProps
+): Promise<{
+  error: PostgrestError | null;
+  data: ProjectPhaseProps | null;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("project_phases")
+      .insert({ ...values })
+      .select()
       .maybeSingle();
 
     revalidatePath("/", "page");

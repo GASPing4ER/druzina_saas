@@ -3,8 +3,8 @@ import { getFiles } from "@/actions/files";
 import { getProject } from "@/actions/projects";
 import { getTasksWithNames } from "@/actions/tasks";
 import {
-  NextPhaseModal,
-  PhaseDateModal,
+  // NextPhaseModal,
+  // PhaseDateModal,
   ProjectDetails,
   UtilityBox,
 } from "@/components";
@@ -36,13 +36,13 @@ const ProjectDetailsPage = async ({
   const files = filesResponse.data;
   const role = user.user_metadata.role;
 
-  const isOpen =
-    (project && project.start_date === null && project.end_date === null) ||
-    false;
+  // const isOpen =
+  //   (project && project.start_date === null && project.end_date === null) ||
+  //   false;
 
-  const tasksCompleted =
-    tasks &&
-    (tasks.length === 0 || tasks.every((task) => task.status === "completed"));
+  // const tasksCompleted =
+  //   tasks &&
+  //   (tasks.length === 0 || tasks.every((task) => task.status === "completed"));
   if (!project) {
     return <div>Projekta nismo našli</div>;
   } else {
@@ -87,10 +87,10 @@ const ProjectDetailsPage = async ({
           </div> */}
 
         {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
-        <PhaseDateModal isOpen={isOpen} project={project} />
-        {tasksCompleted && role === "superadmin" && (
+        {/* <PhaseDateModal isOpen={isOpen} project={project} /> */}
+        {/* {tasksCompleted && role === "superadmin" && (
           <NextPhaseModal phase="priprava-in-oblikovanje" project={project} />
-        )}
+        )} */}
       </main>
     );
   }

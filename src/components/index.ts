@@ -35,6 +35,8 @@ import PhaseDateForm from "./PhaseDateForm";
 import PhaseSpecifications from "./PhaseSpecifications";
 import TypeChoice from "./TypeChoice";
 import BookForm from "./BookForm";
+import TechicalSpecificationsForm from "./TechnicalSpecificationsForm";
+import UrednistvoForm from "./UrednistvoForm";
 
 export {
   Sidebar,
@@ -74,4 +76,6 @@ export {
   PhaseSpecifications,
   TypeChoice,
   BookForm,
+  TechicalSpecificationsForm,
+  UrednistvoForm,
 };

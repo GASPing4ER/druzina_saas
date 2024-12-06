@@ -1,0 +1,180 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { technicalSpecificationsFormSchema } from "@/types/schemas";
+import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
+import { updateTechnicalSpecificationsProject } from "@/actions/projects";
+import { Textarea } from "./ui/textarea";
+import { CompleteProjectPhaseProps } from "@/types";
+
+type TechincalSpecificationsFormProps = {
+  user: User;
+  project: CompleteProjectPhaseProps;
+};
+
+const TechicalSpecificationsForm = ({
+  project,
+}: TechincalSpecificationsFormProps) => {
+  console.log("project data:", project.project_data.format);
+  // 1. Define your form.
+  const router = useRouter();
+  const form = useForm<z.infer<typeof technicalSpecificationsFormSchema>>({
+    resolver: zodResolver(technicalSpecificationsFormSchema),
+    defaultValues: {
+      ...project.project_data,
+    },
+  });
+
+  console.log("Form watch:", form.watch("format"));
+
+  // 2. Define a submit handler.
+  async function onSubmit(
+    values: z.infer<typeof technicalSpecificationsFormSchema>
+  ) {
+    const { data } = await updateTechnicalSpecificationsProject(
+      values,
+      project.project_data.id
+    );
+    console.log(data);
+    router.refresh();
+  }
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <div className="flex gap-2 items-baseline">
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="format"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Format</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="160 x 220 mm" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="obseg"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Obseg</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Knjižni blok: 224 str., vezni list: 6 str., ovitek 2 str."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <div className="flex gap-2 items-baseline">
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="material"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Material</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Holmen book" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="tisk"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tisk</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Digitalni tisk" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <div className="flex gap-2 items-baseline">
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="vezava"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Vezava</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Bruširano" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="pakiranje"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Pakiranje</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Škatle po 20" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <div className="flex gap-2 items-baseline">
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="naklada"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Naklada</FormLabel>
+                  <FormControl>
+                    <Input placeholder="1000" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <Button type="submit">Shrani</Button>
+      </form>
+    </Form>
+  );
+};
+
+export default TechicalSpecificationsForm;

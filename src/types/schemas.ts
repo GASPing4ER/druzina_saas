@@ -25,6 +25,49 @@ export const formSchema = z.object({
   end_date: z.date(),
 });
 
+export const urednistvoFormSchema = z.object({
+  end_date: z.date(),
+});
+
+export const bookFormSchema = z.object({
+  name: z.string().min(2, {
+    message: "Naslov mora imeti vsaj 2 karakterja.",
+  }),
+  author: z.string().min(2, {
+    message: "Vrsta projekta mora imeti vsaj 2 karakterja.",
+  }),
+  type: TTypeSchema.refine((val) => TTypeSchema.options.includes(val), {
+    message: "Izberite pravilno vrsto.",
+  }),
+  published_date: z.date(),
+  start_date: z.date(),
+  end_date: z.date(),
+});
+
+export const technicalSpecificationsFormSchema = z.object({
+  format: z.string().min(2, {
+    message: "Format mora imeti vsaj 2 karakterja.",
+  }),
+  obseg: z.string().min(2, {
+    message: "Obseg mora imeti vsaj 2 karakterja.",
+  }),
+  material: z.string().min(2, {
+    message: "Material mora imeti vsaj 2 karakterja.",
+  }),
+  tisk: z.string().min(2, {
+    message: "Tisk mora imeti vsaj 2 karakterja.",
+  }),
+  vezava: z.string().min(2, {
+    message: "Vezava mora imeti vsaj 2 karakterja.",
+  }),
+  pakiranje: z.string().min(2, {
+    message: "Pakiranje mora imeti vsaj 2 karakterja.",
+  }),
+  naklada: z.string().min(2, {
+    message: "Naklada mora imeti vsaj 2 karakterja.",
+  }),
+});
+
 export const phaseSchema = z.object({
   start_date: z.date(),
   end_date: z.date(),

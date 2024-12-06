@@ -30,18 +30,34 @@ export type TTaskPriority = "nizka" | "normalna" | "visoka";
 export type ProjectProps = {
   id: string;
   name: string;
-  author: string;
+  author?: string;
   type: TType;
   creator_id: string;
   start_date: Date;
   end_date: Date;
+  published_date: Date;
   status: TStatus;
   napredek: TNapredek;
-  quantity: number;
   stanje: number;
   created_at: Date;
+  format?: string;
+  obseg?: string;
+  vezava?: string;
+  pakiranje?: string;
+  material?: string;
+  naklada?: string;
+  tisk?: string;
 };
 
+export type TechnicalSpecificationsProps = {
+  format: string;
+  obseg: string;
+  vezava: string;
+  pakiranje: string;
+  material: string;
+  naklada: string;
+  tisk: string;
+};
 export type NewProjectDataProps = Omit<ProjectProps, "id" | "created_at">;
 
 export type UpdatedProjectDataProps =
@@ -167,4 +183,14 @@ export type SidebarNavigationItemProps = {
   imgUrl?: string;
   url: string;
   children?: SidebarNavigationItemProps[];
+};
+
+// ACTIONS INPUT TYPES
+
+export type AddUrednistvoPhaseDataProps = {
+  project_id?: string;
+  start_date?: Date;
+  end_date?: Date;
+  status?: TStatus;
+  name?: string;
 };

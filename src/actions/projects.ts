@@ -5,6 +5,8 @@ import {
   CompleteProjectPhaseProps,
   NewProjectDataProps,
   ProjectProps,
+  ProjectWithCreatorProps,
+  TechnicalSpecificationsProps,
   UpdatedProjectDataProps,
 } from "@/types";
 import { PostgrestError, User } from "@supabase/supabase-js";
@@ -13,7 +15,7 @@ import { revalidatePath } from "next/cache";
 export const getProjects = async (
   user: User
 ): Promise<{
-  data: CompleteProjectPhaseProps[] | null;
+  data: ProjectWithCreatorProps[] | null;
   error: PostgrestError | null;
   message: string;
 }> => {
@@ -23,17 +25,12 @@ export const getProjects = async (
       user.user_metadata.role === "admin"
     ) {
       const { data, error } = await supabase
-        .from("project_phases")
+        .from("project_data")
         .select(
           `
-        *,
-        project_data (
           *,
-          creator:users (
-          *
-        )
-        )
-      `
+          creator:users (*)
+        `
         )
         .neq("status", "zaključeno")
         .order("end_date");
@@ -45,16 +42,11 @@ export const getProjects = async (
       };
     } else {
       const { data, error } = await supabase
-        .from("project_phases")
+        .from("project_data")
         .select(
           `
         *,
-        project_data (
-          *,
-          creator:users (
-          *
-        )
-        )
+        creator:users (*)
       `
         )
         .eq("name", user.user_metadata.department)
@@ -159,6 +151,45 @@ export const getProject = async (
   }
 };
 
+export const getCompleteProject = async (
+  projectId: string
+): Promise<{
+  data: CompleteProjectPhaseProps | null;
+  error: PostgrestError | null | unknown;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("project_phases")
+      .select(
+        `
+      *,
+      project_data (
+        *,
+        creator:users (
+        *
+      )
+      )
+    `
+      )
+      .eq("project_id", projectId)
+      .neq("status", "zaključeno")
+      .order("end_date");
+
+    return {
+      data: data ? data[0] : null,
+      error,
+      message: "Successful Fetch of a Project",
+    };
+  } catch (error) {
+    return {
+      data: null,
+      error,
+      message: "Database Error: Failed to Fetch Project",
+    };
+  }
+};
+
 export const getProjectData = async (
   projectId: string
 ): Promise<{
@@ -221,6 +252,35 @@ export const addProject = async (
 
 export const updateProject = async (
   updatedData: UpdatedProjectDataProps,
+  projectId: string
+): Promise<{
+  data: ProjectProps | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("project_data")
+      .update({ ...updatedData })
+      .eq("id", projectId);
+    revalidatePath("/", "page");
+
+    return {
+      data,
+      error,
+      message: "Successfully Updated a new Project",
+    };
+  } catch (error: unknown) {
+    return {
+      data: null,
+      error: error as PostgrestError,
+      message: "Database Error: Failed to Update Project",
+    };
+  }
+};
+
+export const updateTechnicalSpecificationsProject = async (
+  updatedData: TechnicalSpecificationsProps,
   projectId: string
 ): Promise<{
   data: ProjectProps | null;

@@ -8,10 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CompleteProjectPhaseProps } from "@/types";
+import { ProjectWithCreatorProps } from "@/types";
 
 type ProjectsTableProps = {
-  projects: CompleteProjectPhaseProps[];
+  projects: ProjectWithCreatorProps[];
   phase?: string;
 };
 
@@ -44,7 +44,7 @@ const ProjectsTable = async ({ projects, phase }: ProjectsTableProps) => {
             ? `${project.name}`
             : "projekti";
           if (project.id) {
-            pathname = `/${path}/${project.project_data.id}`;
+            pathname = `/${path}/${project.id}`;
           } else {
             pathname = `/${path}`;
           }
