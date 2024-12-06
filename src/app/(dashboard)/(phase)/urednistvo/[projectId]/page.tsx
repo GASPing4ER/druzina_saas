@@ -53,7 +53,7 @@ const ProjectDetailsPage = async ({
           <TabsList>
             <TabsTrigger value="naloge">Naloge</TabsTrigger>
             <TabsTrigger value="datoteke">Datoteke</TabsTrigger>
-            <TabsTrigger value="aktivnosti">Aktivnosti</TabsTrigger>
+            <TabsTrigger value="tehnični-podatki">Tehnični podatki</TabsTrigger>
           </TabsList>
           <TabsContent value="naloge">
             <UtilityBox
@@ -71,7 +71,23 @@ const ProjectDetailsPage = async ({
               role={role}
             />
           </TabsContent>
-          <TabsContent value="aktivnosti">Tukaj bodo aktivnosti.</TabsContent>
+          <TabsContent value="tehnični-podatki">
+            <div
+              className={`border bg-white w-full shadow-2xl p-8 rounded-xl flex gap-8`}
+            >
+              <div className="flex flex-col gap-4">
+                <p>FORMAT: {project.project_data.format}</p>
+                <p>OBSEG: {project.project_data.obseg}</p>
+                <p>MATERIAL: {project.project_data.material}</p>
+                <p>TISK: {project.project_data.tisk}</p>
+              </div>
+              <div className="flex flex-col gap-4">
+                <p>VEZAVA: {project.project_data.vezava}</p>
+                <p>PAKIRANJE: {project.project_data.pakiranje}</p>
+                <p>NAKLADA: {project.project_data.naklada}</p>
+              </div>
+            </div>
+          </TabsContent>
         </Tabs>
         {/* <div className="flex-1 flex flex-col gap-2">
             <div className="flex flex-col gap-2 border shadow-2xl rounded-xl p-4">

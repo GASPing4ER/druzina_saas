@@ -26,16 +26,26 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
       <div className="flex-1 flex gap-20">
         <div className="flex-1 flex flex-col gap-4">
           <div>
-            <p>Začetek</p>
-            <p className="font-semibold">
-              {formatDate(project.project_data.start_date)}
-            </p>
+            <div className="flex justify-between">
+              <div>
+                <p>Začetek</p>
+                <p className="font-semibold">
+                  {formatDate(project.project_data.start_date)}
+                </p>
+              </div>
+              <div>
+                <p>Konec</p>
+                <p className="font-semibold">
+                  {formatDate(project.project_data.end_date)}
+                </p>
+              </div>
+            </div>
             <hr className="w-full border-1 border-slate-500" />
           </div>
           <div>
-            <p>Konec</p>
+            <p>Datum izdaje</p>
             <p className="font-semibold">
-              {formatDate(project.project_data.end_date)}
+              {formatDate(project.project_data.published_date)}
             </p>
             <hr className="w-full border-1 border-slate-500" />
           </div>
