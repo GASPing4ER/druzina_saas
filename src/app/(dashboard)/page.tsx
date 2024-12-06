@@ -1,10 +1,10 @@
 import { getUser } from "@/actions/auth";
-import { getProjects } from "@/actions/projects";
+import { getAllProjects } from "@/actions/projects";
 import { DashboardProjectsDisplay, ProjectsCarousel } from "@/components";
 
 export default async function Home() {
   const user = await getUser();
-  const { data: projects } = await getProjects(user!);
+  const { data: projects } = await getAllProjects(user!);
 
   return (
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start pl-12 py-6 bg-white w-[1000px]">

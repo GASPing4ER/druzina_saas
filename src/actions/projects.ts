@@ -68,6 +68,72 @@ export const getProjects = async (
   }
 };
 
+export const getAllProjects = async (
+  user: User
+): Promise<{
+  data: CompleteProjectPhaseProps[] | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    if (
+      user.user_metadata.role === "superadmin" ||
+      user.user_metadata.role === "admin"
+    ) {
+      const { data, error } = await supabase
+        .from("project_phases")
+        .select(
+          `
+    *,
+    project_data (
+      *,
+      creator:users (
+      *
+    )
+    )
+  `
+        )
+        .neq("status", "zaključeno")
+        .order("end_date");
+
+      return {
+        data,
+        error,
+        message: `Successfully Fetched Projects for ${user.user_metadata.role}`,
+      };
+    } else {
+      const { data, error } = await supabase
+        .from("project_phases")
+        .select(
+          `
+    *,
+    project_data (
+      *,
+      creator:users (
+      *
+    )
+    )
+  `
+        )
+        .eq("name", user.user_metadata.department)
+        .neq("status", "zaključeno")
+        .order("end_date");
+
+      return {
+        data,
+        error,
+        message: "Successfully Fetched Projects for member",
+      };
+    }
+  } catch (error: unknown) {
+    return {
+      data: null,
+      error: error as PostgrestError,
+      message: "Database Error: Projects Fetching unsuccessful.",
+    };
+  }
+};
+
 export const getPhaseProjects = async (
   phase: string
 ): Promise<{
