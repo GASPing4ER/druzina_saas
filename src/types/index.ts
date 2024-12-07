@@ -47,6 +47,8 @@ export type ProjectProps = {
   material?: string;
   naklada?: string;
   tisk?: string;
+  main_check?: boolean;
+  technical_check?: boolean;
 };
 
 export type TechnicalSpecificationsProps = {
@@ -57,6 +59,8 @@ export type TechnicalSpecificationsProps = {
   material: string;
   naklada: string;
   tisk: string;
+  main_check: boolean;
+  technical_check: boolean;
 };
 export type NewProjectDataProps = Omit<ProjectProps, "id" | "created_at">;
 
