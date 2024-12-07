@@ -66,6 +66,8 @@ export const technicalSpecificationsFormSchema = z.object({
   naklada: z.string().min(2, {
     message: "Naklada mora imeti vsaj 2 karakterja.",
   }),
+  main_check: z.boolean(),
+  technical_check: z.boolean(),
 });
 
 export const phaseSchema = z.object({
