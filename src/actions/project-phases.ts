@@ -2,9 +2,9 @@
 
 import { supabase } from "@/lib/supabase";
 import {
-  AddUrednistvoPhaseDataProps,
   NewProjectPhaseDataProps,
   ProjectPhaseProps,
+  UpdateProjectPhaseDataProps,
 } from "@/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
@@ -67,9 +67,9 @@ export const closeProjectPhase = async (
   }
 };
 
-export const updateUrednistvoPhase = async (
+export const updatePhase = async (
   projectId: string,
-  values: AddUrednistvoPhaseDataProps
+  values: UpdateProjectPhaseDataProps
 ): Promise<{
   error: PostgrestError | null;
   data: ProjectPhaseProps | null;
@@ -97,8 +97,8 @@ export const updateUrednistvoPhase = async (
   }
 };
 
-export const addUrednistvoPhase = async (
-  values: AddUrednistvoPhaseDataProps
+export const addPhase = async (
+  values: NewProjectPhaseDataProps
 ): Promise<{
   error: PostgrestError | null;
   data: ProjectPhaseProps | null;

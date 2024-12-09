@@ -44,7 +44,7 @@ const UserForm = () => {
 
       await signup(completeData);
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
   return (

@@ -93,14 +93,11 @@ const TaskEditForm = ({ task, handleClose }: TaskEditFormProps) => {
         ...values,
       };
 
-      const { data, error, message } = await updateTask({ ...completeData });
-      console.log("DATA:", data);
-      console.log("ERROR:", error);
-      console.log("MESSAGE:", message);
+      await updateTask({ ...completeData });
       router.refresh();
       handleClose();
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
   return (

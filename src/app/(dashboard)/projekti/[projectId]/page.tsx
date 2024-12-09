@@ -18,11 +18,9 @@ const ProjectDetailsPage = async ({
     getProjectPhases(projectId),
   ]);
 
-  const { data: project, error } = projectDataResult;
-  console.log(error);
+  const { data: project } = projectDataResult;
   const { data: projectPhases } = projectPhasesResult;
   const user = await getUser();
-  console.log("project phases:", projectPhases);
   if (!project) {
     return <div>ProjectDetailsPage</div>;
   } else {

@@ -93,7 +93,7 @@ export const getAllProjects = async (
     )
   `
         )
-        .neq("status", "zaključeno")
+        .eq("status", "v teku")
         .order("end_date");
 
       return {

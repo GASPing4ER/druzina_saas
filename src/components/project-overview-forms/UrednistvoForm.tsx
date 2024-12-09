@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { urednistvoFormSchema } from "@/types/schemas";
+import { phaseFormSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { CompleteProjectPhaseProps, ProjectPhaseProps } from "@/types";
@@ -25,12 +25,9 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "./ui/calendar";
+import { Calendar } from "../ui/calendar";
 import { formatDate } from "@/utils";
-import {
-  addUrednistvoPhase,
-  updateUrednistvoPhase,
-} from "@/actions/project-phases";
+import { addPhase, updatePhase } from "@/actions/project-phases";
 type UrednistvoFormProps = {
   user: User;
   project: CompleteProjectPhaseProps;
@@ -40,27 +37,28 @@ type UrednistvoFormProps = {
 const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
   // 1. Define your form.
   const router = useRouter();
-  const form = useForm<z.infer<typeof urednistvoFormSchema>>({
-    resolver: zodResolver(urednistvoFormSchema),
+  const form = useForm<z.infer<typeof phaseFormSchema>>({
+    resolver: zodResolver(phaseFormSchema),
     defaultValues: {
-      end_date: project_phase?.end_date,
+      end_date:
+        (project_phase &&
+          project_phase.end_date &&
+          new Date(project_phase?.end_date)) ||
+        undefined,
     },
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof urednistvoFormSchema>) {
+  async function onSubmit(values: z.infer<typeof phaseFormSchema>) {
     if (project_phase === null) {
-      console.log("Adding a new phase...");
-      const { data, error } = await addUrednistvoPhase({
+      await addPhase({
         ...values,
         status: "v čakanju",
         project_id: project.project_data.id,
         name: "urednistvo",
       });
-
-      console.log("data:", data, "error:", error);
     } else {
-      await updateUrednistvoPhase(project_phase?.id, {
+      await updatePhase(project_phase?.id, {
         ...values,
       });
     }

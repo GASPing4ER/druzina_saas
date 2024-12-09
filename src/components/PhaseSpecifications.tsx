@@ -4,11 +4,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import TechicalSpecificationsForm from "./TechnicalSpecificationsForm";
 import { User } from "@supabase/supabase-js";
 import { CompleteProjectPhaseProps, ProjectPhaseProps } from "@/types";
-import UrednistvoForm from "./UrednistvoForm";
 import { getProjectPhase } from "@/utils";
+import {
+  DistribucijaForm,
+  PripravOblikovanjeForm,
+  TechicalSpecificationsForm,
+  UrednistvoForm,
+} from "@/components";
 
 type PhaseSpecificationsProps = {
   user: User;
@@ -48,14 +52,21 @@ const PhaseSpecifications = ({
           </AccordionContent>
         </AccordionItem>
         <AccordionItem
-          className="bg-gray-100 rounded-full"
+          className="bg-gray-100 rounded-b-md"
           value="priprava-in-oblikovanje"
         >
           <AccordionTrigger className="bg-gray-300 rounded-full px-4">
             PRIPRAVA IN OBLIKOVANJE
           </AccordionTrigger>
-          <AccordionContent className="px-4">
-            Yes. It adheres to the WAI-ARIA design pattern.
+          <AccordionContent className="px-4 py-4">
+            <PripravOblikovanjeForm
+              user={user}
+              project={project}
+              project_phase={getProjectPhase(
+                project_phases,
+                "priprava-in-oblikovanje"
+              )}
+            />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem className="bg-gray-100 rounded-full" value="tisk">
@@ -67,14 +78,18 @@ const PhaseSpecifications = ({
           </AccordionContent>
         </AccordionItem>
         <AccordionItem
-          className="bg-gray-100 rounded-full"
+          className="bg-gray-100 rounded-b-md"
           value="distribucija"
         >
           <AccordionTrigger className="bg-gray-300 rounded-full px-4">
             DISTRIBUCIJA
           </AccordionTrigger>
-          <AccordionContent className="px-4">
-            Yes. It adheres to the WAI-ARIA design pattern.
+          <AccordionContent className="px-4 py-4">
+            <DistribucijaForm
+              user={user}
+              project={project}
+              project_phase={getProjectPhase(project_phases, "distribucija")}
+            />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

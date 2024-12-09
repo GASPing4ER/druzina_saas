@@ -35,8 +35,10 @@ import PhaseDateForm from "./PhaseDateForm";
 import PhaseSpecifications from "./PhaseSpecifications";
 import TypeChoice from "./TypeChoice";
 import BookForm from "./BookForm";
-import TechicalSpecificationsForm from "./TechnicalSpecificationsForm";
-import UrednistvoForm from "./UrednistvoForm";
+import TechicalSpecificationsForm from "./project-overview-forms/TechnicalSpecificationsForm";
+import UrednistvoForm from "./project-overview-forms/UrednistvoForm";
+import PripravOblikovanjeForm from "./project-overview-forms/PripravaOblikovanjeForm";
+import DistribucijaForm from "./project-overview-forms/DistribucijaForm";
 import PhaseTable from "./phase/PhaseTable";
 import PhaseRow from "./phase/PhaseRow";
 
@@ -80,6 +82,8 @@ export {
   BookForm,
   TechicalSpecificationsForm,
   UrednistvoForm,
+  PripravOblikovanjeForm,
+  DistribucijaForm,
   PhaseTable,
   PhaseRow,
 };

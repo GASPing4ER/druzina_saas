@@ -18,9 +18,9 @@ import { technicalSpecificationsFormSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { updateTechnicalSpecificationsProject } from "@/actions/projects";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "@/components//ui/textarea";
 import { CompleteProjectPhaseProps } from "@/types";
-import { Checkbox } from "./ui/checkbox";
+import { Checkbox } from "@/components//ui/checkbox";
 
 type TechincalSpecificationsFormProps = {
   user: User;
@@ -30,7 +30,6 @@ type TechincalSpecificationsFormProps = {
 const TechicalSpecificationsForm = ({
   project,
 }: TechincalSpecificationsFormProps) => {
-  console.log("project data:", project.project_data.format);
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof technicalSpecificationsFormSchema>>({
@@ -40,18 +39,11 @@ const TechicalSpecificationsForm = ({
     },
   });
 
-  console.log("Form watch:", form.watch("format"));
-  console.log("Form watch:", form.watch("main_check"));
-
   // 2. Define a submit handler.
   async function onSubmit(
     values: z.infer<typeof technicalSpecificationsFormSchema>
   ) {
-    const { data } = await updateTechnicalSpecificationsProject(
-      values,
-      project.project_data.id
-    );
-    console.log(data);
+    await updateTechnicalSpecificationsProject(values, project.project_data.id);
     router.refresh();
   }
   return (

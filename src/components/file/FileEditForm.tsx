@@ -51,7 +51,7 @@ const FileEditForm = ({ file, handleClose }: FileEditFormProps) => {
       router.refresh();
       handleClose();
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
   return (

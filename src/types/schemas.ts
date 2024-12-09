@@ -6,7 +6,7 @@ const TDepartment = z.enum([
   "urednistvo",
   "priprava-in-oblikovanje",
   "tisk",
-  "prevzem",
+  "distribucija",
 ]);
 const TRoleSchema = z.enum(["member", "admin", "superadmin"]);
 
@@ -25,8 +25,17 @@ export const formSchema = z.object({
   end_date: z.date(),
 });
 
-export const urednistvoFormSchema = z.object({
-  end_date: z.date(),
+export const phaseFormSchema = z.object({
+  start_date: z.date().optional(),
+  end_date: z.date().optional(),
+  oblikovanje: z.string().optional(),
+  sken: z.string().optional(),
+  postavitev: z.string().optional(),
+  predogled: z.boolean().optional(),
+  potrditev_postavitve: z.boolean().optional(),
+  ponudba_id: z.string().optional(),
+  navodila: z.string().optional(),
+  prevzem: z.boolean().optional(),
 });
 
 export const bookFormSchema = z.object({

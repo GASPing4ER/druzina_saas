@@ -4,7 +4,7 @@ export type TPhases =
   | "urednistvo"
   | "priprava-in-oblikovanje"
   | "tisk"
-  | "prevzem"
+  | "distribucija"
   | "arhiv";
 
 export type TType = "družina" | "revija" | "knjiga" | "drugo";
@@ -17,7 +17,7 @@ export type TDepartment =
   | "urednistvo"
   | "priprava-in-oblikovanje"
   | "tisk"
-  | "prevzem";
+  | "distribucija";
 
 export type TRole = "member" | "admin" | "superadmin";
 
@@ -59,8 +59,8 @@ export type TechnicalSpecificationsProps = {
   material: string;
   naklada: string;
   tisk: string;
-  main_check: boolean;
-  technical_check: boolean;
+  main_check?: boolean;
+  technical_check?: boolean;
 };
 export type NewProjectDataProps = Omit<ProjectProps, "id" | "created_at">;
 
@@ -77,15 +77,46 @@ export type ProjectsProps = ProjectProps[];
 export type ProjectPhaseProps = {
   id: string;
   project_id: string;
+  ponudba_id?: string;
   name: string;
   status: TStatus;
   start_date?: Date;
   end_date?: Date;
+  oblikovanje?: string;
+  sken?: string;
+  postavitev?: string;
+  predogled?: boolean;
+  potrditev_postavitve?: boolean;
+  navodila?: string;
+  prevzem?: boolean;
+  created_at: Date;
+};
+
+export type UpdateProjectPhaseProps = {
+  id: string;
+  project_id?: string;
+  ponudba_id?: string;
+  name?: string;
+  status?: TStatus;
+  start_date?: Date;
+  end_date?: Date;
+  oblikovanje?: string;
+  sken?: string;
+  postavitev?: string;
+  predogled?: boolean;
+  potrditev_postavitve?: boolean;
+  navodila?: string;
+  prevzem?: boolean;
   created_at: Date;
 };
 
 export type NewProjectPhaseDataProps = Omit<
   ProjectPhaseProps,
+  "id" | "created_at"
+>;
+
+export type UpdateProjectPhaseDataProps = Omit<
+  UpdateProjectPhaseProps,
   "id" | "created_at"
 >;
 

@@ -54,7 +54,7 @@ const PhaseDateForm = ({ project }: PhaseDateFormProps) => {
       // }
       console.log(values, project);
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
   return (

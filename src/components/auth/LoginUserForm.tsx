@@ -36,7 +36,7 @@ const LoginUserForm = () => {
 
       await login(completeData);
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
   return (

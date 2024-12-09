@@ -4,9 +4,7 @@ import { ProjectsTable } from "@/components";
 
 const ProjektiPage = async () => {
   const user = await getUser();
-  const { data: projects, error } = await getProjects(user);
-  console.log(error);
-  console.log(projects);
+  const { data: projects } = await getProjects(user);
   return (
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white">
       {projects && <ProjectsTable projects={projects} />}

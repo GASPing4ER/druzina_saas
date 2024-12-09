@@ -89,7 +89,7 @@ const TaskForm = ({ projectId, handleClose }: TaskFormProps) => {
       router.refresh();
       handleClose();
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
   return (

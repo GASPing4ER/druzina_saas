@@ -66,7 +66,7 @@ const NextPhaseForm = ({ phase, project }: NextPhaseFormProps) => {
           throw new Error(error?.message);
         }
       } catch (error) {
-        console.log(error);
+        return error;
       }
     }
   }

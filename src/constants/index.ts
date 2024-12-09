@@ -85,9 +85,9 @@ export const sidebar_navigation: SidebarNavigationProps = {
       ],
     },
     {
-      title: "Prevzem",
-      imgUrl: "/icons/prevzem.svg",
-      url: "/prevzem",
+      title: "Distribucija",
+      imgUrl: "/icons/distribucija.svg",
+      url: "/distribucija",
     },
   ],
 };
@@ -131,9 +131,9 @@ export const nav_details: NavDetailsProps = [
     url: "/tisk",
   },
   {
-    title: "Prevzem",
-    imgUrl: "/icons/prevzem.svg",
-    url: "/prevzem",
+    title: "Distribucija",
+    imgUrl: "/icons/distribucija.svg",
+    url: "/distribucija",
   },
   {
     title: "Arhiv",
@@ -142,7 +142,7 @@ export const nav_details: NavDetailsProps = [
   },
   {
     title: "Dostop zavrnjen",
-    imgUrl: "/icons/prevzem.svg",
+    imgUrl: "/icons/distribucija.svg",
     url: "/unauthorized",
   },
 ];
@@ -175,8 +175,8 @@ export const phases: PhasesProps = [
     slug: "tisk",
   },
   {
-    title: "Prevzem",
-    slug: "prevzem",
+    title: "Distribucija",
+    slug: "distribucija",
   },
   {
     title: "Arhiv",
@@ -194,7 +194,7 @@ export const departmentTypes: TDepartment[] = [
   "urednistvo",
   "priprava-in-oblikovanje",
   "tisk",
-  "prevzem",
+  "distribucija",
 ];
 
 export const project_phases: NavDetailsProps = [
@@ -214,8 +214,8 @@ export const project_phases: NavDetailsProps = [
     url: "tisk",
   },
   {
-    title: "Prevzem",
-    imgUrl: "/icons/prevzem.svg",
-    url: "prevzem",
+    title: "Distribucija",
+    imgUrl: "/icons/distribucija.svg",
+    url: "distribucija",
   },
 ];
