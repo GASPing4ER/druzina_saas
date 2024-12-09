@@ -95,7 +95,6 @@ export type ProjectPhaseProps = {
 export type UpdateProjectPhaseProps = {
   id: string;
   project_id?: string;
-  ponudba_id?: string;
   name?: string;
   status?: TStatus;
   start_date?: Date;
@@ -140,6 +139,24 @@ export type FileProps = {
 };
 
 export type NewFileDataProps = Omit<FileProps, "id" | "created_at">;
+
+// OFFER TYPES
+
+export type OfferProps = {
+  id: string;
+  offerer_id: string;
+  phase_id: string;
+  quantity: number;
+  price: number;
+  total: number;
+  created_at: Date;
+};
+
+export type OffererProps = {
+  id: string;
+  name: string;
+  created_at: Date;
+};
 
 // USER TYPES
 

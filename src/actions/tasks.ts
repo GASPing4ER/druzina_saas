@@ -101,7 +101,6 @@ export const updateTask = async (
   error: PostgrestError | null | unknown;
   message: string;
 }> => {
-  console.log("task:", values);
   try {
     const { data, error } = await supabase
       .from("tasks")

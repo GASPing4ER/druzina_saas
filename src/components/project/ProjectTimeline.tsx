@@ -14,7 +14,7 @@ const ProjectTimeline = ({
   project_end_date,
 }: ProjectTimelineProps) => {
   return (
-    <div className="flex flex-col-reverse">
+    <div className="flex flex-col">
       {project_phases.map((project_phase) => {
         const phaseData = phases.find(
           (phase) => phase.name === project_phase.url
@@ -37,7 +37,7 @@ const ProjectTimeline = ({
                   alt={project_phase.url}
                 />
               </div>
-              {project_phase.url !== "urednistvo" && (
+              {project_phase.url !== "distribucija" && (
                 <div className="h-[50px] w-[1px] bg-black" />
               )}
             </div>

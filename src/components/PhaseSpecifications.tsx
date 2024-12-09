@@ -11,6 +11,7 @@ import {
   DistribucijaForm,
   PripravOblikovanjeForm,
   TechicalSpecificationsForm,
+  TiskForm,
   UrednistvoForm,
 } from "@/components";
 
@@ -69,12 +70,16 @@ const PhaseSpecifications = ({
             />
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem className="bg-gray-100 rounded-full" value="tisk">
+        <AccordionItem className="bg-gray-100 rounded-b-md" value="tisk">
           <AccordionTrigger className="bg-gray-300 rounded-full px-4">
             TISK
           </AccordionTrigger>
-          <AccordionContent className="px-4">
-            Yes. It adheres to the WAI-ARIA design pattern.
+          <AccordionContent className="px-4 py-4">
+            <TiskForm
+              user={user}
+              project={project}
+              project_phase={getProjectPhase(project_phases, "tisk")}
+            />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem

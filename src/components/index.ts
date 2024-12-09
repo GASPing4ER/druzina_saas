@@ -39,8 +39,11 @@ import TechicalSpecificationsForm from "./project-overview-forms/TechnicalSpecif
 import UrednistvoForm from "./project-overview-forms/UrednistvoForm";
 import PripravOblikovanjeForm from "./project-overview-forms/PripravaOblikovanjeForm";
 import DistribucijaForm from "./project-overview-forms/DistribucijaForm";
+import TiskForm from "./project-overview-forms/TiskForm";
 import PhaseTable from "./phase/PhaseTable";
 import PhaseRow from "./phase/PhaseRow";
+import OfferTable from "./offer/OfferTable";
+import OfferRow from "./offer/OfferRow";
 
 export {
   Sidebar,
@@ -84,6 +87,9 @@ export {
   UrednistvoForm,
   PripravOblikovanjeForm,
   DistribucijaForm,
+  TiskForm,
   PhaseTable,
   PhaseRow,
+  OfferTable,
+  OfferRow,
 };

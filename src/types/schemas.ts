@@ -33,7 +33,6 @@ export const phaseFormSchema = z.object({
   postavitev: z.string().optional(),
   predogled: z.boolean().optional(),
   potrditev_postavitve: z.boolean().optional(),
-  ponudba_id: z.string().optional(),
   navodila: z.string().optional(),
   prevzem: z.boolean().optional(),
 });

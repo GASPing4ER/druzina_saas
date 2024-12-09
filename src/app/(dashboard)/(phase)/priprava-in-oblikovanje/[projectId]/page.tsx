@@ -7,7 +7,6 @@ const ProjectDetailsPage = async ({
   params: { projectId: string };
 }) => {
   const projectId = params.projectId;
-  console.log("PRIPRAVA", projectId);
   const { data: project } = await getProject(
     projectId,
     "priprava-in-oblikovanje"

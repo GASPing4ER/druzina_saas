@@ -28,13 +28,15 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { formatDate } from "@/utils";
 import { addPhase, updatePhase } from "@/actions/project-phases";
-type UrednistvoFormProps = {
+// import OfferTable from "../offer/OfferTable";
+import { Suspense } from "react";
+type TiskFormProps = {
   user: User;
   project: CompleteProjectPhaseProps;
   project_phase: ProjectPhaseProps | null;
 };
 
-const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
+const TiskForm = ({ project, project_phase }: TiskFormProps) => {
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof phaseFormSchema>>({
@@ -55,7 +57,7 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
         ...values,
         status: "v čakanju",
         project_id: project.project_data.id,
-        name: "urednistvo",
+        name: "tisk",
       });
     } else {
       await updatePhase(project_phase?.id, {
@@ -70,7 +72,11 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
         <div className="flex flex-col gap-2">
           <div className="flex gap-4">
             <p>Začetek faze:</p>
-            <p>{`${formatDate(project.project_data.start_date)}`}</p>
+            <p>{`${
+              project_phase && project_phase.start_date
+                ? formatDate(project_phase.start_date)
+                : "/"
+            }`}</p>
           </div>
           <div className="flex">
             <FormField
@@ -121,6 +127,20 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
               )}
             />
           </div>
+          <div className="flex gap-2">
+            <p>Ponudbe za tisk:</p>
+            <div className="w-full flex flex-col items-start gap-4">
+              <Suspense fallback={<div>Loading...</div>}>
+                {/* <OfferTable /> */}
+              </Suspense>
+              <button
+                type="button"
+                className="border border-black text-sm px-1"
+              >
+                +
+              </button>
+            </div>
+          </div>
         </div>
         <Button type="submit">Shrani</Button>
       </form>
@@ -128,4 +148,4 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
   );
 };
 
-export default UrednistvoForm;
+export default TiskForm;
