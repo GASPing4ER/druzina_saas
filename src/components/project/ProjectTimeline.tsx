@@ -46,10 +46,12 @@ const ProjectTimeline = ({
                 className={`w-6 h-6 text-sm text-white flex items-center justify-center ${
                   phaseData?.status === "zaključeno"
                     ? "bg-green-500"
+                    : phaseData?.status === "v teku"
+                    ? "bg-orange-400"
                     : "bg-gray-400"
                 } rounded-full`}
               >
-                ✔️
+                {phaseData?.status === "zaključeno" && "✔️"}
               </div>
               <div className="flex flex-col gap-2">
                 <Link href={`/${phaseData?.name}/${phaseData?.project_id}`}>
