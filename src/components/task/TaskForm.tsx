@@ -85,7 +85,10 @@ const TaskForm = ({ projectId, handleClose }: TaskFormProps) => {
         status: "assigned",
       };
 
-      addTask(completeData);
+      console.log(completeData);
+
+      const { error } = await addTask(completeData);
+      console.log(error);
       router.refresh();
       handleClose();
     } catch (error) {
