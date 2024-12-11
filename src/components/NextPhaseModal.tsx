@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { NextPhaseForm } from "@/components";
 import { useState } from "react";
-import { getPhaseName } from "@/utils";
 import { CompleteProjectPhaseProps } from "@/types";
 
 type NextPhaseModalProps = {
@@ -20,18 +19,25 @@ type NextPhaseModalProps = {
 
 const NextPhaseModal = ({ phase, project }: NextPhaseModalProps) => {
   const [open, setOpen] = useState(false);
+
   return (
-    <div className="bg-slate-300 text-white py-1 px-8 rounded-xl">
+    <div className="border border-black py-2 px-4 rounded-full flex items-center justify-center">
       <Dialog open={open} onOpenChange={() => setOpen((prev) => !prev)}>
-        <DialogTrigger>NASLEDNJA FAZA</DialogTrigger>
+        <DialogTrigger>Končaj fazo</DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Premik v fazo {getPhaseName(phase)}</DialogTitle>
+            <DialogTitle>
+              Ali ste prepričani, da želite zaključiti fazo?
+            </DialogTitle>
             <DialogDescription>
-              Dobrodošli v obrazcu za premik v naslednjo fazo projekta.
+              Tega dejanja ne boste mogli preklicati.
             </DialogDescription>
           </DialogHeader>
-          <NextPhaseForm phase={phase} project={project} />
+          <NextPhaseForm
+            phase={phase}
+            project={project}
+            onOpen={() => setOpen((prev) => !prev)}
+          />
         </DialogContent>
       </Dialog>
     </div>

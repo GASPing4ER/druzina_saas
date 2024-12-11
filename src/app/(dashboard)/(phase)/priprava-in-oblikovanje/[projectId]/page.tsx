@@ -11,6 +11,7 @@ const ProjectDetailsPage = async ({
     projectId,
     "priprava-in-oblikovanje"
   );
+  console.log(project);
   if (!project) {
     return <div>Projekta nismo našli</div>;
   } else {

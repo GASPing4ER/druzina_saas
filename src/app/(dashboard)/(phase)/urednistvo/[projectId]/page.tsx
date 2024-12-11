@@ -2,12 +2,7 @@ import { getUser } from "@/actions/auth";
 import { getFiles } from "@/actions/files";
 import { getProject } from "@/actions/projects";
 import { getTasksWithNames } from "@/actions/tasks";
-import {
-  // NextPhaseModal,
-  // PhaseDateModal,
-  ProjectDetails,
-  UtilityBox,
-} from "@/components";
+import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDate } from "@/utils";
 import Link from "next/link";
@@ -34,17 +29,14 @@ const ProjectDetailsPage = async ({
     redirect("/unauthorized");
 
   const project = projectResponse.data;
+
   const tasks = tasksResponse.data;
   const files = filesResponse.data;
   const role = user.user_metadata.role;
 
-  // const isOpen =
-  //   (project && project.start_date === null && project.end_date === null) ||
-  //   false;
-
-  // const tasksCompleted =
-  //   tasks &&
-  //   (tasks.length === 0 || tasks.every((task) => task.status === "completed"));
+  const tasksCompleted =
+    tasks &&
+    (tasks.length === 0 || tasks.every((task) => task.status === "completed"));
   if (!project) {
     return <div>Projekta nismo našli</div>;
   } else {
@@ -117,30 +109,19 @@ const ProjectDetailsPage = async ({
             </div>
           </TabsContent>
         </Tabs>
-        <Link
-          className="border border-black py-2 px-4 rounded-full"
-          href={`/projekti/${project.project_data.id}`}
-        >
-          Pregled projekta
-        </Link>
-        {/* <div className="flex-1 flex flex-col gap-2">
-            <div className="flex flex-col gap-2 border shadow-2xl rounded-xl p-4">
-              <h2 className="text-black text-2xl">Še 6 dni</h2>
-              <ProgressBar stanje={70} />
-            </div>
-            <UtilityBox
-              type="opombe"
-              data={[]}
-              projectId={projectId}
-              role={role}
-            />
-          </div> */}
+        <div className="flex justify-between align-items w-full">
+          <Link
+            className="border border-black py-2 px-4 rounded-full"
+            href={`/projekti/${project.project_data.id}`}
+          >
+            Pregled projekta
+          </Link>
 
-        {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
-        {/* <PhaseDateModal isOpen={isOpen} project={project} /> */}
-        {/* {tasksCompleted && role === "superadmin" && (
-          <NextPhaseModal phase="priprava-in-oblikovanje" project={project} />
-        )} */}
+          {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
+          {tasksCompleted && role === "superadmin" && (
+            <NextPhaseModal phase="priprava-in-oblikovanje" project={project} />
+          )}
+        </div>
       </main>
     );
   }
