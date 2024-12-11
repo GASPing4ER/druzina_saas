@@ -2,7 +2,7 @@
 
 import React from "react";
 import { TableCell, TableRow } from "../ui/table";
-import { formatDate, getPhaseName, isPast } from "@/utils";
+import { formatDate, getPhaseNameByNapredek, isPast } from "@/utils";
 import { ProgressBar } from "@/components";
 import { useRouter } from "next/navigation";
 import { ProjectWithCreatorProps } from "@/types";
@@ -16,7 +16,7 @@ const ProjectRow = ({ project, pathname }: ProjectRowProps) => {
   const router = useRouter();
   return (
     <TableRow onClick={() => router.push(pathname)} className="cursor-pointer">
-      <TableCell>{getPhaseName(project.name)}</TableCell>
+      <TableCell>{getPhaseNameByNapredek(project.napredek)}</TableCell>
       <TableCell>{project.name}</TableCell>
       <TableCell className="capitalize">{project.type}</TableCell>
       <TableCell>{formatDate(project.start_date)}</TableCell>

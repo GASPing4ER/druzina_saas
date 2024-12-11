@@ -41,6 +41,20 @@ export const getPhaseName = (inputPhase: string) => {
   return phase?.title || "/";
 };
 
+export const getPhaseNameByNapredek = (napredek: number) => {
+  if (napredek === 0) {
+    return "Osnutek";
+  } else if (napredek === 1) {
+    return "Uredništvo";
+  } else if (napredek === 2) {
+    return "Priprava in oblikovanje";
+  } else if (napredek === 3) {
+    return "Tisk";
+  } else if (napredek === 4) {
+    return "Distribucija";
+  }
+};
+
 export const getCompleteData = (
   values: z.infer<typeof bookFormSchema>,
   user: User
