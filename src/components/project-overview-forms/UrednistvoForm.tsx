@@ -29,6 +29,7 @@ import { Calendar } from "../ui/calendar";
 import { formatDate } from "@/utils";
 import { addPhase, updatePhase } from "@/actions/project-phases";
 import { useState } from "react";
+import { updateProject } from "@/actions/projects";
 
 type UrednistvoFormProps = {
   user: User;
@@ -80,12 +81,34 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
     if (project_phase?.status === "v teku") {
       await updatePhase(project_phase.id, { ...values, status: "zaključeno" });
     } else if (project_phase === null) {
-      await addPhase({
-        ...values,
-        status: "v teku",
-        project_id: project.id,
-        name: "urednistvo",
-      });
+      await Promise.all([
+        await addPhase({
+          ...values,
+          status: "v teku",
+          project_id: project.id,
+          name: "urednistvo",
+        }),
+        updateProject(
+          {
+            napredek: project.napredek > 1 ? project.napredek : 1,
+            status: "v teku",
+            stanje: project.napredek > 0 ? project.napredek : 0,
+          },
+          project.id
+        ),
+      ]);
+    } else if (project_phase.status === "v čakanju") {
+      await Promise.all([
+        updatePhase(project_phase.id, { ...values, status: "v teku" }),
+        updateProject(
+          {
+            napredek: project.napredek > 1 ? project.napredek : 1,
+            status: "v teku",
+            stanje: project.napredek > 0 ? project.napredek : 0,
+          },
+          project.id
+        ),
+      ]);
     } else {
       updatePhase(project_phase.id, { ...values, status: "v teku" });
     }

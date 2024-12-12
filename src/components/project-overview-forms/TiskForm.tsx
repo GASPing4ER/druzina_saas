@@ -30,6 +30,7 @@ import { formatDate } from "@/utils";
 import { addPhase, updatePhase } from "@/actions/project-phases";
 // import OfferTable from "../offer/OfferTable";
 import { Suspense, useState } from "react";
+import { updateProject } from "@/actions/projects";
 type TiskFormProps = {
   user: User;
   project: ProjectWithCreatorProps;
@@ -88,12 +89,34 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
     if (tisk_phase?.status === "v teku") {
       await updatePhase(tisk_phase.id, { ...values, status: "zaključeno" });
     } else if (!tisk_phase) {
-      await addPhase({
-        ...values,
-        status: "v teku",
-        project_id: project.id,
-        name: "tisk",
-      });
+      await Promise.all([
+        addPhase({
+          ...values,
+          status: "v teku",
+          project_id: project.id,
+          name: "tisk",
+        }),
+        updateProject(
+          {
+            napredek: project.napredek > 3 ? project.napredek : 3,
+            status: "v teku",
+            stanje: project.napredek > 50 ? project.napredek : 50,
+          },
+          project.id
+        ),
+      ]);
+    } else if (tisk_phase.status === "v čakanju") {
+      await Promise.all([
+        updatePhase(tisk_phase.id, { ...values, status: "v teku" }),
+        updateProject(
+          {
+            napredek: project.napredek > 3 ? project.napredek : 3,
+            status: "v teku",
+            stanje: project.napredek > 50 ? project.napredek : 50,
+          },
+          project.id
+        ),
+      ]);
     } else {
       updatePhase(tisk_phase.id, { ...values, status: "v teku" });
     }

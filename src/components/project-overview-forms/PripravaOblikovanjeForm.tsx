@@ -31,6 +31,7 @@ import { addPhase, updatePhase } from "@/actions/project-phases";
 import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import { useState } from "react";
+import { updateProject } from "@/actions/projects";
 
 type PripravOblikovanjeFormProps = {
   user: User;
@@ -90,12 +91,34 @@ const PripravOblikovanjeForm = ({
     if (project_phase?.status === "v teku") {
       await updatePhase(project_phase.id, { ...values, status: "zaključeno" });
     } else if (project_phase === null) {
-      await addPhase({
-        ...values,
-        status: "v teku",
-        project_id: project.id,
-        name: "priprava-in-oblikovanje",
-      });
+      await Promise.all([
+        await addPhase({
+          ...values,
+          status: "v teku",
+          project_id: project.id,
+          name: "priprava-in-oblikovanje",
+        }),
+        updateProject(
+          {
+            napredek: project.napredek > 2 ? project.napredek : 2,
+            status: "v teku",
+            stanje: project.napredek > 25 ? project.napredek : 25,
+          },
+          project.id
+        ),
+      ]);
+    } else if (project_phase.status === "v čakanju") {
+      await Promise.all([
+        updatePhase(project_phase.id, { ...values, status: "v teku" }),
+        updateProject(
+          {
+            napredek: project.napredek > 2 ? project.napredek : 2,
+            status: "v teku",
+            stanje: project.napredek > 25 ? project.napredek : 25,
+          },
+          project.id
+        ),
+      ]);
     } else {
       updatePhase(project_phase.id, { ...values, status: "v teku" });
     }

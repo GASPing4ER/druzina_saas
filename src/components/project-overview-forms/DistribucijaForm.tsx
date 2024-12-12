@@ -31,6 +31,7 @@ import { addPhase, updatePhase } from "@/actions/project-phases";
 import { Checkbox } from "../ui/checkbox";
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
+import { updateProject } from "@/actions/projects";
 
 type DistribucijaFormProps = {
   user: User;
@@ -92,17 +93,49 @@ const DistribucijaForm = ({
 
   async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
     if (distribucija_phase?.status === "v teku") {
-      await updatePhase(distribucija_phase.id, {
-        ...values,
-        status: "zaključeno",
-      });
+      await Promise.all([
+        updatePhase(distribucija_phase.id, {
+          ...values,
+          status: "zaključeno",
+        }),
+        updateProject(
+          {
+            napredek: project.napredek > 4 ? project.napredek : 4,
+            status: "zaključeno",
+            stanje: project.napredek > 100 ? project.napredek : 100,
+          },
+          project.id
+        ),
+      ]);
     } else if (!distribucija_phase) {
-      await addPhase({
-        ...values,
-        status: "v teku",
-        project_id: project.id,
-        name: "distribucija",
-      });
+      await Promise.all([
+        addPhase({
+          ...values,
+          status: "v teku",
+          project_id: project.id,
+          name: "distribucija",
+        }),
+        updateProject(
+          {
+            napredek: project.napredek > 4 ? project.napredek : 4,
+            status: "v teku",
+            stanje: project.napredek > 75 ? project.napredek : 75,
+          },
+          project.id
+        ),
+      ]);
+    } else if (distribucija_phase.status === "v čakanju") {
+      await Promise.all([
+        updatePhase(distribucija_phase.id, { ...values, status: "v teku" }),
+        updateProject(
+          {
+            napredek: project.napredek > 4 ? project.napredek : 4,
+            status: "v teku",
+            stanje: project.napredek > 75 ? project.napredek : 75,
+          },
+          project.id
+        ),
+      ]);
     } else {
       updatePhase(distribucija_phase.id, { ...values, status: "v teku" });
     }

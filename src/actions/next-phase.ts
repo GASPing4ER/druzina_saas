@@ -32,7 +32,17 @@ export const chooseNextPhaseAction = async (
           start_date: new Date(),
         }),
         updateProject(
-          { napredek: 1, status: "v teku", stanje: 0 },
+          {
+            napredek:
+              current_phase.project_data.napredek > 1
+                ? current_phase.project_data.napredek
+                : 1,
+            status: "v teku",
+            stanje:
+              current_phase.project_data.napredek > 0
+                ? current_phase.project_data.napredek
+                : 0,
+          },
           current_phase.project_id
         ),
       ]);
@@ -44,7 +54,17 @@ export const chooseNextPhaseAction = async (
         }),
         updatePhase(phase.id, { status: "v teku", start_date: new Date() }),
         updateProject(
-          { napredek: 1, status: "v teku", stanje: 0 },
+          {
+            napredek:
+              current_phase.project_data.napredek > 1
+                ? current_phase.project_data.napredek
+                : 1,
+            status: "v teku",
+            stanje:
+              current_phase.project_data.napredek > 0
+                ? current_phase.project_data.napredek
+                : 0,
+          },
           current_phase.project_id
         ),
       ]);
@@ -70,12 +90,21 @@ export const chooseNextPhaseAction = async (
           start_date: new Date(),
         }),
         updateProject(
-          { napredek: 2, status: "v teku", stanje: 25 },
+          {
+            napredek:
+              current_phase.project_data.napredek > 2
+                ? current_phase.project_data.napredek
+                : 2,
+            status: "v teku",
+            stanje:
+              current_phase.project_data.napredek > 25
+                ? current_phase.project_data.napredek
+                : 25,
+          },
           current_phase.project_id
         ),
       ]);
     } else if (phase.status === "v čakanju") {
-      console.log("Phase status: v čakanju");
       await Promise.all([
         updatePhase(current_phase.id, {
           status: "zaključeno",
@@ -83,7 +112,17 @@ export const chooseNextPhaseAction = async (
         }),
         updatePhase(phase.id, { status: "v teku", start_date: new Date() }),
         updateProject(
-          { napredek: 2, status: "v teku", stanje: 25 },
+          {
+            napredek:
+              current_phase.project_data.napredek > 2
+                ? current_phase.project_data.napredek
+                : 2,
+            status: "v teku",
+            stanje:
+              current_phase.project_data.napredek > 25
+                ? current_phase.project_data.napredek
+                : 25,
+          },
           current_phase.project_id
         ),
       ]);
@@ -102,7 +141,17 @@ export const chooseNextPhaseAction = async (
             start_date: new Date(),
           }),
           updateProject(
-            { napredek: 3, status: "v teku", stanje: 50 },
+            {
+              napredek:
+                current_phase.project_data.napredek > 3
+                  ? current_phase.project_data.napredek
+                  : 3,
+              status: "v teku",
+              stanje:
+                current_phase.project_data.napredek > 50
+                  ? current_phase.project_data.napredek
+                  : 50,
+            },
             current_phase.project_id
           ),
         ]);
@@ -117,7 +166,17 @@ export const chooseNextPhaseAction = async (
             start_date: new Date(),
           }),
           updateProject(
-            { napredek: 3, status: "v teku", stanje: 50 },
+            {
+              napredek:
+                current_phase.project_data.napredek > 3
+                  ? current_phase.project_data.napredek
+                  : 3,
+              status: "v teku",
+              stanje:
+                current_phase.project_data.napredek > 50
+                  ? current_phase.project_data.napredek
+                  : 50,
+            },
             current_phase.project_id
           ),
         ]);
@@ -145,7 +204,17 @@ export const chooseNextPhaseAction = async (
             start_date: new Date(),
           }),
           updateProject(
-            { napredek: 3, status: "v teku", stanje: 50 },
+            {
+              napredek:
+                current_phase.project_data.napredek > 3
+                  ? current_phase.project_data.napredek
+                  : 3,
+              status: "v teku",
+              stanje:
+                current_phase.project_data.napredek > 50
+                  ? current_phase.project_data.napredek
+                  : 50,
+            },
             current_phase.project_id
           ),
         ]);
@@ -157,7 +226,17 @@ export const chooseNextPhaseAction = async (
           }),
           updatePhase(phase.id, { status: "v teku", start_date: new Date() }),
           updateProject(
-            { napredek: 3, status: "v teku", stanje: 50 },
+            {
+              napredek:
+                current_phase.project_data.napredek > 3
+                  ? current_phase.project_data.napredek
+                  : 3,
+              status: "v teku",
+              stanje:
+                current_phase.project_data.napredek > 50
+                  ? current_phase.project_data.napredek
+                  : 50,
+            },
             current_phase.project_id
           ),
         ]);
@@ -188,7 +267,17 @@ export const chooseNextPhaseAction = async (
           start_date: new Date(),
         }),
         updateProject(
-          { napredek: 4, status: "v teku", stanje: 75 },
+          {
+            napredek:
+              current_phase.project_data.napredek > 4
+                ? current_phase.project_data.napredek
+                : 4,
+            status: "v teku",
+            stanje:
+              current_phase.project_data.napredek > 75
+                ? current_phase.project_data.napredek
+                : 75,
+          },
           current_phase.project_id
         ),
       ]);
@@ -200,7 +289,17 @@ export const chooseNextPhaseAction = async (
         }),
         updatePhase(phase.id, { status: "v teku", start_date: new Date() }),
         updateProject(
-          { napredek: 4, status: "v teku", stanje: 75 },
+          {
+            napredek:
+              current_phase.project_data.napredek > 4
+                ? current_phase.project_data.napredek
+                : 4,
+            status: "v teku",
+            stanje:
+              current_phase.project_data.napredek > 75
+                ? current_phase.project_data.napredek
+                : 75,
+          },
           current_phase.project_id
         ),
       ]);
@@ -225,7 +324,17 @@ export const chooseNextPhaseAction = async (
           start_date: new Date(),
         }),
         updateProject(
-          { napredek: 4, status: "zaključeno", stanje: 100 },
+          {
+            napredek:
+              current_phase.project_data.napredek > 4
+                ? current_phase.project_data.napredek
+                : 4,
+            status: "zaključeno",
+            stanje:
+              current_phase.project_data.napredek > 100
+                ? current_phase.project_data.napredek
+                : 100,
+          },
           current_phase.project_id
         ),
       ]);
@@ -237,7 +346,17 @@ export const chooseNextPhaseAction = async (
         }),
         updatePhase(phase.id, { status: "v teku", start_date: new Date() }),
         updateProject(
-          { napredek: 4, status: "zaključeno", stanje: 100 },
+          {
+            napredek:
+              current_phase.project_data.napredek > 4
+                ? current_phase.project_data.napredek
+                : 4,
+            status: "zaključeno",
+            stanje:
+              current_phase.project_data.napredek > 100
+                ? current_phase.project_data.napredek
+                : 100,
+          },
           current_phase.project_id
         ),
       ]);
