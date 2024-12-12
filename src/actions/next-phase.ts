@@ -77,7 +77,7 @@ export const chooseNextPhaseAction = async (
     } else if (phase.status === "v čakanju") {
       console.log("Phase status: v čakanju");
       await Promise.all([
-        await updatePhase(current_phase.id, {
+        updatePhase(current_phase.id, {
           status: "zaključeno",
           end_date: new Date(),
         }),

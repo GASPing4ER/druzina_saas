@@ -1,6 +1,6 @@
 import { getUser } from "@/actions/auth";
 import { getFiles } from "@/actions/files";
-import { getProject } from "@/actions/projects";
+import { getProject, getSingleProject } from "@/actions/projects";
 import { getTasksWithNames } from "@/actions/tasks";
 import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,13 +14,19 @@ const ProjectDetailsPage = async ({
   params: { projectId: string };
 }) => {
   const projectId = params.projectId;
-  const [projectResponse, tasksResponse, filesResponse, user] =
-    await Promise.all([
-      getProject(projectId, "urednistvo"),
-      getTasksWithNames(projectId),
-      getFiles(projectId),
-      getUser(),
-    ]);
+  const [
+    singleProjectResponse,
+    projectResponse,
+    tasksResponse,
+    filesResponse,
+    user,
+  ] = await Promise.all([
+    getSingleProject(projectId),
+    getProject(projectId, "urednistvo"),
+    getTasksWithNames(projectId),
+    getFiles(projectId),
+    getUser(),
+  ]);
 
   if (
     user.user_metadata.department !== "urednistvo" &&
@@ -28,6 +34,7 @@ const ProjectDetailsPage = async ({
   )
     redirect("/unauthorized");
 
+  const singleProject = singleProjectResponse.data;
   const project = projectResponse.data;
 
   const tasks = tasksResponse.data;
@@ -37,12 +44,12 @@ const ProjectDetailsPage = async ({
   const tasksCompleted =
     tasks &&
     (tasks.length === 0 || tasks.every((task) => task.status === "completed"));
-  if (!project) {
+  if (!project || !singleProject) {
     return <div>Projekta nismo našli</div>;
   } else {
     return (
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white text-slate-900">
-        <ProjectDetails project={project} />
+        <ProjectDetails project={singleProject} />
         <Tabs defaultValue="naloge" className="w-full flex-1">
           <div className="flex justify-between">
             <TabsList className="py-8 rounded-[30px]">

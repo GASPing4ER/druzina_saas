@@ -1,6 +1,6 @@
 import { getUser } from "@/actions/auth";
 import { getProjectPhases } from "@/actions/project-phases";
-import { getCompleteProject } from "@/actions/projects";
+import { getSingleProject } from "@/actions/projects";
 import {
   PhaseSpecifications,
   ProjectDetails,
@@ -14,7 +14,7 @@ const ProjectDetailsPage = async ({
 }) => {
   const projectId = params.projectId;
   const [projectDataResult, projectPhasesResult] = await Promise.all([
-    getCompleteProject(projectId),
+    getSingleProject(projectId),
     getProjectPhases(projectId),
   ]);
 
@@ -30,7 +30,7 @@ const ProjectDetailsPage = async ({
         <div className="flex items-start gap-10 w-full">
           {projectPhases && (
             <ProjectTimeline
-              project_end_date={project.project_data.end_date}
+              project_end_date={project.end_date}
               phases={projectPhases}
             />
           )}

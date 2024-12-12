@@ -19,12 +19,12 @@ import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { updateTechnicalSpecificationsProject } from "@/actions/projects";
 import { Textarea } from "@/components//ui/textarea";
-import { CompleteProjectPhaseProps } from "@/types";
+import { ProjectWithCreatorProps } from "@/types";
 import { Checkbox } from "@/components//ui/checkbox";
 
 type TechincalSpecificationsFormProps = {
   user: User;
-  project: CompleteProjectPhaseProps;
+  project: ProjectWithCreatorProps;
 };
 
 const TechicalSpecificationsForm = ({
@@ -35,7 +35,7 @@ const TechicalSpecificationsForm = ({
   const form = useForm<z.infer<typeof technicalSpecificationsFormSchema>>({
     resolver: zodResolver(technicalSpecificationsFormSchema),
     defaultValues: {
-      ...project.project_data,
+      ...project,
     },
   });
 
@@ -43,7 +43,7 @@ const TechicalSpecificationsForm = ({
   async function onSubmit(
     values: z.infer<typeof technicalSpecificationsFormSchema>
   ) {
-    await updateTechnicalSpecificationsProject(values, project.project_data.id);
+    await updateTechnicalSpecificationsProject(values, project.id);
     router.refresh();
   }
   return (

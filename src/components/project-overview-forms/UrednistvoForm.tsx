@@ -17,7 +17,7 @@ import {
 import { phaseFormSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { CompleteProjectPhaseProps, ProjectPhaseProps } from "@/types";
+import { ProjectWithCreatorProps, ProjectPhaseProps } from "@/types";
 import {
   Popover,
   PopoverContent,
@@ -28,13 +28,16 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { formatDate } from "@/utils";
 import { addPhase, updatePhase } from "@/actions/project-phases";
+import { useState } from "react";
+
 type UrednistvoFormProps = {
   user: User;
-  project: CompleteProjectPhaseProps;
+  project: ProjectWithCreatorProps;
   project_phase: ProjectPhaseProps | null;
 };
 
 const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
+  const [actionType, setActionType] = useState("");
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof phaseFormSchema>>({
@@ -50,11 +53,19 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseFormSchema>) {
+    if (actionType === "save") {
+      await savePhase(values);
+    } else {
+      await activatePhase(values);
+    }
+  }
+
+  async function savePhase(values: z.infer<typeof phaseFormSchema>) {
     if (project_phase === null) {
       await addPhase({
         ...values,
         status: "v čakanju",
-        project_id: project.project_data.id,
+        project_id: project.id,
         name: "urednistvo",
       });
     } else {
@@ -64,13 +75,29 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
     }
     router.refresh();
   }
+
+  async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
+    if (project_phase?.status === "v teku") {
+      await updatePhase(project_phase.id, { ...values, status: "zaključeno" });
+    } else if (project_phase === null) {
+      await addPhase({
+        ...values,
+        status: "v teku",
+        project_id: project.id,
+        name: "urednistvo",
+      });
+    } else {
+      updatePhase(project_phase.id, { ...values, status: "v teku" });
+    }
+    router.refresh();
+  }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col gap-2">
           <div className="flex gap-4">
             <p>Začetek faze:</p>
-            <p>{`${formatDate(project.project_data.start_date)}`}</p>
+            <p>{`${formatDate(project.start_date)}`}</p>
           </div>
           <div className="flex">
             <FormField
@@ -110,7 +137,7 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
                         onSelect={field.onChange}
                         disabled={(date) =>
                           date < new Date(new Date().setHours(0, 0, 0, 0)) ||
-                          date < project.project_data.start_date
+                          date < project.start_date
                         } // This line allows today's date
                         initialFocus
                       />
@@ -122,7 +149,20 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
             />
           </div>
         </div>
-        <Button type="submit">Shrani</Button>
+        <div className="flex justify-between">
+          <Button onClick={() => setActionType("save")} type="submit">
+            Shrani
+          </Button>
+          <Button
+            onClick={() => setActionType("activate")}
+            type="submit"
+            variant="outline"
+          >
+            {project_phase?.status === "v teku"
+              ? "Zaključi fazo"
+              : "Aktiviraj fazo"}
+          </Button>
+        </div>
       </form>
     </Form>
   );

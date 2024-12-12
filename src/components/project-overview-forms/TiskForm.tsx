@@ -17,7 +17,7 @@ import {
 import { phaseFormSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { CompleteProjectPhaseProps, ProjectPhaseProps } from "@/types";
+import { ProjectWithCreatorProps, ProjectPhaseProps } from "@/types";
 import {
   Popover,
   PopoverContent,
@@ -29,43 +29,84 @@ import { Calendar } from "../ui/calendar";
 import { formatDate } from "@/utils";
 import { addPhase, updatePhase } from "@/actions/project-phases";
 // import OfferTable from "../offer/OfferTable";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 type TiskFormProps = {
   user: User;
-  project: CompleteProjectPhaseProps;
-  project_phase: ProjectPhaseProps | null;
+  project: ProjectWithCreatorProps;
+  project_phases: ProjectPhaseProps[] | null;
 };
 
-const TiskForm = ({ project, project_phase }: TiskFormProps) => {
+const TiskForm = ({ project, project_phases }: TiskFormProps) => {
+  const [actionType, setActionType] = useState("");
+
   // 1. Define your form.
+  const tisk_phase = project_phases
+    ? project_phases.find((phase) => phase.name === "tisk")
+    : null;
+  const urednistvo_phase = project_phases
+    ? project_phases.find((phase) => phase.name === "urednistvo")
+    : null;
+  const priprava_in_oblikovanje_phase = project_phases
+    ? project_phases.find((phase) => phase.name === "priprava-in-oblikovanje")
+    : null;
   const router = useRouter();
   const form = useForm<z.infer<typeof phaseFormSchema>>({
     resolver: zodResolver(phaseFormSchema),
     defaultValues: {
       end_date:
-        (project_phase &&
-          project_phase.end_date &&
-          new Date(project_phase?.end_date)) ||
+        (tisk_phase && tisk_phase.end_date && new Date(tisk_phase?.end_date)) ||
         undefined,
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseFormSchema>) {
-    if (project_phase === null) {
+    if (actionType === "save") {
+      await savePhase(values);
+    } else {
+      await activatePhase(values);
+    }
+  }
+
+  async function savePhase(values: z.infer<typeof phaseFormSchema>) {
+    if (tisk_phase === null) {
       await addPhase({
         ...values,
         status: "v čakanju",
-        project_id: project.project_data.id,
+        project_id: project.id,
         name: "tisk",
       });
     } else {
-      await updatePhase(project_phase?.id, {
+      await updatePhase(tisk_phase!.id, {
         ...values,
       });
     }
     router.refresh();
   }
+
+  async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
+    if (tisk_phase?.status === "v teku") {
+      await updatePhase(tisk_phase.id, { ...values, status: "zaključeno" });
+    } else if (!tisk_phase) {
+      await addPhase({
+        ...values,
+        status: "v teku",
+        project_id: project.id,
+        name: "tisk",
+      });
+    } else {
+      updatePhase(tisk_phase.id, { ...values, status: "v teku" });
+    }
+    router.refresh();
+    if (tisk_phase?.status === "v teku") {
+      await updatePhase(tisk_phase!.id, {
+        ...values,
+        status: "zaključeno",
+      });
+    }
+    router.refresh();
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -73,8 +114,8 @@ const TiskForm = ({ project, project_phase }: TiskFormProps) => {
           <div className="flex gap-4">
             <p>Začetek faze:</p>
             <p>{`${
-              project_phase && project_phase.start_date
-                ? formatDate(project_phase.start_date)
+              tisk_phase && tisk_phase.start_date
+                ? formatDate(tisk_phase.start_date)
                 : "/"
             }`}</p>
           </div>
@@ -116,7 +157,7 @@ const TiskForm = ({ project, project_phase }: TiskFormProps) => {
                         onSelect={field.onChange}
                         disabled={(date) =>
                           date < new Date(new Date().setHours(0, 0, 0, 0)) ||
-                          date < project.project_data.start_date
+                          date < project.start_date
                         } // This line allows today's date
                         initialFocus
                       />
@@ -142,7 +183,23 @@ const TiskForm = ({ project, project_phase }: TiskFormProps) => {
             </div>
           </div>
         </div>
-        <Button type="submit">Shrani</Button>
+        <div className="flex justify-between">
+          <Button onClick={() => setActionType("save")} type="submit">
+            Shrani
+          </Button>
+          {urednistvo_phase?.status === "zaključeno" &&
+            priprava_in_oblikovanje_phase?.status === "zaključeno" && (
+              <Button
+                onClick={() => setActionType("activate")}
+                type="submit"
+                variant="outline"
+              >
+                {tisk_phase?.status === "v teku"
+                  ? "Zaključi fazo"
+                  : "Aktiviraj fazo"}
+              </Button>
+            )}
+        </div>
       </form>
     </Form>
   );

@@ -17,7 +17,7 @@ import {
 import { phaseFormSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { CompleteProjectPhaseProps, ProjectPhaseProps } from "@/types";
+import { ProjectWithCreatorProps, ProjectPhaseProps } from "@/types";
 import {
   Popover,
   PopoverContent,
@@ -30,48 +30,92 @@ import { formatDate } from "@/utils";
 import { addPhase, updatePhase } from "@/actions/project-phases";
 import { Checkbox } from "../ui/checkbox";
 import { Textarea } from "../ui/textarea";
+import { useState } from "react";
 
 type DistribucijaFormProps = {
   user: User;
-  project: CompleteProjectPhaseProps;
-  project_phase: ProjectPhaseProps | null;
+  project: ProjectWithCreatorProps;
+  project_phases: ProjectPhaseProps[] | null;
 };
 
 const DistribucijaForm = ({
   project,
-  project_phase,
+  project_phases,
 }: DistribucijaFormProps) => {
+  const [actionType, setActionType] = useState("");
+
+  const tisk_phase = project_phases
+    ? project_phases.find((phase) => phase.name === "tisk")
+    : null;
+  const distribucija_phase = project_phases
+    ? project_phases.find((phase) => phase.name === "distribucija")
+    : null;
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof phaseFormSchema>>({
     resolver: zodResolver(phaseFormSchema),
     defaultValues: {
       end_date:
-        (project_phase &&
-          project_phase.end_date &&
-          new Date(project_phase?.end_date)) ||
+        (distribucija_phase &&
+          distribucija_phase.end_date &&
+          new Date(distribucija_phase?.end_date)) ||
         undefined,
-      navodila: project_phase?.navodila,
-      prevzem: project_phase?.prevzem,
+      navodila: distribucija_phase?.navodila,
+      prevzem: distribucija_phase?.prevzem,
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseFormSchema>) {
-    if (project_phase === null) {
+    if (actionType === "save") {
+      await savePhase(values);
+    } else {
+      await activatePhase(values);
+    }
+  }
+
+  async function savePhase(values: z.infer<typeof phaseFormSchema>) {
+    if (distribucija_phase === null) {
       await addPhase({
         ...values,
         status: "v čakanju",
-        project_id: project.project_data.id,
+        project_id: project.id,
         name: "distribucija",
       });
     } else {
-      await updatePhase(project_phase?.id, {
+      await updatePhase(distribucija_phase!.id, {
         ...values,
       });
     }
     router.refresh();
   }
+
+  async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
+    if (distribucija_phase?.status === "v teku") {
+      await updatePhase(distribucija_phase.id, {
+        ...values,
+        status: "zaključeno",
+      });
+    } else if (!distribucija_phase) {
+      await addPhase({
+        ...values,
+        status: "v teku",
+        project_id: project.id,
+        name: "distribucija",
+      });
+    } else {
+      updatePhase(distribucija_phase.id, { ...values, status: "v teku" });
+    }
+    router.refresh();
+    if (distribucija_phase?.status === "v teku") {
+      await updatePhase(distribucija_phase!.id, {
+        ...values,
+        status: "zaključeno",
+      });
+    }
+    router.refresh();
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -80,8 +124,8 @@ const DistribucijaForm = ({
             <div className="flex gap-4">
               <p>Začetek faze:</p>
               <p>{`${
-                project_phase && project_phase.start_date
-                  ? formatDate(project_phase.start_date)
+                distribucija_phase && distribucija_phase.start_date
+                  ? formatDate(distribucija_phase.start_date)
                   : "/"
               }`}</p>
             </div>
@@ -123,7 +167,7 @@ const DistribucijaForm = ({
                           onSelect={field.onChange}
                           disabled={(date) =>
                             date < new Date(new Date().setHours(0, 0, 0, 0)) ||
-                            date < project.project_data.start_date
+                            date < project.start_date
                           } // This line allows today's date
                           initialFocus
                         />
@@ -169,7 +213,22 @@ const DistribucijaForm = ({
             />
           </div>
         </div>
-        <Button type="submit">Shrani</Button>
+        <div className="flex justify-between">
+          <Button onClick={() => setActionType("save")} type="submit">
+            Shrani
+          </Button>
+          {tisk_phase && tisk_phase.status === "zaključeno" && (
+            <Button
+              onClick={() => setActionType("activate")}
+              type="submit"
+              variant="outline"
+            >
+              {distribucija_phase?.status === "v teku"
+                ? "Zaključi fazo"
+                : "Aktiviraj fazo"}
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   );

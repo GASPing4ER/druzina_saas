@@ -1,4 +1,4 @@
-import { getProject } from "@/actions/projects";
+import { getSingleProject } from "@/actions/projects";
 import { ProjectDetails } from "@/components";
 
 const ProjectDetailsPage = async ({
@@ -7,7 +7,8 @@ const ProjectDetailsPage = async ({
   params: { projectId: string };
 }) => {
   const projectId = params.projectId;
-  const { data: project } = await getProject(projectId, "arhiv");
+  const { data: project } = await getSingleProject(projectId);
+
   if (!project) {
     return <div>Projekta nismo našli</div>;
   } else {

@@ -68,6 +68,41 @@ export const getProjects = async (
   }
 };
 
+export const getSingleProject = async (
+  projectId: string
+): Promise<{
+  data: ProjectWithCreatorProps | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("project_data")
+      .select(
+        `
+          *,
+          creator:users (*)
+        `
+      )
+      .eq("id", projectId)
+      .neq("status", "zaključeno")
+      .order("end_date")
+      .maybeSingle();
+
+    return {
+      data,
+      error,
+      message: `Successfully Fetched Single Project`,
+    };
+  } catch (error: unknown) {
+    return {
+      data: null,
+      error: error as PostgrestError,
+      message: "Database Error: Projects Fetching unsuccessful.",
+    };
+  }
+};
+
 export const getAllProjects = async (
   user: User
 ): Promise<{

@@ -17,7 +17,7 @@ import {
 import { phaseFormSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { CompleteProjectPhaseProps, ProjectPhaseProps } from "@/types";
+import { ProjectWithCreatorProps, ProjectPhaseProps } from "@/types";
 import {
   Popover,
   PopoverContent,
@@ -30,9 +30,11 @@ import { formatDate } from "@/utils";
 import { addPhase, updatePhase } from "@/actions/project-phases";
 import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
+import { useState } from "react";
+
 type PripravOblikovanjeFormProps = {
   user: User;
-  project: CompleteProjectPhaseProps;
+  project: ProjectWithCreatorProps;
   project_phase: ProjectPhaseProps | null;
 };
 
@@ -40,6 +42,7 @@ const PripravOblikovanjeForm = ({
   project,
   project_phase,
 }: PripravOblikovanjeFormProps) => {
+  const [actionType, setActionType] = useState("");
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof phaseFormSchema>>({
@@ -50,9 +53,9 @@ const PripravOblikovanjeForm = ({
           project_phase.end_date &&
           new Date(project_phase?.end_date)) ||
         undefined,
-      oblikovanje: project_phase?.oblikovanje,
-      sken: project_phase?.sken,
-      postavitev: project_phase?.postavitev,
+      oblikovanje: project_phase?.oblikovanje || "",
+      sken: project_phase?.sken || "",
+      postavitev: project_phase?.postavitev || "",
       predogled: project_phase?.predogled,
       potrditev_postavitve: project_phase?.potrditev_postavitve,
     },
@@ -60,17 +63,41 @@ const PripravOblikovanjeForm = ({
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseFormSchema>) {
+    if (actionType === "save") {
+      savePhase(values);
+    } else {
+      activatePhase(values);
+    }
+  }
+
+  async function savePhase(values: z.infer<typeof phaseFormSchema>) {
     if (project_phase === null) {
       await addPhase({
         ...values,
         status: "v čakanju",
-        project_id: project.project_data.id,
+        project_id: project.id,
         name: "priprava-in-oblikovanje",
       });
     } else {
       await updatePhase(project_phase?.id, {
         ...values,
       });
+    }
+    router.refresh();
+  }
+
+  async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
+    if (project_phase?.status === "v teku") {
+      await updatePhase(project_phase.id, { ...values, status: "zaključeno" });
+    } else if (project_phase === null) {
+      await addPhase({
+        ...values,
+        status: "v teku",
+        project_id: project.id,
+        name: "priprava-in-oblikovanje",
+      });
+    } else {
+      updatePhase(project_phase.id, { ...values, status: "v teku" });
     }
     router.refresh();
   }
@@ -125,7 +152,7 @@ const PripravOblikovanjeForm = ({
                           onSelect={field.onChange}
                           disabled={(date) =>
                             date < new Date(new Date().setHours(0, 0, 0, 0)) ||
-                            date < project.project_data.start_date
+                            date < project.start_date
                           } // This line allows today's date
                           initialFocus
                         />
@@ -219,7 +246,20 @@ const PripravOblikovanjeForm = ({
             />
           </div>
         </div>
-        <Button type="submit">Shrani</Button>
+        <div className="flex justify-between">
+          <Button onClick={() => setActionType("save")} type="submit">
+            Shrani
+          </Button>
+          <Button
+            onClick={() => setActionType("activate")}
+            type="submit"
+            variant="outline"
+          >
+            {project_phase?.status === "v teku"
+              ? "Zaključi fazo"
+              : "Aktiviraj fazo"}
+          </Button>
+        </div>
       </form>
     </Form>
   );

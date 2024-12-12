@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { User } from "@supabase/supabase-js";
-import { CompleteProjectPhaseProps, ProjectPhaseProps } from "@/types";
+import { ProjectPhaseProps, ProjectWithCreatorProps } from "@/types";
 import { getProjectPhase } from "@/utils";
 import {
   DistribucijaForm,
@@ -17,7 +17,7 @@ import {
 
 type PhaseSpecificationsProps = {
   user: User;
-  project: CompleteProjectPhaseProps;
+  project: ProjectWithCreatorProps;
   project_phases: ProjectPhaseProps[] | null;
 };
 
@@ -78,7 +78,7 @@ const PhaseSpecifications = ({
             <TiskForm
               user={user}
               project={project}
-              project_phase={getProjectPhase(project_phases, "tisk")}
+              project_phases={project_phases}
             />
           </AccordionContent>
         </AccordionItem>
@@ -93,7 +93,7 @@ const PhaseSpecifications = ({
             <DistribucijaForm
               user={user}
               project={project}
-              project_phase={getProjectPhase(project_phases, "distribucija")}
+              project_phases={project_phases}
             />
           </AccordionContent>
         </AccordionItem>
