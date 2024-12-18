@@ -52,7 +52,7 @@ export type ProjectProps = {
 };
 
 export type typeFormProps = {
-  name?: string;
+  name: string;
   type: TType;
   start_date: Date;
   end_date: Date;

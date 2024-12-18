@@ -54,11 +54,11 @@ const TednikForm = ({ user, handleClose }: TednikFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof tednikFormSchema>) {
-    const completeData = getCompleteData(values, user);
-    const { data, error } = await addProject({
-      ...completeData,
-      name: `Tednik ${values.st_izdaje}`,
-    });
+    const completeData = getCompleteData(
+      { ...values, name: `Tednik ${values.st_izdaje}` },
+      user
+    );
+    const { data, error } = await addProject(completeData);
     console.log("Data:", data);
     console.log("Error:", error);
     const phase = phases[completeData.napredek].slug;
