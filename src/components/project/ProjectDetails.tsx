@@ -33,20 +33,34 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
                   {formatDate(project.start_date)}
                 </p>
               </div>
-              <div>
-                <p>Konec</p>
-                <p className="font-semibold">{formatDate(project.end_date)}</p>
-              </div>
+              {project.type !== "drugo" && (
+                <div>
+                  <p>Konec</p>
+                  <p className="font-semibold">
+                    {formatDate(project.end_date)}
+                  </p>
+                </div>
+              )}
             </div>
             <hr className="w-full border-1 border-slate-500" />
           </div>
-          <div>
-            <p>Datum izdaje</p>
-            <p className="font-semibold">
-              {formatDate(project.published_date)}
-            </p>
-            <hr className="w-full border-1 border-slate-500" />
-          </div>
+          {project.type !== "drugo" ? (
+            <div>
+              <p>Datum izdaje</p>
+              <p className="font-semibold">
+                {project.published_date && formatDate(project.published_date)}
+              </p>
+              <hr className="w-full border-1 border-slate-500" />
+            </div>
+          ) : (
+            <div>
+              <p>Konec</p>
+              <p className="font-semibold">
+                {project.end_date && formatDate(project.end_date)}
+              </p>
+              <hr className="w-full border-1 border-slate-500" />
+            </div>
+          )}
         </div>
       </div>
       <div className="flex-1">
