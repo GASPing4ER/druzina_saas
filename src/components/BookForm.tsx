@@ -55,7 +55,9 @@ const BookForm = ({ user, handleClose }: BookFormProps) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof bookFormSchema>) {
     const completeData = getCompleteData(values, user);
-    const { data } = await addProject(completeData);
+    const { data, error } = await addProject(completeData);
+    console.log("Data:", data);
+    console.log("Error:", error);
     const phase = phases[completeData.napredek].slug;
     await addProjectPhase({
       project_id: data!.id,
