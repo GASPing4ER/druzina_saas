@@ -34,7 +34,7 @@ import PhaseDateModal from "./PhaseDateModal";
 import PhaseDateForm from "./PhaseDateForm";
 import PhaseSpecifications from "./PhaseSpecifications";
 import TypeChoice from "./TypeChoice";
-import BookForm from "./BookForm";
+import BookForm from "./type-forms/BookForm";
 import TechicalSpecificationsForm from "./project-overview-forms/TechnicalSpecificationsForm";
 import UrednistvoForm from "./project-overview-forms/UrednistvoForm";
 import PripravOblikovanjeForm from "./project-overview-forms/PripravaOblikovanjeForm";
@@ -44,6 +44,9 @@ import PhaseTable from "./phase/PhaseTable";
 import PhaseRow from "./phase/PhaseRow";
 import OfferTable from "./offer/OfferTable";
 import OfferRow from "./offer/OfferRow";
+import OtherForm from "./type-forms/OtherForm";
+import PublicationsForm from "./type-forms/PublicationsForm";
+import TednikForm from "./type-forms/TednikForm";
 
 export {
   Sidebar,
@@ -92,4 +95,7 @@ export {
   PhaseRow,
   OfferTable,
   OfferRow,
+  OtherForm,
+  PublicationsForm,
+  TednikForm,
 };

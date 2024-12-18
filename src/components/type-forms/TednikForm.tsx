@@ -8,22 +8,16 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from "@/components/ui/select";
-
-import { taskSchema } from "@/types/schemas";
+import { Input } from "@/components/ui/input";
+import { tednikFormSchema } from "@/types/schemas";
+import { getCompleteData } from "@/utils";
+import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 import {
   Popover,
   PopoverContent,
@@ -33,85 +27,68 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import { getUser } from "@/actions/auth";
-import { useEffect, useState } from "react";
-import { addTask } from "@/actions/tasks";
-import { useRouter } from "next/navigation";
-import { taskPriority } from "@/constants";
-import { getUsers } from "@/actions/users";
-import { NewTaskDataProps, UserProps } from "@/types";
+import { addProject } from "@/actions/projects";
+import { phases } from "@/constants";
+import { addProjectPhase } from "@/actions/project-phases";
+import { Textarea } from "../ui/textarea";
 
-type TaskFormProps = {
-  projectId: string;
-  phase: string;
+type TednikFormProps = {
+  user: User;
   handleClose: () => void;
 };
 
-const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
-  const router = useRouter();
-  const [users, setUsers] = useState<UserProps[]>([]);
+const TednikForm = ({ user, handleClose }: TednikFormProps) => {
   // 1. Define your form.
-  const form = useForm<z.infer<typeof taskSchema>>({
-    resolver: zodResolver(taskSchema),
-    defaultValues: {},
+  const router = useRouter();
+  const form = useForm<z.infer<typeof tednikFormSchema>>({
+    resolver: zodResolver(tednikFormSchema),
+    defaultValues: {
+      type: "tednik",
+    },
   });
 
-  useEffect(() => {
-    const getUsersData = async () => {
-      const response = await getUsers();
-
-      if (response.data) {
-        const result = response.data.filter(
-          (user: UserProps) =>
-            user.department === phase && user.role === "member"
-        );
-        setUsers(result);
-      }
-    };
-
-    getUsersData();
-  }, [phase]);
-
   const startDate = form.watch("start_date");
+  if (user.user_metadata.role !== "superadmin") {
+    form.setValue("type", "drugo");
+  }
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof taskSchema>) {
-    const user = await getUser();
-    try {
-      const completeData: NewTaskDataProps = {
-        ...values,
-        phase,
-        assigner_id: user.id,
-        project_id: projectId,
-        status: "assigned",
-      };
+  async function onSubmit(values: z.infer<typeof tednikFormSchema>) {
+    const completeData = getCompleteData(values, user);
+    const { data, error } = await addProject({
+      ...completeData,
+      name: `Tednik ${values.st_izdaje}`,
+    });
+    console.log("Data:", data);
+    console.log("Error:", error);
+    const phase = phases[completeData.napredek].slug;
+    await addProjectPhase({
+      project_id: data!.id,
+      name: phase,
+      status: completeData.status,
+    });
 
-      console.log(completeData);
-
-      const { error } = await addTask(completeData);
-      console.log(error);
-      router.refresh();
-      handleClose();
-    } catch (error) {
-      return error;
-    }
+    router.replace("/");
+    handleClose();
   }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-baseline">
           <div className="flex-1">
             <FormField
               control={form.control}
-              name="name"
+              name="type"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Naziv naloge</FormLabel>
+                <FormItem className="h-full">
+                  <FormLabel>Vrsta</FormLabel>
                   <FormControl>
-                    <Input placeholder="Lektoriranje vsebine" {...field} />
+                    <Input
+                      {...field}
+                      value="tednik"
+                      className="disabled:bg-gray-300 disabled:text-black"
+                    />
                   </FormControl>
-                  <FormDescription>Naziv naloge</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -120,17 +97,13 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
           <div className="flex-1">
             <FormField
               control={form.control}
-              name="description"
+              name="st_izdaje"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Opis naloge</FormLabel>
+                  <FormLabel>Številka izdaje</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Lektoriraj vsebino na strani 8"
-                      {...field}
-                    />
+                    <Input placeholder="12" {...field} />
                   </FormControl>
-                  <FormDescription>Opis naloge</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -141,60 +114,13 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
           <div className="flex-1">
             <FormField
               control={form.control}
-              name="employee_id"
+              name="priloge"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Izvajalec naloge</FormLabel>
+                  <FormLabel>Priloge</FormLabel>
                   <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Izberite izvajalca" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {users.map((user) => (
-                          <SelectItem key={user.id} value={user.id}>
-                            {`${user.first_name} ${user.last_name}`}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Textarea {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Zaposleni, ki bo nalogo izvajal
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="priority"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Prioriteta</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Izberite prioriteto" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {taskPriority.map((task) => (
-                          <SelectItem key={task} value={task}>
-                            {task}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription>Prioriteta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -208,7 +134,7 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
               name="start_date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Začetek naloge</FormLabel>
+                  <FormLabel>Začetek projekta</FormLabel>
                   <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -245,7 +171,6 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Začetek naloge</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -257,7 +182,7 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
               name="end_date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Konec naloge</FormLabel>
+                  <FormLabel>Konec projekta</FormLabel>
                   <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -295,17 +220,67 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Konec naloge</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
         </div>
-        <Button type="submit">Dodaj</Button>
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="published_date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Datum izida</FormLabel>
+                  <Popover modal={true}>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Izberi datum</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="w-auto p-0"
+                      align="start"
+                      onOpenAutoFocus={(e) => e.preventDefault()}
+                    >
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date(new Date().setHours(0, 0, 0, 0))
+                        } // This line allows today's date
+                        className="z-10"
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex-1" />
+        </div>
+        <Button type="submit">Ustvari</Button>
       </form>
     </Form>
   );
 };
 
-export default TaskForm;
+export default TednikForm;

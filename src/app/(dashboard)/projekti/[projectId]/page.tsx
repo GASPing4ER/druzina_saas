@@ -29,10 +29,7 @@ const ProjectDetailsPage = async ({
         <ProjectDetails project={project} />
         <div className="flex items-start gap-10 w-full">
           {projectPhases && (
-            <ProjectTimeline
-              project_end_date={project.end_date}
-              phases={projectPhases}
-            />
+            <ProjectTimeline project={project} phases={projectPhases} />
           )}
           <PhaseSpecifications
             user={user}

@@ -250,17 +250,19 @@ const DistribucijaForm = ({
           <Button onClick={() => setActionType("save")} type="submit">
             Shrani
           </Button>
-          {tisk_phase && tisk_phase.status === "zaključeno" && (
-            <Button
-              onClick={() => setActionType("activate")}
-              type="submit"
-              variant="outline"
-            >
-              {distribucija_phase?.status === "v teku"
-                ? "Zaključi fazo"
-                : "Aktiviraj fazo"}
-            </Button>
-          )}
+          {tisk_phase &&
+            tisk_phase.status === "zaključeno" &&
+            distribucija_phase?.status !== "zaključeno" && (
+              <Button
+                onClick={() => setActionType("activate")}
+                type="submit"
+                variant="outline"
+              >
+                {distribucija_phase?.status === "v teku"
+                  ? "Zaključi fazo"
+                  : "Aktiviraj fazo"}
+              </Button>
+            )}
         </div>
       </form>
     </Form>

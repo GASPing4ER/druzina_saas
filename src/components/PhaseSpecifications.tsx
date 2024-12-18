@@ -40,18 +40,23 @@ const PhaseSpecifications = ({
             <TechicalSpecificationsForm user={user} project={project} />
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem className="bg-gray-100 rounded-b-md" value="urednistvo">
-          <AccordionTrigger className="bg-gray-300 rounded-full px-4">
-            UREDNIŠTVO
-          </AccordionTrigger>
-          <AccordionContent className="px-4 py-4">
-            <UrednistvoForm
-              user={user}
-              project={project}
-              project_phase={getProjectPhase(project_phases, "urednistvo")}
-            />
-          </AccordionContent>
-        </AccordionItem>
+        {project.type !== "drugo" && (
+          <AccordionItem
+            className="bg-gray-100 rounded-b-md"
+            value="urednistvo"
+          >
+            <AccordionTrigger className="bg-gray-300 rounded-full px-4">
+              UREDNIŠTVO
+            </AccordionTrigger>
+            <AccordionContent className="px-4 py-4">
+              <UrednistvoForm
+                user={user}
+                project={project}
+                project_phase={getProjectPhase(project_phases, "urednistvo")}
+              />
+            </AccordionContent>
+          </AccordionItem>
+        )}
         <AccordionItem
           className="bg-gray-100 rounded-b-md"
           value="priprava-in-oblikovanje"

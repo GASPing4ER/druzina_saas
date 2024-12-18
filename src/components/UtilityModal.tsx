@@ -13,10 +13,11 @@ import { TaskForm, FileForm } from "@/components";
 
 type UtilityModalProps = {
   type: string;
+  phase: string;
   projectId: string;
 };
 
-const UtilityModal = ({ type, projectId }: UtilityModalProps) => {
+const UtilityModal = ({ type, phase, projectId }: UtilityModalProps) => {
   const [open, setOpen] = useState(false);
   return (
     <div>
@@ -37,6 +38,7 @@ const UtilityModal = ({ type, projectId }: UtilityModalProps) => {
           {type === "naloge" ? (
             <TaskForm
               projectId={projectId}
+              phase={phase}
               handleClose={() => setOpen(false)}
             />
           ) : (

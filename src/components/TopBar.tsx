@@ -12,11 +12,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { BookForm, ProjectForm, TypeChoice } from "@/components";
+import {
+  BookForm,
+  OtherForm,
+  PublicationsForm,
+  TednikForm,
+  TypeChoice,
+} from "@/components";
 import { User } from "@supabase/supabase-js";
 import { getProject } from "@/actions/projects";
 import { getPathname } from "@/utils";
 import Image from "next/image";
+import { Button } from "./ui/button";
 
 type TopBarProps = {
   user: User;
@@ -79,13 +86,25 @@ const TopBar = ({ user }: TopBarProps) => {
                     ? "Pozdravljeni! Izberite vrsto projekta za nadaljne ustvarjanje"
                     : "Dobrodošli v obrazcu za dodajanje novega projekta."}
                 </DialogDescription>
+                {type !== "" && (
+                  <Button onClick={() => setType("")}>
+                    Zamenjaj vrsto projekta
+                  </Button>
+                )}
               </DialogHeader>
               {type === "" ? (
                 <TypeChoice setType={setType} />
               ) : type === "knjiga" ? (
                 <BookForm user={user} handleClose={() => setOpen(false)} />
+              ) : type === "publikacije" ? (
+                <PublicationsForm
+                  user={user}
+                  handleClose={() => setOpen(false)}
+                />
+              ) : type === "drugo" ? (
+                <OtherForm user={user} handleClose={() => setOpen(false)} />
               ) : (
-                <ProjectForm user={user} handleClose={() => setOpen(false)} />
+                <TednikForm user={user} handleClose={() => setOpen(false)} />
               )}
             </DialogContent>
           </Dialog>

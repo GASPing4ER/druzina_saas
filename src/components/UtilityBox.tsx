@@ -4,24 +4,33 @@ import { FileProps, TaskWithNamesProps } from "@/types";
 type UtilityBoxProps =
   | {
       type: "naloge";
+      phase: string;
       data: TaskWithNamesProps[] | null;
       projectId: string;
       role: string;
     }
   | {
       type: "datoteke";
+      phase: string;
       data: FileProps[] | null;
       projectId: string;
       role: string;
     }
   | {
       type: "opombe";
+      phase: string;
       data: [] | null;
       projectId: string;
       role: string;
     };
 
-const UtilityBox = ({ type, data, projectId, role }: UtilityBoxProps) => {
+const UtilityBox = ({
+  type,
+  phase,
+  data,
+  projectId,
+  role,
+}: UtilityBoxProps) => {
   return (
     <div
       className={`border bg-white w-full shadow-2xl p-4 rounded-xl flex flex-col gap-2 ${
@@ -32,7 +41,7 @@ const UtilityBox = ({ type, data, projectId, role }: UtilityBoxProps) => {
         <h2 className="uppercase text-lg">{type}</h2>
         {(role === "superadmin" ||
           (type !== "naloge" && type !== "opombe")) && (
-          <UtilityModal type={type} projectId={projectId} />
+          <UtilityModal phase={phase} type={type} projectId={projectId} />
         )}
       </div>
       {data && data.length > 0 ? (

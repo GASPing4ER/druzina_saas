@@ -23,7 +23,7 @@ const ProjectDetailsPage = async ({
   ] = await Promise.all([
     getSingleProject(projectId),
     getProject(projectId, "urednistvo"),
-    getTasksWithNames(projectId),
+    getTasksWithNames(projectId, "urednistvo"),
     getFiles(projectId),
     getUser(),
   ]);
@@ -85,6 +85,7 @@ const ProjectDetailsPage = async ({
           <TabsContent value="naloge">
             <UtilityBox
               type="naloge"
+              phase="urednistvo"
               data={tasks}
               projectId={projectId}
               role={role}
@@ -93,6 +94,7 @@ const ProjectDetailsPage = async ({
           <TabsContent value="datoteke">
             <UtilityBox
               type="datoteke"
+              phase="urednistvo"
               data={files}
               projectId={projectId}
               role={role}

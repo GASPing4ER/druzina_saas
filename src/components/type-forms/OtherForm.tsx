@@ -14,16 +14,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from "@/components/ui/select";
-
-import { taskSchema } from "@/types/schemas";
+import { Input } from "@/components/ui/input";
+import { otherFormSchema } from "@/types/schemas";
+import { getCompleteData } from "@/utils";
+import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 import {
   Popover,
   PopoverContent,
@@ -33,168 +28,84 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import { getUser } from "@/actions/auth";
-import { useEffect, useState } from "react";
-import { addTask } from "@/actions/tasks";
-import { useRouter } from "next/navigation";
-import { taskPriority } from "@/constants";
-import { getUsers } from "@/actions/users";
-import { NewTaskDataProps, UserProps } from "@/types";
+import { addProject } from "@/actions/projects";
+import { phases } from "@/constants";
+import { addProjectPhase } from "@/actions/project-phases";
 
-type TaskFormProps = {
-  projectId: string;
-  phase: string;
+type OtherFormProps = {
+  user: User;
   handleClose: () => void;
 };
 
-const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
-  const router = useRouter();
-  const [users, setUsers] = useState<UserProps[]>([]);
+const OtherForm = ({ user, handleClose }: OtherFormProps) => {
   // 1. Define your form.
-  const form = useForm<z.infer<typeof taskSchema>>({
-    resolver: zodResolver(taskSchema),
-    defaultValues: {},
+  const router = useRouter();
+  const form = useForm<z.infer<typeof otherFormSchema>>({
+    resolver: zodResolver(otherFormSchema),
+    defaultValues: {
+      type: "drugo",
+    },
   });
 
-  useEffect(() => {
-    const getUsersData = async () => {
-      const response = await getUsers();
-
-      if (response.data) {
-        const result = response.data.filter(
-          (user: UserProps) =>
-            user.department === phase && user.role === "member"
-        );
-        setUsers(result);
-      }
-    };
-
-    getUsersData();
-  }, [phase]);
-
   const startDate = form.watch("start_date");
+  if (user.user_metadata.role !== "superadmin") {
+    form.setValue("type", "drugo");
+  }
+
+  console.log("Inside OtherForm");
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof taskSchema>) {
-    const user = await getUser();
-    try {
-      const completeData: NewTaskDataProps = {
-        ...values,
-        phase,
-        assigner_id: user.id,
-        project_id: projectId,
-        status: "assigned",
-      };
+  async function onSubmit(values: z.infer<typeof otherFormSchema>) {
+    console.log("Inside submit function");
+    const completeData = getCompleteData(values, user);
+    const { data, error } = await addProject(completeData);
+    console.log("Data:", data);
+    console.log("Error:", error);
+    const phase = phases[completeData.napredek].slug;
+    await addProjectPhase({
+      project_id: data!.id,
+      name: phase,
+      status: completeData.status,
+    });
 
-      console.log(completeData);
-
-      const { error } = await addTask(completeData);
-      console.log(error);
-      router.refresh();
-      handleClose();
-    } catch (error) {
-      return error;
-    }
+    router.replace("/");
+    handleClose();
   }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-baseline">
+          <div className="flex-1">
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem className="h-full">
+                  <FormLabel>Vrsta</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value="drugo"
+                      className="disabled:bg-gray-300 disabled:text-black"
+                    />
+                  </FormControl>
+                  <FormDescription>Vrsta vašega projekta</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <div className="flex-1">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Naziv naloge</FormLabel>
+                  <FormLabel>Naslov</FormLabel>
                   <FormControl>
-                    <Input placeholder="Lektoriranje vsebine" {...field} />
+                    <Input placeholder="Plakat" {...field} />
                   </FormControl>
-                  <FormDescription>Naziv naloge</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Opis naloge</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Lektoriraj vsebino na strani 8"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>Opis naloge</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="employee_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Izvajalec naloge</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Izberite izvajalca" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {users.map((user) => (
-                          <SelectItem key={user.id} value={user.id}>
-                            {`${user.first_name} ${user.last_name}`}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription>
-                    Zaposleni, ki bo nalogo izvajal
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="priority"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Prioriteta</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Izberite prioriteto" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {taskPriority.map((task) => (
-                          <SelectItem key={task} value={task}>
-                            {task}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription>Prioriteta</FormDescription>
+                  <FormDescription>Naslov vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -208,7 +119,7 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
               name="start_date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Začetek naloge</FormLabel>
+                  <FormLabel>Začetek projekta</FormLabel>
                   <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -245,7 +156,7 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Začetek naloge</FormDescription>
+                  <FormDescription>Začetek vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -257,7 +168,7 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
               name="end_date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Konec naloge</FormLabel>
+                  <FormLabel>Konec projekta</FormLabel>
                   <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -295,17 +206,19 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Konec naloge</FormDescription>
+                  <FormDescription>Konec vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
         </div>
-        <Button type="submit">Dodaj</Button>
+        <Button onClick={() => console.log("I am clicked")} type="submit">
+          Ustvari
+        </Button>
       </form>
     </Form>
   );
 };
 
-export default TaskForm;
+export default OtherForm;

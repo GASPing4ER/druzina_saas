@@ -211,7 +211,8 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
             Shrani
           </Button>
           {urednistvo_phase?.status === "zaključeno" &&
-            priprava_in_oblikovanje_phase?.status === "zaključeno" && (
+            priprava_in_oblikovanje_phase?.status === "zaključeno" &&
+            tisk_phase?.status !== "zaključeno" && (
               <Button
                 onClick={() => setActionType("activate")}
                 type="submit"

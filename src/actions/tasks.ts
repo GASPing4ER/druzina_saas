@@ -11,7 +11,8 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 
 export const getTasks = async (
-  projectId: string
+  projectId: string,
+  phase: string
 ): Promise<{
   data: TaskProps[] | null;
   error: PostgrestError | null;
@@ -21,7 +22,8 @@ export const getTasks = async (
     const { data, error } = await supabase
       .from("tasks")
       .select()
-      .eq("project_id", projectId);
+      .eq("project_id", projectId)
+      .eq("phase", phase);
 
     return {
       data: data,
@@ -38,7 +40,8 @@ export const getTasks = async (
 };
 
 export const getTasksWithNames = async (
-  projectId: string
+  projectId: string,
+  phase: string
 ): Promise<{
   data: TaskWithNamesProps[] | null;
   error: PostgrestError | null;
@@ -54,7 +57,8 @@ export const getTasksWithNames = async (
       assigner:assigner_id (first_name, last_name)
     `
       )
-      .eq("project_id", projectId);
+      .eq("project_id", projectId)
+      .eq("phase", phase);
 
     return {
       data: data,

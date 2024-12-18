@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const TTypeSchema = z.enum(["družina", "revija", "knjiga", "drugo"]);
+const TTypeSchema = z.enum(["publikacije", "tednik", "knjiga", "drugo"]);
 const TPrioritySchema = z.enum(["nizka", "normalna", "visoka"]);
 const TDepartment = z.enum([
   "urednistvo",
@@ -48,6 +48,42 @@ export const bookFormSchema = z.object({
     message: "Izberite pravilno vrsto.",
   }),
   published_date: z.date(),
+  start_date: z.date(),
+  end_date: z.date(),
+});
+
+export const publicationsFormSchema = z.object({
+  type: TTypeSchema.refine((val) => TTypeSchema.options.includes(val), {
+    message: "Izberite pravilno vrsto.",
+  }),
+  name: z.string().min(2, {
+    message: "Naslov mora imeti vsaj 2 karakterja.",
+  }),
+  priloge: z.string(),
+  st_izdaje: z.string(),
+  published_date: z.date(),
+  start_date: z.date(),
+  end_date: z.date(),
+});
+
+export const tednikFormSchema = z.object({
+  type: TTypeSchema.refine((val) => TTypeSchema.options.includes(val), {
+    message: "Izberite pravilno vrsto.",
+  }),
+  priloge: z.string(),
+  st_izdaje: z.string(),
+  published_date: z.date(),
+  start_date: z.date(),
+  end_date: z.date(),
+});
+
+export const otherFormSchema = z.object({
+  name: z.string().min(2, {
+    message: "Naslov mora imeti vsaj 2 karakterja.",
+  }),
+  type: TTypeSchema.refine((val) => TTypeSchema.options.includes(val), {
+    message: "Izberite pravilno vrsto.",
+  }),
   start_date: z.date(),
   end_date: z.date(),
 });

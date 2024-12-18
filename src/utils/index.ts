@@ -3,11 +3,10 @@ import {
   CompleteProjectPhaseProps,
   NewProjectDataProps,
   ProjectPhaseProps,
+  typeFormProps,
   UpdatedProjectDataProps,
 } from "@/types";
-import { bookFormSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
-import { z } from "zod";
 
 export const getPathname = (pathname: string) => {
   // TODO: V konstante dodaj pathnames, kjer bodo shranjeni url-ji in naslovi, in nato v tej funkciji return-i object s title-om in url-jem
@@ -56,7 +55,7 @@ export const getPhaseNameByNapredek = (napredek: number) => {
 };
 
 export const getCompleteData = (
-  values: z.infer<typeof bookFormSchema>,
+  values: typeFormProps,
   user: User
 ): NewProjectDataProps => {
   if (new Date(values.start_date) > new Date()) {
@@ -78,9 +77,9 @@ export const getCompleteData = (
   }
   return {
     ...values,
-    napredek: 3,
+    napredek: 2,
     status: "v teku",
-    stanje: 40,
+    stanje: 25,
     creator_id: user.id,
   };
 };

@@ -273,15 +273,17 @@ const PripravOblikovanjeForm = ({
           <Button onClick={() => setActionType("save")} type="submit">
             Shrani
           </Button>
-          <Button
-            onClick={() => setActionType("activate")}
-            type="submit"
-            variant="outline"
-          >
-            {project_phase?.status === "v teku"
-              ? "Zaključi fazo"
-              : "Aktiviraj fazo"}
-          </Button>
+          {project_phase?.status !== "zaključeno" && (
+            <Button
+              onClick={() => setActionType("activate")}
+              type="submit"
+              variant="outline"
+            >
+              {project_phase?.status === "v teku"
+                ? "Zaključi fazo"
+                : "Aktiviraj fazo"}
+            </Button>
+          )}
         </div>
       </form>
     </Form>

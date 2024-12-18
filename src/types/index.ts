@@ -7,7 +7,7 @@ export type TPhases =
   | "distribucija"
   | "arhiv";
 
-export type TType = "družina" | "revija" | "knjiga" | "drugo";
+export type TType = "publikacije" | "tednik" | "knjiga" | "drugo";
 
 export type TStatus = "v čakanju" | "v pripravi" | "v teku" | "zaključeno";
 
@@ -35,7 +35,7 @@ export type ProjectProps = {
   creator_id: string;
   start_date: Date;
   end_date: Date;
-  published_date: Date;
+  published_date?: Date;
   status: TStatus;
   napredek: TNapredek;
   stanje: number;
@@ -49,6 +49,17 @@ export type ProjectProps = {
   tisk?: string;
   main_check?: boolean;
   technical_check?: boolean;
+};
+
+export type typeFormProps = {
+  name: string;
+  type: TType;
+  start_date: Date;
+  end_date: Date;
+  published_date?: Date;
+  author?: string;
+  priloge?: string;
+  st_izdaje?: string;
 };
 
 export type TechnicalSpecificationsProps = {
@@ -193,6 +204,7 @@ export type TaskProps = {
   assigner_id: string;
   name: string;
   description: string;
+  phase: string;
   priority: TTaskPriority;
   start_date: Date;
   end_date: Date;
