@@ -186,7 +186,12 @@ export const phases: PhasesProps = [
 
 export const taskPriority: TTaskPriority[] = ["nizka", "normalna", "visoka"];
 
-export const projectTypes: TType[] = ["družina", "revija", "knjiga", "drugo"];
+export const projectTypes: TType[] = [
+  "publikacije",
+  "tednik",
+  "knjiga",
+  "drugo",
+];
 
 export const roleTypes: TRole[] = ["member", "admin", "superadmin"];
 
