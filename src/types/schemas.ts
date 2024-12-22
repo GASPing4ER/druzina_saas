@@ -139,6 +139,11 @@ export const taskSchema = z.object({
   end_date: z.date(),
 });
 
+export const taskHoursSchema = z.object({
+  hours: z.string(),
+  description: z.string(),
+});
+
 export const fileSchema = z.object({
   name: z.string().min(2, {
     message: "Naslov mora imeti vsaj 2 karakterja.",

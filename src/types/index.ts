@@ -212,6 +212,14 @@ export type TaskProps = {
   created_at: Date;
 };
 
+export type TaskHoursProps = {
+  id: string;
+  task_id: string;
+  hours: number;
+  description: string;
+  created_at: Date;
+};
+
 export type NewTaskDataProps = Omit<TaskProps, "id" | "created_at">;
 
 export type TaskWithNamesProps = TaskProps & {

@@ -190,7 +190,10 @@ export const chooseNextPhaseAction = async (
   } else if (next_phase_name === "tisk") {
     const phase = getProjectPhase(data, next_phase_name);
     const urednistvo_phase = getProjectPhase(data, "urednistvo");
-    if (urednistvo_phase?.status === "zaključeno") {
+    if (
+      urednistvo_phase?.status === "zaključeno" ||
+      current_phase.project_data.type === "drugo"
+    ) {
       if (phase === null) {
         await Promise.all([
           await updatePhase(current_phase.id, {

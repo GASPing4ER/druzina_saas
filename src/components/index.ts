@@ -47,6 +47,10 @@ import OfferRow from "./offer/OfferRow";
 import OtherForm from "./type-forms/OtherForm";
 import PublicationsForm from "./type-forms/PublicationsForm";
 import TednikForm from "./type-forms/TednikForm";
+import TaskHoursEditModal from "./task/TaskHoursEditModal";
+import TaskHoursEditForm from "./task/TaskHoursEditForm";
+import TaskHoursTable from "./task/TaskHoursTable";
+import TaskHoursRow from "./task/TaskHoursRow";
 
 export {
   Sidebar,
@@ -98,4 +102,8 @@ export {
   OtherForm,
   PublicationsForm,
   TednikForm,
+  TaskHoursEditModal,
+  TaskHoursEditForm,
+  TaskHoursTable,
+  TaskHoursRow,
 };

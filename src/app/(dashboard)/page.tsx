@@ -5,6 +5,7 @@ import { DashboardProjectsDisplay, ProjectsCarousel } from "@/components";
 export default async function Home() {
   const user = await getUser();
   const { data: projects } = await getAllProjects(user!);
+  console.log(projects);
 
   return (
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start pl-12 py-6 bg-white w-[1000px]">

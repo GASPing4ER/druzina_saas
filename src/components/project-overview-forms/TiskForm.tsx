@@ -210,19 +210,21 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
           <Button onClick={() => setActionType("save")} type="submit">
             Shrani
           </Button>
-          {urednistvo_phase?.status === "zaključeno" &&
-            priprava_in_oblikovanje_phase?.status === "zaključeno" &&
-            tisk_phase?.status !== "zaključeno" && (
-              <Button
-                onClick={() => setActionType("activate")}
-                type="submit"
-                variant="outline"
-              >
-                {tisk_phase?.status === "v teku"
-                  ? "Zaključi fazo"
-                  : "Aktiviraj fazo"}
-              </Button>
-            )}
+          {(urednistvo_phase?.status === "zaključeno" &&
+            priprava_in_oblikovanje_phase?.status === "zaključeno") ||
+            (project.type === "drugo" &&
+              priprava_in_oblikovanje_phase?.status === "zaključeno" &&
+              tisk_phase?.status !== "zaključeno" && (
+                <Button
+                  onClick={() => setActionType("activate")}
+                  type="submit"
+                  variant="outline"
+                >
+                  {tisk_phase?.status === "v teku"
+                    ? "Zaključi fazo"
+                    : "Aktiviraj fazo"}
+                </Button>
+              ))}
         </div>
       </form>
     </Form>

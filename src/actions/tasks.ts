@@ -3,6 +3,7 @@
 import { supabase } from "@/lib/supabase";
 import {
   NewTaskDataProps,
+  TaskHoursProps,
   TaskProps,
   TaskWithNamesProps,
   TTaskStatus,
@@ -156,6 +157,60 @@ export const updateTaskStatus = async (
       data: null,
       error: error as PostgrestError,
       message: "Database Error: Failed to Update Task Status",
+    };
+  }
+};
+
+export const addTaskHours = async (values: {
+  task_id: string;
+  hours: string;
+  description: string;
+}): Promise<{
+  data: TaskHoursProps | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("task_hours")
+      .insert({ ...values, hours: +values.hours });
+    revalidatePath(`/`, "layout");
+    return {
+      data,
+      error,
+      message: "Successful Creation of a Task",
+    };
+  } catch (error: unknown) {
+    return {
+      data: null,
+      error: error as PostgrestError,
+      message: "Database Error: Failed to Create Task",
+    };
+  }
+};
+
+export const getTaskHours = async (
+  task_id: string
+): Promise<{
+  data: TaskHoursProps[] | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("task_hours")
+      .select()
+      .eq("task_id", task_id);
+    return {
+      data,
+      error,
+      message: "Successful Creation of a Task",
+    };
+  } catch (error: unknown) {
+    return {
+      data: null,
+      error: error as PostgrestError,
+      message: "Database Error: Failed to Create Task",
     };
   }
 };

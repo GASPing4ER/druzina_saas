@@ -3,7 +3,12 @@
 import { MouseEvent, useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatDate, isPast } from "@/utils";
-import { TaskEditModal, TaskModal, TaskStatusButton } from "@/components";
+import {
+  TaskEditModal,
+  TaskHoursEditModal,
+  TaskModal,
+  TaskStatusButton,
+} from "@/components";
 import { User } from "@supabase/supabase-js";
 import { TaskWithNamesProps } from "@/types";
 import Image from "next/image";
@@ -14,26 +19,36 @@ type TaskRowProps = {
 };
 
 const TaskRow = ({ task, user }: TaskRowProps) => {
-  const [open, setOpen] = useState(false); // Manage dialog state
-  const [openForm, setOpenForm] = useState(false); // Manage dialog state
+  const [open, setOpen] = useState(false);
+  const [openForm, setOpenForm] = useState(false);
+  const [openHoursForm, setOpenHoursForm] = useState(false);
+  console.log(user);
 
   const handleRowClick = () => {
-    setOpen(true); // Open dialog when row is clicked
+    setOpen(true);
   };
   return (
     <>
       <TableRow className="cursor-pointer" onClick={handleRowClick}>
         <TableCell>
-          <Image
-            onClick={(e: MouseEvent) => {
-              e.stopPropagation();
-              setOpenForm(true);
-            }}
-            src="/icons/edit.svg"
-            alt="edit"
-            width={25}
-            height={25}
-          />
+          {(user.id === task.employee_id ||
+            user.user_metadata.role === "superadmin" ||
+            user.user_metadata.role === "admin") && (
+            <Image
+              onClick={(e: MouseEvent) => {
+                e.stopPropagation();
+                if (user.id === task.employee_id) {
+                  setOpenHoursForm(true);
+                } else {
+                  setOpenForm(true);
+                }
+              }}
+              src="/icons/edit.svg"
+              alt="edit"
+              width={25}
+              height={25}
+            />
+          )}
         </TableCell>
         <TableCell>
           {task.employee.first_name} {task.employee.last_name}
@@ -50,6 +65,11 @@ const TaskRow = ({ task, user }: TaskRowProps) => {
       </TableRow>
       <TaskModal task={task} open={open} setOpen={setOpen} />
       <TaskEditModal task={task} open={openForm} setOpen={setOpenForm} />
+      <TaskHoursEditModal
+        task={task}
+        open={openHoursForm}
+        setOpen={setOpenHoursForm}
+      />
     </>
   );
 };

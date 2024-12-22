@@ -105,7 +105,7 @@ const ProjectDetailsPage = async ({
 
           {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
           {tasksCompleted && role === "superadmin" && (
-            <NextPhaseModal phase="priprava-in-oblikovanje" project={project} />
+            <NextPhaseModal phase="tisk" project={project} />
           )}
         </div>
       </main>
