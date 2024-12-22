@@ -51,6 +51,8 @@ import TaskHoursEditModal from "./task/TaskHoursEditModal";
 import TaskHoursEditForm from "./task/TaskHoursEditForm";
 import TaskHoursTable from "./task/TaskHoursTable";
 import TaskHoursRow from "./task/TaskHoursRow";
+import OfferForm from "./offer/OfferForm";
+import OfferModal from "./offer/OfferModal";
 
 export {
   Sidebar,
@@ -106,4 +108,6 @@ export {
   TaskHoursEditForm,
   TaskHoursTable,
   TaskHoursRow,
+  OfferForm,
+  OfferModal,
 };

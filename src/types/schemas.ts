@@ -35,6 +35,7 @@ export const phaseFormSchema = z.object({
   potrditev_postavitve: z.boolean().optional(),
   navodila: z.string().optional(),
   prevzem: z.boolean().optional(),
+  ponudba_id: z.string().optional(),
 });
 
 export const bookFormSchema = z.object({
@@ -154,6 +155,15 @@ export const fileSchema = z.object({
   link: z.string().min(2, {
     message: "Link mora imeti vsaj 2 karakterja.",
   }),
+});
+
+export const offerSchema = z.object({
+  offerer_id: z.string().min(2, {
+    message: "Vrsta projekta mora imeti vsaj 2 karakterja.",
+  }),
+  offerer_name: z.string().optional(),
+  quantity: z.number(),
+  price: z.number(),
 });
 
 export const userSchema = z.object({

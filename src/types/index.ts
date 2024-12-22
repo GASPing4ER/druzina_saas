@@ -156,11 +156,18 @@ export type NewFileDataProps = Omit<FileProps, "id" | "created_at">;
 export type OfferProps = {
   id: string;
   offerer_id: string;
-  phase_id: string;
+  project_id: string;
   quantity: number;
   price: number;
   total: number;
   created_at: Date;
+};
+
+export type OfferWithOffererProps = OfferProps & {
+  offerer: {
+    id: string;
+    name: string;
+  };
 };
 
 export type OffererProps = {

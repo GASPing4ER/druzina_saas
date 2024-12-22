@@ -28,9 +28,10 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { formatDate } from "@/utils";
 import { addPhase, updatePhase } from "@/actions/project-phases";
-// import OfferTable from "../offer/OfferTable";
 import { Suspense, useState } from "react";
 import { updateProject } from "@/actions/projects";
+import { OfferModal, OfferTable } from "@/components";
+
 type TiskFormProps = {
   user: User;
   project: ProjectWithCreatorProps;
@@ -39,6 +40,7 @@ type TiskFormProps = {
 
 const TiskForm = ({ project, project_phases }: TiskFormProps) => {
   const [actionType, setActionType] = useState("");
+  const [open, setOpen] = useState(false);
 
   // 1. Define your form.
   const tisk_phase = project_phases
@@ -57,6 +59,7 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
       end_date:
         (tisk_phase && tisk_phase.end_date && new Date(tisk_phase?.end_date)) ||
         undefined,
+      ponudba_id: tisk_phase?.ponudba_id,
     },
   });
 
@@ -194,11 +197,18 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
           <div className="flex gap-2">
             <p>Ponudbe za tisk:</p>
             <div className="w-full flex flex-col items-start gap-4">
-              <Suspense fallback={<div>Loading...</div>}>
-                {/* <OfferTable /> */}
-              </Suspense>
+              <FormField
+                control={form.control}
+                name="ponudba_id"
+                render={({ field }) => (
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <OfferTable projectId={project.id} field={field} />
+                  </Suspense>
+                )}
+              />
               <button
                 type="button"
+                onClick={() => setOpen(true)}
                 className="border border-black text-sm px-1"
               >
                 +
@@ -227,6 +237,7 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
               ))}
         </div>
       </form>
+      <OfferModal projectId={project.id} open={open} setOpen={setOpen} />
     </Form>
   );
 };
