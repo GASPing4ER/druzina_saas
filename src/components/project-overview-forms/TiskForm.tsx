@@ -46,6 +46,7 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
   const tisk_phase = project_phases
     ? project_phases.find((phase) => phase.name === "tisk")
     : null;
+  console.log(tisk_phase);
   const urednistvo_phase = project_phases
     ? project_phases.find((phase) => phase.name === "urednistvo")
     : null;
@@ -73,7 +74,7 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
   }
 
   async function savePhase(values: z.infer<typeof phaseFormSchema>) {
-    if (tisk_phase === null) {
+    if (!tisk_phase) {
       await addPhase({
         ...values,
         status: "v čakanju",

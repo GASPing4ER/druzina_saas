@@ -72,7 +72,7 @@ const PripravOblikovanjeForm = ({
   }
 
   async function savePhase(values: z.infer<typeof phaseFormSchema>) {
-    if (project_phase === null) {
+    if (!project_phase) {
       await addPhase({
         ...values,
         status: "v čakanju",
@@ -90,7 +90,7 @@ const PripravOblikovanjeForm = ({
   async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
     if (project_phase?.status === "v teku") {
       await updatePhase(project_phase.id, { ...values, status: "zaključeno" });
-    } else if (project_phase === null) {
+    } else if (!project_phase) {
       await Promise.all([
         await addPhase({
           ...values,

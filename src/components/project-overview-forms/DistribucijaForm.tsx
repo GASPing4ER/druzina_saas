@@ -76,7 +76,7 @@ const DistribucijaForm = ({
   }
 
   async function savePhase(values: z.infer<typeof phaseFormSchema>) {
-    if (distribucija_phase === null) {
+    if (!distribucija_phase) {
       await addPhase({
         ...values,
         status: "v čakanju",
