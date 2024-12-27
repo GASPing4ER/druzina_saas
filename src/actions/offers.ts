@@ -155,3 +155,48 @@ export const addOfferer = async (
     };
   }
 };
+
+export const getOffererWithOfferId = async (
+  offerId: string
+): Promise<{
+  data: OfferWithOffererProps | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("offers")
+      .select(
+        `
+      *,
+      offerer:offerer_id (
+        id,
+        name
+      )
+    `
+      ) // Fetch all fields from "offers" and related data from "offerers"
+      .eq("id", offerId) // Filter by the offerId
+      .single();
+
+    if (error) {
+      // If there's an error from Supabase, handle it explicitly
+      return {
+        data: null,
+        error,
+        message: "Failed to fetch offerer: " + error.message,
+      };
+    }
+
+    return {
+      data: data || null,
+      error: null,
+      message: "Successfully fetched offerer",
+    };
+  } catch (error: unknown) {
+    return {
+      data: null,
+      error: error as PostgrestError,
+      message: "An unexpected error occurred while fetching offerer",
+    };
+  }
+};
