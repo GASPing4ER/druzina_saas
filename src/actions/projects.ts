@@ -233,6 +233,7 @@ export const getProject = async (
       .eq("project_id", projectId)
       .neq("status", "zaključeno")
       .order("end_date");
+
     if (phase) {
       query = query.eq("name", phase);
     }

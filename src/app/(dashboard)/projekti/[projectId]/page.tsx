@@ -7,18 +7,16 @@ import {
   ProjectTimeline,
 } from "@/components";
 
-const ProjectDetailsPage = async (
-  props: {
-    params: Promise<{ projectId: string }>;
-  }
-) => {
+const ProjectDetailsPage = async (props: {
+  params: Promise<{ projectId: string }>;
+}) => {
   const params = await props.params;
   const projectId = params.projectId;
+  console.log(projectId);
   const [projectDataResult, projectPhasesResult] = await Promise.all([
     getSingleProject(projectId),
     getProjectPhases(projectId),
   ]);
-
   const { data: project } = projectDataResult;
   const { data: projectPhases } = projectPhasesResult;
   const user = await getUser();

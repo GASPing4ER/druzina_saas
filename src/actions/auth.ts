@@ -8,7 +8,7 @@ import { LoginUserProps, NewUserDataProps } from "@/types";
 import { User } from "@supabase/supabase-js";
 
 export const signup = async (formData: NewUserDataProps) => {
-  const supabaseAuth = createClient();
+  const supabaseAuth = await createClient();
 
   const { data, error } = await supabaseAuth.auth.signUp({
     email: formData.email,
@@ -39,7 +39,7 @@ export const signup = async (formData: NewUserDataProps) => {
 };
 
 export const login = async (formData: LoginUserProps) => {
-  const supabaseAuth = createClient();
+  const supabaseAuth = await createClient();
 
   const { error } = await supabaseAuth.auth.signInWithPassword(formData);
 
@@ -51,12 +51,12 @@ export const login = async (formData: LoginUserProps) => {
 };
 
 export const logout = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   await supabase.auth.signOut();
 };
 
 export const getUser = async (): Promise<User> => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
 
   if (!data.user || error) {

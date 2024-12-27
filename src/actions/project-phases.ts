@@ -138,8 +138,6 @@ export const getProjectPhases = async (
       .from("project_phases")
       .select()
       .eq("project_id", projectId);
-
-    revalidatePath("/", "page");
     return {
       error,
       data,
