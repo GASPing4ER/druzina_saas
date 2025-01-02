@@ -43,8 +43,14 @@ const LoginUserForm = () => {
         ...values,
       };
 
-      await login(completeData);
-      setSuccessMessage("Prijava uspešna!");
+      const { error } = await login(completeData);
+      if (!error) {
+        setSuccessMessage("Prijava uspešna!");
+      } else {
+        setErrorMessage(
+          "Prijava ni uspela. Preverite podatke in poskusite znova."
+        );
+      }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setErrorMessage(
