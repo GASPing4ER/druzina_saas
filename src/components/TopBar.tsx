@@ -69,13 +69,13 @@ const TopBar = ({ user }: TopBarProps) => {
         )}
       </div>
       <div className="flex gap-6 items-center">
-        <input
+        {/* <input
           type="text"
           className="bg-slate-300 rounded-xl p-1 pl-4 placeholder:text-slate-950"
           placeholder="Poišči..."
         />
-        <div className="w-8 h-8 bg-slate-300 rounded-full" />
-        <div className="bg-slate-300 text-white py-1 px-8 rounded-xl">
+        <div className="w-8 h-8 bg-slate-300 rounded-full" /> */}
+        <div className="bg-black text-white py-1 px-8 rounded-xl border hover:bg-transparent hover:text-black hover:border hover:border-black">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger>+ DODAJ</DialogTrigger>
             <DialogContent>
