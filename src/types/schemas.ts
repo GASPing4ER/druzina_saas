@@ -36,6 +36,7 @@ export const phaseFormSchema = z.object({
   navodila: z.string().optional(),
   prevzem: z.boolean().optional(),
   ponudba_id: z.string().optional(),
+  opombe: z.string().optional(),
 });
 
 export const bookFormSchema = z.object({

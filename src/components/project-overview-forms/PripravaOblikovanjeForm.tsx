@@ -32,6 +32,7 @@ import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import { useState } from "react";
 import { updateProject } from "@/actions/projects";
+import { Textarea } from "../ui/textarea";
 
 type PripravOblikovanjeFormProps = {
   user: User;
@@ -44,6 +45,9 @@ const PripravOblikovanjeForm = ({
   project_phase,
 }: PripravOblikovanjeFormProps) => {
   const [actionType, setActionType] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof phaseFormSchema>>({
@@ -55,6 +59,7 @@ const PripravOblikovanjeForm = ({
           new Date(project_phase?.end_date)) ||
         undefined,
       oblikovanje: project_phase?.oblikovanje || "",
+      opombe: project_phase?.opombe || "",
       sken: project_phase?.sken || "",
       postavitev: project_phase?.postavitev || "",
       predogled: project_phase?.predogled,
@@ -64,6 +69,8 @@ const PripravOblikovanjeForm = ({
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseFormSchema>) {
+    setLoading(true);
+    setMessage(null);
     if (actionType === "save") {
       savePhase(values);
     } else {
@@ -72,17 +79,24 @@ const PripravOblikovanjeForm = ({
   }
 
   async function savePhase(values: z.infer<typeof phaseFormSchema>) {
+    let response;
     if (!project_phase) {
-      await addPhase({
+      response = await addPhase({
         ...values,
         status: "v čakanju",
         project_id: project.id,
         name: "priprava-in-oblikovanje",
       });
     } else {
-      await updatePhase(project_phase?.id, {
+      response = await updatePhase(project_phase?.id, {
         ...values,
       });
+    }
+    setLoading(false);
+    if (response.error === null) {
+      setMessage(response.message);
+    } else {
+      setError(response.message);
     }
     router.refresh();
   }
@@ -186,51 +200,71 @@ const PripravOblikovanjeForm = ({
                 )}
               />
             </div>
-            <div>
-              <FormField
-                control={form.control}
-                name="oblikovanje"
-                render={({ field }) => (
-                  <FormItem className="flex items-center justify-between gap-2">
-                    <FormLabel>Oblikovanje:</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div>
-              <FormField
-                control={form.control}
-                name="sken"
-                render={({ field }) => (
-                  <FormItem className="flex items-center justify-between gap-2">
-                    <FormLabel>Sken in obdelava fotografij:</FormLabel>
-                    <FormControl className="flex-1">
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div>
-              <FormField
-                control={form.control}
-                name="postavitev"
-                render={({ field }) => (
-                  <FormItem className="flex items-center justify-between gap-2">
-                    <FormLabel>Postavitev:</FormLabel>
-                    <FormControl className="flex-1">
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            {project.type === "knjiga" ? (
+              <>
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="oblikovanje"
+                    render={({ field }) => (
+                      <FormItem className="flex items-center justify-between gap-2">
+                        <FormLabel>Oblikovanje:</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="sken"
+                    render={({ field }) => (
+                      <FormItem className="flex items-center justify-between gap-2">
+                        <FormLabel>Sken in obdelava fotografij:</FormLabel>
+                        <FormControl className="flex-1">
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="postavitev"
+                    render={({ field }) => (
+                      <FormItem className="flex items-center justify-between gap-2">
+                        <FormLabel>Postavitev:</FormLabel>
+                        <FormControl className="flex-1">
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </>
+            ) : (
+              <div>
+                <FormField
+                  control={form.control}
+                  name="opombe"
+                  render={({ field }) => (
+                    <FormItem className="flex items-center justify-between gap-2">
+                      <FormLabel>Opombe:</FormLabel>
+                      <FormControl className="flex-1">
+                        <Textarea {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
           </div>
           <div className="flex-1">
             <FormField
@@ -270,8 +304,12 @@ const PripravOblikovanjeForm = ({
           </div>
         </div>
         <div className="flex justify-between">
-          <Button onClick={() => setActionType("save")} type="submit">
-            Shrani
+          <Button
+            onClick={() => setActionType("save")}
+            type="submit"
+            disabled={loading}
+          >
+            {loading && actionType === "save" ? "Shranjujem..." : "Shrani"}
           </Button>
           {project_phase?.status !== "zaključeno" && (
             <Button
@@ -285,6 +323,8 @@ const PripravOblikovanjeForm = ({
             </Button>
           )}
         </div>
+        {message && <p className="text-green-500">{message}</p>}
+        {error && <p className="text-red-500">{error}</p>}
       </form>
     </Form>
   );

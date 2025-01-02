@@ -164,41 +164,43 @@ const TechicalSpecificationsForm = ({
               )}
             />
           </div>
-          <div className="flex-1 flex flex-col gap-2">
-            <p>Potrditev:</p>
-            <FormField
-              control={form.control}
-              name="main_check"
-              render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={(checked) => field.onChange(checked)}
-                    />
-                  </FormControl>
-                  <FormLabel className="!mt-0">glavni urednik</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="technical_check"
-              render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={(checked) => field.onChange(checked)}
-                    />
-                  </FormControl>
-                  <FormLabel className="!mt-0">tehnični urednik</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          {project.type === "knjiga" && (
+            <div className="flex-1 flex flex-col gap-2">
+              <p>Potrditev:</p>
+              <FormField
+                control={form.control}
+                name="main_check"
+                render={({ field }) => (
+                  <FormItem className="flex items-center gap-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={(checked) => field.onChange(checked)}
+                      />
+                    </FormControl>
+                    <FormLabel className="!mt-0">glavni urednik</FormLabel>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="technical_check"
+                render={({ field }) => (
+                  <FormItem className="flex items-center gap-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={(checked) => field.onChange(checked)}
+                      />
+                    </FormControl>
+                    <FormLabel className="!mt-0">tehnični urednik</FormLabel>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
         </div>
         <Button type="submit">Shrani</Button>
       </form>

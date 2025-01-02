@@ -96,6 +96,7 @@ export type ProjectPhaseProps = {
   end_date?: Date;
   oblikovanje?: string;
   sken?: string;
+  opombe?: string;
   postavitev?: string;
   predogled?: boolean;
   potrditev_postavitve?: boolean;
