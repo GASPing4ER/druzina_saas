@@ -80,6 +80,7 @@ export type UpdatedProjectDataProps =
       napredek: TNapredek;
       status: TStatus;
       stanje: number;
+      start_date?: Date;
     }
   | undefined;
 

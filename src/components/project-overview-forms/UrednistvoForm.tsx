@@ -93,6 +93,7 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
             napredek: project.napredek > 1 ? project.napredek : 1,
             status: "v teku",
             stanje: project.napredek > 0 ? project.napredek : 0,
+            start_date: new Date(),
           },
           project.id
         ),
@@ -105,6 +106,7 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
             napredek: project.napredek > 1 ? project.napredek : 1,
             status: "v teku",
             stanje: project.napredek > 0 ? project.napredek : 0,
+            start_date: new Date(),
           },
           project.id
         ),
