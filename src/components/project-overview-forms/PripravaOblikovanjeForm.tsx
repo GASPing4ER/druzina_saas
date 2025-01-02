@@ -237,7 +237,7 @@ const PripravOblikovanjeForm = ({
               control={form.control}
               name="predogled"
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
+                <FormItem className="flex items-center justify-between gap-2">
                   <FormLabel className="mt-[5px]">Predogled:</FormLabel>
                   <FormControl>
                     <Checkbox
@@ -253,7 +253,7 @@ const PripravOblikovanjeForm = ({
               control={form.control}
               name="potrditev_postavitve"
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
+                <FormItem className="flex items-center justify-between gap-2">
                   <FormLabel className="mt-[5px]">
                     Potrditev postavitve:
                   </FormLabel>
