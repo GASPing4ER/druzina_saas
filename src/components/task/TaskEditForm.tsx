@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -114,7 +113,6 @@ const TaskEditForm = ({ task, handleClose }: TaskEditFormProps) => {
                   <FormControl>
                     <Input placeholder="Lektoriranje vsebine" {...field} />
                   </FormControl>
-                  <FormDescription>Naziv naloge</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -133,7 +131,6 @@ const TaskEditForm = ({ task, handleClose }: TaskEditFormProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>Opis naloge</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -165,9 +162,6 @@ const TaskEditForm = ({ task, handleClose }: TaskEditFormProps) => {
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <FormDescription>
-                    Zaposleni, ki bo nalogo izvajal
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -197,7 +191,6 @@ const TaskEditForm = ({ task, handleClose }: TaskEditFormProps) => {
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <FormDescription>Prioriteta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -248,7 +241,6 @@ const TaskEditForm = ({ task, handleClose }: TaskEditFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Začetek naloge</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -298,7 +290,6 @@ const TaskEditForm = ({ task, handleClose }: TaskEditFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Konec naloge</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

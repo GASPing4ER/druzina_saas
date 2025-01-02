@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -68,7 +67,6 @@ const FileEditForm = ({ file, handleClose }: FileEditFormProps) => {
                   <FormControl>
                     <Input placeholder="Vsebina knjige" {...field} />
                   </FormControl>
-                  <FormDescription>Naziv datoteke</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -84,7 +82,6 @@ const FileEditForm = ({ file, handleClose }: FileEditFormProps) => {
                   <FormControl>
                     <Input placeholder="https://wetransfer.com/" {...field} />
                   </FormControl>
-                  <FormDescription>Link do datoteke</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -105,7 +102,6 @@ const FileEditForm = ({ file, handleClose }: FileEditFormProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>Opis datoteke</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -89,7 +88,6 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
                       className="disabled:bg-gray-300 disabled:text-black"
                     />
                   </FormControl>
-                  <FormDescription>Vrsta vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -105,7 +103,6 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
                   <FormControl>
                     <Input placeholder="Plakat" {...field} />
                   </FormControl>
-                  <FormDescription>Naslov vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -156,7 +153,6 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Začetek vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -206,7 +202,6 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Konec vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

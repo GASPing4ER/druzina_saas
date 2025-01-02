@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -105,7 +104,6 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
                       <Input type="text" value="drugo" disabled />
                     )}
                   </FormControl>
-                  <FormDescription>Vrsta vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -154,7 +152,6 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Datum izida projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -172,7 +169,6 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
                   <FormControl>
                     <Input placeholder="Družina, št.42" {...field} />
                   </FormControl>
-                  <FormDescription>Naslov vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -188,7 +184,6 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
                   <FormControl>
                     <Input placeholder="Janez Novak" {...field} />
                   </FormControl>
-                  <FormDescription>Ime avtorja</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -239,7 +234,6 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Začetek vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -289,7 +283,6 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Konec vašega projekta</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

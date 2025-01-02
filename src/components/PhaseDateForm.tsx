@@ -15,7 +15,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -104,7 +103,6 @@ const PhaseDateForm = ({ project }: PhaseDateFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Začetek naslednje faze</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -154,7 +152,6 @@ const PhaseDateForm = ({ project }: PhaseDateFormProps) => {
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Konec naslednje faze</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
