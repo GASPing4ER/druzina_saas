@@ -17,13 +17,17 @@ export const getPathname = (pathname: string) => {
 };
 
 export const formatDate = (inputDate: Date) => {
-  const date = new Date(inputDate);
+  // Parse the input date as UTC
+  const utcDate = new Date(inputDate);
 
+  // Format the date for a specific time zone (e.g., Europe/Ljubljana)
+  const timeZone = "Europe/Ljubljana"; // Adjust based on your needs
   const formattedDate = new Intl.DateTimeFormat("sl-SI", {
+    timeZone,
     day: "numeric",
     month: "short",
     year: "numeric",
-  }).format(date);
+  }).format(utcDate);
 
   return formattedDate;
 };

@@ -149,6 +149,8 @@ const PripravOblikovanjeForm = ({
               <p>{`${
                 project_phase && project_phase.start_date
                   ? formatDate(project_phase.start_date)
+                  : project.type === "drugo"
+                  ? formatDate(project.start_date)
                   : "/"
               }`}</p>
             </div>
