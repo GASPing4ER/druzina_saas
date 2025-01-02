@@ -56,7 +56,7 @@ export const sidebar_navigation: SidebarNavigationProps = {
     {
       title: "Tehnika (grafika in tisk)",
       imgUrl: "/icons/tehnika.svg",
-      url: "/tehnika",
+      url: "#",
       children: [
         {
           title: "Priprava in oblikovanje",
