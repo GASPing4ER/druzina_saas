@@ -64,6 +64,23 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
     },
   });
 
+  const shouldDisplayButton = () => {
+    if (tisk_phase?.status === "zaključeno") {
+      return false; // Do not display if tisk phase is completed
+    }
+
+    if (project.type === "drugo") {
+      // For "drugo" type, only priprava needs to be completed
+      return priprava_in_oblikovanje_phase?.status === "zaključeno";
+    }
+
+    // For other project types, both urednistvo and priprava need to be completed
+    return (
+      urednistvo_phase?.status === "zaključeno" &&
+      priprava_in_oblikovanje_phase?.status === "zaključeno"
+    );
+  };
+
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseFormSchema>) {
     if (actionType === "save") {
@@ -221,21 +238,17 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
           <Button onClick={() => setActionType("save")} type="submit">
             Shrani
           </Button>
-          {(urednistvo_phase?.status === "zaključeno" &&
-            priprava_in_oblikovanje_phase?.status === "zaključeno") ||
-            (project.type === "drugo" &&
-              priprava_in_oblikovanje_phase?.status === "zaključeno" &&
-              tisk_phase?.status !== "zaključeno" && (
-                <Button
-                  onClick={() => setActionType("activate")}
-                  type="submit"
-                  variant="outline"
-                >
-                  {tisk_phase?.status === "v teku"
-                    ? "Zaključi fazo"
-                    : "Aktiviraj fazo"}
-                </Button>
-              ))}
+          {shouldDisplayButton() && (
+            <Button
+              onClick={() => setActionType("activate")}
+              type="submit"
+              variant="outline"
+            >
+              {tisk_phase?.status === "v teku"
+                ? "Zaključi fazo"
+                : "Aktiviraj fazo"}
+            </Button>
+          )}
         </div>
       </form>
       <OfferModal projectId={project.id} open={open} setOpen={setOpen} />
