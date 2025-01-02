@@ -136,6 +136,7 @@ const PripravOblikovanjeForm = ({
     } else {
       updatePhase(project_phase.id, { ...values, status: "v teku" });
     }
+    setLoading(false);
     router.refresh();
   }
   return (
@@ -311,17 +312,27 @@ const PripravOblikovanjeForm = ({
           >
             {loading && actionType === "save" ? "Shranjujem..." : "Shrani"}
           </Button>
-          {project_phase?.status !== "zaključeno" && (
-            <Button
-              onClick={() => setActionType("activate")}
-              type="submit"
-              variant="outline"
-            >
-              {project_phase?.status === "v teku"
-                ? "Zaključi fazo"
-                : "Aktiviraj fazo"}
-            </Button>
-          )}
+          {project_phase?.status !== "zaključeno" &&
+            (project_phase?.status !== "v teku" ? (
+              <Button
+                onClick={() => setActionType("activate")}
+                type="submit"
+                variant="outline"
+              >
+                Aktiviraj fazo
+              </Button>
+            ) : project_phase.predogled === true &&
+              project_phase.potrditev_postavitve === true ? (
+              <Button
+                onClick={() => setActionType("activate")}
+                type="submit"
+                variant="outline"
+              >
+                Zaključi fazo
+              </Button>
+            ) : (
+              <></>
+            ))}
         </div>
         {message && <p className="text-green-500">{message}</p>}
         {error && <p className="text-red-500">{error}</p>}
