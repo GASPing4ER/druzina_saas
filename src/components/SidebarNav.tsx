@@ -24,8 +24,9 @@ const SidebarNav = ({
             title !== "Procesi" ||
             role === "superadmin" ||
             role === "admin" ||
-            navigation.some((item) => item.url.split("/")[1] === department);
+            item.url.split("/")[1] === department;
 
+          console.log("CAN I ACCESS?", item.url, title, canAccess);
           return (
             <li key={item.title}>
               <Link
