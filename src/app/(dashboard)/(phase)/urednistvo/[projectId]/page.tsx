@@ -8,11 +8,9 @@ import { formatDate } from "@/utils";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-const ProjectDetailsPage = async (
-  props: {
-    params: Promise<{ projectId: string }>;
-  }
-) => {
+const ProjectDetailsPage = async (props: {
+  params: Promise<{ projectId: string }>;
+}) => {
   const params = await props.params;
   const projectId = params.projectId;
   const [
@@ -41,7 +39,14 @@ const ProjectDetailsPage = async (
   const tasks = tasksResponse.data;
   const files = filesResponse.data;
   const role = user.user_metadata.role;
-
+  console.log(
+    "PROJECT:",
+    project,
+    "PROJECT ERROR:",
+    projectResponse.error,
+    "SINGLE PROJECT:",
+    singleProject
+  );
   const tasksCompleted =
     tasks &&
     (tasks.length === 0 || tasks.every((task) => task.status === "completed"));

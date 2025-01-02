@@ -232,7 +232,7 @@ export const getProject = async (
       )
       .eq("project_id", projectId)
       .neq("status", "zaključeno")
-      .neq("status", "čakanje")
+      .neq("status", "v čakanju")
       .order("end_date");
 
     if (phase) {

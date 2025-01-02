@@ -7,11 +7,9 @@ import { formatDate } from "@/utils";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-const ProjectDetailsPage = async (
-  props: {
-    params: Promise<{ projectId: string }>;
-  }
-) => {
+const ProjectDetailsPage = async (props: {
+  params: Promise<{ projectId: string }>;
+}) => {
   const params = await props.params;
   const projectId = params.projectId;
   const [singleProjectResponse, projectResponse, tasksResponse, user] =
@@ -55,6 +53,12 @@ const ProjectDetailsPage = async (
               >
                 Tehnični podatki
               </TabsTrigger>
+              <TabsTrigger
+                className="py-4 px-8 rounded-[30px]"
+                value="navodila"
+              >
+                Navodila
+              </TabsTrigger>
             </TabsList>
             <div className="flex flex-col gap-2">
               <p>
@@ -92,6 +96,35 @@ const ProjectDetailsPage = async (
                 <p>VEZAVA: {project.project_data.vezava}</p>
                 <p>PAKIRANJE: {project.project_data.pakiranje}</p>
                 <p>NAKLADA: {project.project_data.naklada}</p>
+              </div>
+            </div>
+          </TabsContent>
+          <TabsContent value="navodila">
+            <div
+              className={`border bg-white w-full shadow-2xl p-8 rounded-xl flex gap-8`}
+            >
+              <div className="flex flex-col gap-4">
+                {project.project_data.type === "knjiga" ? (
+                  <>
+                    <div className="flex gap-4">
+                      <p>OBLIKOVANJE:</p>
+                      <p>{project.oblikovanje}</p>
+                    </div>
+                    <div className="flex gap-4">
+                      <p>SKEN IN OBDELAVA FOTOGRAFIJ:</p>
+                      <p>{project.sken}</p>
+                    </div>
+                    <div className="flex gap-4">
+                      <p>POSTAVITEV:</p>
+                      <p>{project.postavitev}</p>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <p>OPOMBE:</p>
+                    <p className="max-w-[500px]">{project.opombe}</p>
+                  </div>
+                )}
               </div>
             </div>
           </TabsContent>
