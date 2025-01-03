@@ -33,6 +33,7 @@ import { Checkbox } from "../ui/checkbox";
 import { useState } from "react";
 import { updateProject } from "@/actions/projects";
 import { Textarea } from "../ui/textarea";
+import { chooseNextPhaseAction } from "@/actions/next-phase";
 
 type PripravOblikovanjeFormProps = {
   user: User;
@@ -74,7 +75,14 @@ const PripravOblikovanjeForm = ({
     if (actionType === "save") {
       savePhase(values);
     } else {
-      activatePhase(values);
+      if (project_phase?.status === "v teku") {
+        await chooseNextPhaseAction("tisk", {
+          ...project_phase,
+          project_data: project,
+        });
+      } else {
+        await activatePhase(values);
+      }
     }
   }
 
@@ -102,9 +110,7 @@ const PripravOblikovanjeForm = ({
   }
 
   async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
-    if (project_phase?.status === "v teku") {
-      await updatePhase(project_phase.id, { ...values, status: "zaključeno" });
-    } else if (!project_phase) {
+    if (!project_phase) {
       await Promise.all([
         await addPhase({
           ...values,

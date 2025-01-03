@@ -32,6 +32,7 @@ import { Checkbox } from "../ui/checkbox";
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import { updateProject } from "@/actions/projects";
+import { chooseNextPhaseAction } from "@/actions/next-phase";
 
 type DistribucijaFormProps = {
   user: User;
@@ -71,7 +72,14 @@ const DistribucijaForm = ({
     if (actionType === "save") {
       await savePhase(values);
     } else {
-      await activatePhase(values);
+      if (distribucija_phase?.status === "v teku") {
+        await chooseNextPhaseAction("arhiv", {
+          ...distribucija_phase,
+          project_data: project,
+        });
+      } else {
+        await activatePhase(values);
+      }
     }
   }
 
@@ -92,22 +100,7 @@ const DistribucijaForm = ({
   }
 
   async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
-    if (distribucija_phase?.status === "v teku") {
-      await Promise.all([
-        updatePhase(distribucija_phase.id, {
-          ...values,
-          status: "zaključeno",
-        }),
-        updateProject(
-          {
-            napredek: project.napredek > 4 ? project.napredek : 4,
-            status: "zaključeno",
-            stanje: project.napredek > 100 ? project.napredek : 100,
-          },
-          project.id
-        ),
-      ]);
-    } else if (!distribucija_phase) {
+    if (!distribucija_phase) {
       await Promise.all([
         addPhase({
           ...values,

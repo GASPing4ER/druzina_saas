@@ -31,6 +31,7 @@ import { addPhase, updatePhase } from "@/actions/project-phases";
 import { Suspense, useState } from "react";
 import { updateProject } from "@/actions/projects";
 import { OfferModal, OfferTable } from "@/components";
+import { chooseNextPhaseAction } from "@/actions/next-phase";
 
 type TiskFormProps = {
   user: User;
@@ -86,7 +87,14 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
     if (actionType === "save") {
       await savePhase(values);
     } else {
-      await activatePhase(values);
+      if (tisk_phase?.status === "v teku") {
+        await chooseNextPhaseAction("distribucija", {
+          ...tisk_phase,
+          project_data: project,
+        });
+      } else {
+        await activatePhase(values);
+      }
     }
   }
 
@@ -107,9 +115,7 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
   }
 
   async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
-    if (tisk_phase?.status === "v teku") {
-      await updatePhase(tisk_phase.id, { ...values, status: "zaključeno" });
-    } else if (!tisk_phase) {
+    if (!tisk_phase) {
       await Promise.all([
         addPhase({
           ...values,

@@ -18,8 +18,8 @@ export const chooseNextPhaseAction = async (
 ) => {
   const { data } = await getProjectPhases(current_phase.project_data.id);
   if (next_phase_name === "urednistvo") {
-    const phase = getProjectPhase(data, next_phase_name);
-    if (phase === null) {
+    const next_phase = getProjectPhase(data, next_phase_name);
+    if (next_phase === null) {
       await Promise.all([
         await updatePhase(current_phase.id, {
           status: "zaključeno",
@@ -38,6 +38,7 @@ export const chooseNextPhaseAction = async (
                 ? current_phase.project_data.napredek
                 : 1,
             status: "v teku",
+            start_date: new Date(),
             stanje:
               current_phase.project_data.napredek > 0
                 ? current_phase.project_data.napredek
@@ -46,13 +47,16 @@ export const chooseNextPhaseAction = async (
           current_phase.project_id
         ),
       ]);
-    } else if (phase.status === "v čakanju") {
+    } else if (next_phase.status === "v čakanju") {
       await Promise.all([
         await updatePhase(current_phase.id, {
           status: "zaključeno",
           end_date: new Date(),
         }),
-        updatePhase(phase.id, { status: "v teku", start_date: new Date() }),
+        updatePhase(next_phase.id, {
+          status: "v teku",
+          start_date: new Date(),
+        }),
         updateProject(
           {
             napredek:
@@ -60,6 +64,7 @@ export const chooseNextPhaseAction = async (
                 ? current_phase.project_data.napredek
                 : 1,
             status: "v teku",
+            start_date: new Date(),
             stanje:
               current_phase.project_data.napredek > 0
                 ? current_phase.project_data.napredek
@@ -75,9 +80,9 @@ export const chooseNextPhaseAction = async (
       });
     }
   } else if (next_phase_name === "priprava-in-oblikovanje") {
-    const phase = getProjectPhase(data, next_phase_name);
-    console.log("next_phase:", phase);
-    if (phase === null) {
+    const next_phase = getProjectPhase(data, next_phase_name);
+    console.log("next_phase:", next_phase);
+    if (next_phase === null) {
       await Promise.all([
         await updatePhase(current_phase.id, {
           status: "zaključeno",
@@ -104,13 +109,16 @@ export const chooseNextPhaseAction = async (
           current_phase.project_id
         ),
       ]);
-    } else if (phase.status === "v čakanju") {
+    } else if (next_phase.status === "v čakanju") {
       await Promise.all([
         updatePhase(current_phase.id, {
           status: "zaključeno",
           end_date: new Date(),
         }),
-        updatePhase(phase.id, { status: "v teku", start_date: new Date() }),
+        updatePhase(next_phase.id, {
+          status: "v teku",
+          start_date: new Date(),
+        }),
         updateProject(
           {
             napredek:
@@ -126,7 +134,7 @@ export const chooseNextPhaseAction = async (
           current_phase.project_id
         ),
       ]);
-    } else if (phase.status === "zaključeno") {
+    } else if (next_phase.status === "zaključeno") {
       const next_phase = getProjectPhase(data, "tisk");
       if (next_phase === null) {
         await Promise.all([
@@ -188,13 +196,13 @@ export const chooseNextPhaseAction = async (
       });
     }
   } else if (next_phase_name === "tisk") {
-    const phase = getProjectPhase(data, next_phase_name);
+    const next_phase = getProjectPhase(data, next_phase_name);
     const urednistvo_phase = getProjectPhase(data, "urednistvo");
     if (
       urednistvo_phase?.status === "zaključeno" ||
       current_phase.project_data.type === "drugo"
     ) {
-      if (phase === null) {
+      if (next_phase === null) {
         await Promise.all([
           await updatePhase(current_phase.id, {
             status: "zaključeno",
@@ -221,13 +229,16 @@ export const chooseNextPhaseAction = async (
             current_phase.project_id
           ),
         ]);
-      } else if (phase.status === "v čakanju") {
+      } else if (next_phase.status === "v čakanju") {
         await Promise.all([
           await updatePhase(current_phase.id, {
             status: "zaključeno",
             end_date: new Date(),
           }),
-          updatePhase(phase.id, { status: "v teku", start_date: new Date() }),
+          updatePhase(next_phase.id, {
+            status: "v teku",
+            start_date: new Date(),
+          }),
           updateProject(
             {
               napredek:
@@ -256,8 +267,8 @@ export const chooseNextPhaseAction = async (
       });
     }
   } else if (next_phase_name === "distribucija") {
-    const phase = getProjectPhase(data, next_phase_name);
-    if (phase === null) {
+    const next_phase = getProjectPhase(data, next_phase_name);
+    if (next_phase === null) {
       await Promise.all([
         await updatePhase(current_phase.id, {
           status: "zaključeno",
@@ -284,13 +295,16 @@ export const chooseNextPhaseAction = async (
           current_phase.project_id
         ),
       ]);
-    } else if (phase.status === "v čakanju") {
+    } else if (next_phase.status === "v čakanju") {
       await Promise.all([
         await updatePhase(current_phase.id, {
           status: "zaključeno",
           end_date: new Date(),
         }),
-        updatePhase(phase.id, { status: "v teku", start_date: new Date() }),
+        updatePhase(next_phase.id, {
+          status: "v teku",
+          start_date: new Date(),
+        }),
         updateProject(
           {
             napredek:
@@ -313,8 +327,8 @@ export const chooseNextPhaseAction = async (
       });
     }
   } else if (next_phase_name === "arhiv") {
-    const phase = getProjectPhase(data, next_phase_name);
-    if (phase === null) {
+    const next_phase = getProjectPhase(data, next_phase_name);
+    if (next_phase === null) {
       await Promise.all([
         await updatePhase(current_phase.id, {
           status: "zaključeno",
@@ -333,6 +347,7 @@ export const chooseNextPhaseAction = async (
                 ? current_phase.project_data.napredek
                 : 4,
             status: "zaključeno",
+            end_date: new Date(),
             stanje:
               current_phase.project_data.napredek > 100
                 ? current_phase.project_data.napredek
@@ -341,13 +356,16 @@ export const chooseNextPhaseAction = async (
           current_phase.project_id
         ),
       ]);
-    } else if (phase.status === "v čakanju") {
+    } else if (next_phase.status === "v čakanju") {
       await Promise.all([
         await updatePhase(current_phase.id, {
           status: "zaključeno",
           end_date: new Date(),
         }),
-        updatePhase(phase.id, { status: "v teku", start_date: new Date() }),
+        updatePhase(next_phase.id, {
+          status: "v teku",
+          start_date: new Date(),
+        }),
         updateProject(
           {
             napredek:
@@ -355,6 +373,7 @@ export const chooseNextPhaseAction = async (
                 ? current_phase.project_data.napredek
                 : 4,
             status: "zaključeno",
+            end_date: new Date(),
             stanje:
               current_phase.project_data.napredek > 100
                 ? current_phase.project_data.napredek

@@ -81,6 +81,7 @@ export type UpdatedProjectDataProps =
       status: TStatus;
       stanje: number;
       start_date?: Date;
+      end_date?: Date;
     }
   | undefined;
 

@@ -30,6 +30,7 @@ import { formatDate } from "@/utils";
 import { addPhase, updatePhase } from "@/actions/project-phases";
 import { useState } from "react";
 import { updateProject } from "@/actions/projects";
+import { chooseNextPhaseAction } from "@/actions/next-phase";
 
 type UrednistvoFormProps = {
   user: User;
@@ -57,7 +58,15 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
     if (actionType === "save") {
       await savePhase(values);
     } else {
-      await activatePhase(values);
+      if (project_phase?.status === "v teku") {
+        console.log("Choosing next phase...");
+        await chooseNextPhaseAction("priprava-in-oblikovanje", {
+          ...project_phase,
+          project_data: project,
+        });
+      } else {
+        await activatePhase(values);
+      }
     }
   }
 
@@ -78,9 +87,7 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
   }
 
   async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
-    if (project_phase?.status === "v teku") {
-      await updatePhase(project_phase.id, { ...values, status: "zaključeno" });
-    } else if (!project_phase) {
+    if (!project_phase) {
       await Promise.all([
         await addPhase({
           ...values,
