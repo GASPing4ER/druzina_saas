@@ -1,11 +1,29 @@
 import { getUser } from "@/actions/auth";
 import { getAllProjects } from "@/actions/projects";
+import { getUserTasks } from "@/actions/tasks";
 import { DashboardProjectsDisplay, ProjectsCarousel } from "@/components";
 
 export default async function Home() {
   const user = await getUser();
-  const { data: projects } = await getAllProjects(user!);
+  const [projectsResponse, tasksResponse] = await Promise.all([
+    getAllProjects(user),
+    getUserTasks(user.id),
+  ]);
+  let filteredProjects;
+  const projects = projectsResponse.data;
+  const tasks = tasksResponse.data;
+
+  if (user.user_metadata.role !== "member") {
+    filteredProjects = projects || [];
+  } else {
+    filteredProjects = projects
+      ? projects.filter((project) =>
+          tasks?.find((task) => task.project_id === project.project_id)
+        )
+      : [];
+  }
   console.log("PROJECTS:", projects);
+  console.log("TASKS:", tasks);
 
   return (
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start pl-12 py-6 bg-white w-[1000px]">
@@ -22,8 +40,8 @@ export default async function Home() {
       </div>
       {projects !== null && (
         <>
-          <ProjectsCarousel projects={projects} />
-          <DashboardProjectsDisplay projects={projects} />
+          <ProjectsCarousel projects={filteredProjects} />
+          <DashboardProjectsDisplay projects={filteredProjects} />
         </>
       )}
     </main>

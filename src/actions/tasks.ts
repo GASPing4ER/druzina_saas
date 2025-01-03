@@ -40,6 +40,33 @@ export const getTasks = async (
   }
 };
 
+export const getUserTasks = async (
+  userId: string
+): Promise<{
+  data: TaskProps[] | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("tasks")
+      .select()
+      .eq("employee_id", userId);
+
+    return {
+      data: data,
+      error,
+      message: "Successful Fetch of a Tasks",
+    };
+  } catch (error) {
+    return {
+      data: null,
+      error: error as PostgrestError,
+      message: "Database Error: Failed to Fetch Tasks",
+    };
+  }
+};
+
 export const getTasksWithNames = async (
   projectId: string,
   phase: string
