@@ -276,3 +276,9 @@ export type AddUrednistvoPhaseDataProps = {
   status?: TStatus;
   name?: string;
 };
+
+// STATISTICS TYPE
+export type StatisticsData = {
+  projectData: { project_name: string; total_hours: number }[] | null;
+  userData: { user_name: string; total_hours: number }[] | null;
+};
