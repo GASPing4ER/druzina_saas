@@ -5,7 +5,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { User } from "@supabase/supabase-js";
-import { ProjectPhaseProps, ProjectWithCreatorProps } from "@/types";
+import {
+  OfferWithOffererProps,
+  ProjectPhaseProps,
+  ProjectWithCreatorProps,
+} from "@/types";
 import { getProjectPhase } from "@/utils";
 import {
   DistribucijaForm,
@@ -19,12 +23,14 @@ type PhaseSpecificationsProps = {
   user: User;
   project: ProjectWithCreatorProps;
   project_phases: ProjectPhaseProps[] | null;
+  offers: OfferWithOffererProps[] | null;
 };
 
 const PhaseSpecifications = ({
   user,
   project,
   project_phases,
+  offers,
 }: PhaseSpecificationsProps) => {
   return (
     <div className="flex-1">
@@ -84,6 +90,7 @@ const PhaseSpecifications = ({
               user={user}
               project={project}
               project_phases={project_phases}
+              offers={offers}
             />
           </AccordionContent>
         </AccordionItem>

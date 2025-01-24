@@ -1,4 +1,5 @@
 import { getUser } from "@/actions/auth";
+import { getOffers } from "@/actions/offers";
 import { getProjectPhases } from "@/actions/project-phases";
 import { getSingleProject } from "@/actions/projects";
 import {
@@ -13,10 +14,12 @@ const ProjectDetailsPage = async (props: {
   const params = await props.params;
   const projectId = params.projectId;
   console.log(projectId);
-  const [projectDataResult, projectPhasesResult] = await Promise.all([
-    getSingleProject(projectId),
-    getProjectPhases(projectId),
-  ]);
+  const [projectDataResult, projectPhasesResult, offersResults] =
+    await Promise.all([
+      getSingleProject(projectId),
+      getProjectPhases(projectId),
+      getOffers(projectId),
+    ]);
   const { data: project } = projectDataResult;
   const { data: projectPhases } = projectPhasesResult;
   const user = await getUser();
@@ -34,6 +37,7 @@ const ProjectDetailsPage = async (props: {
             user={user}
             project={project}
             project_phases={projectPhases}
+            offers={offersResults.data}
           />
         </div>
       </main>

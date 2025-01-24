@@ -17,7 +17,11 @@ import {
 import { phaseFormSchema } from "@/types/schemas";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { ProjectWithCreatorProps, ProjectPhaseProps } from "@/types";
+import {
+  ProjectWithCreatorProps,
+  ProjectPhaseProps,
+  OfferWithOffererProps,
+} from "@/types";
 import {
   Popover,
   PopoverContent,
@@ -37,9 +41,10 @@ type TiskFormProps = {
   user: User;
   project: ProjectWithCreatorProps;
   project_phases: ProjectPhaseProps[] | null;
+  offers: OfferWithOffererProps[] | null;
 };
 
-const TiskForm = ({ project, project_phases }: TiskFormProps) => {
+const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
   const [actionType, setActionType] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -226,7 +231,11 @@ const TiskForm = ({ project, project_phases }: TiskFormProps) => {
                 name="ponudba_id"
                 render={({ field }) => (
                   <Suspense fallback={<div>Loading...</div>}>
-                    <OfferTable projectId={project.id} field={field} />
+                    <OfferTable
+                      offers={offers}
+                      projectId={project.id}
+                      field={field}
+                    />
                   </Suspense>
                 )}
               />

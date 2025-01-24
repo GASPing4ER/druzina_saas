@@ -102,7 +102,7 @@ export const addOffer = async (
       };
     }
 
-    revalidatePath(`/`, "layout");
+    revalidatePath(`/projekti/${values.project_id}`, "page");
 
     return {
       data,

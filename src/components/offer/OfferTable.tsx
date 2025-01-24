@@ -9,9 +9,7 @@ import {
 } from "@/components/ui/table";
 
 import { OfferRow } from "@/components";
-import { useEffect, useState } from "react";
 import { OfferWithOffererProps } from "@/types";
-import { getOffers } from "@/actions/offers";
 import { ControllerRenderProps } from "react-hook-form";
 
 type OfferTableProps = {
@@ -31,19 +29,10 @@ type OfferTableProps = {
     },
     "ponudba_id"
   >;
+  offers: OfferWithOffererProps[] | null;
 };
 
-const OfferTable = ({ projectId, field }: OfferTableProps) => {
-  const [offers, setOffers] = useState<OfferWithOffererProps[] | null>(null);
-
-  useEffect(() => {
-    const fetchOffers = async () => {
-      const { data } = await getOffers(projectId);
-      setOffers(data);
-    };
-    fetchOffers();
-  }, [projectId]);
-
+const OfferTable = ({ offers, field }: OfferTableProps) => {
   return (
     <Table className="flex-1">
       <TableHeader>

@@ -338,6 +338,7 @@ export const addProject = async (
       .insert({ ...completeData })
       .select()
       .maybeSingle();
+
     revalidatePath("/", "page");
 
     return {

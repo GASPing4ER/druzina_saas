@@ -87,8 +87,8 @@ const OfferForm = ({ projectId, handleClose }: OfferFormProps) => {
           total: rest.price * rest.quantity,
         });
       }
-      router.refresh();
       handleClose();
+      router.refresh();
     } catch (error) {
       return error;
     }
