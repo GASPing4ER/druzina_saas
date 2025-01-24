@@ -16,8 +16,8 @@ const Sidebar = async ({ user }: SidebarProps) => {
           <Image
             src="/images/logo.png"
             alt="logo"
-            width={60}
-            height={60}
+            width={100}
+            height={100}
             className="object-contain self-center"
           />
           <hr />

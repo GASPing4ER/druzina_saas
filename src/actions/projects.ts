@@ -129,6 +129,7 @@ export const getAllProjects = async (
   `
         )
         .eq("status", "v teku")
+        .neq("name", "arhiv")
         .order("end_date");
 
       return {

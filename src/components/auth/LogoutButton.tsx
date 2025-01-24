@@ -8,8 +8,8 @@ const LogoutButton = () => {
   };
 
   return (
-    <button className="font-bold text-lg cursor-pointer" onClick={handleLogout}>
-      ...
+    <button className="text-sm underline cursor-pointer" onClick={handleLogout}>
+      Odjava
     </button>
   );
 };

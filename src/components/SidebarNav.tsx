@@ -43,7 +43,7 @@ const SidebarNav = ({
                     height={15}
                   />
                 )}
-                <p>{item.title}</p>
+                <p className="uppercase">{item.title}</p>
               </Link>
 
               {/* Recursively render children if they exist */}
