@@ -43,7 +43,17 @@ const TechicalSpecificationsForm = ({
   async function onSubmit(
     values: z.infer<typeof technicalSpecificationsFormSchema>
   ) {
-    await updateTechnicalSpecificationsProject(values, project.id);
+    const normalizedValues = {
+      ...values,
+      format: values.format ?? undefined,
+      obseg: values.obseg ?? undefined,
+      material: values.material ?? undefined,
+      tisk: values.tisk ?? undefined,
+      vezava: values.vezava ?? undefined,
+      pakiranje: values.pakiranje ?? undefined,
+      naklada: values.naklada ?? undefined,
+    };
+    await updateTechnicalSpecificationsProject(normalizedValues, project.id);
     router.refresh();
   }
   return (
@@ -58,7 +68,11 @@ const TechicalSpecificationsForm = ({
                 <FormItem>
                   <FormLabel>Format</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="160 x 220 mm" {...field} />
+                    <Textarea
+                      placeholder="160 x 220 mm"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -76,6 +90,7 @@ const TechicalSpecificationsForm = ({
                     <Textarea
                       placeholder="Knjižni blok: 224 str., vezni list: 6 str., ovitek 2 str."
                       {...field}
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -93,7 +108,11 @@ const TechicalSpecificationsForm = ({
                 <FormItem>
                   <FormLabel>Material</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Holmen book" {...field} />
+                    <Textarea
+                      placeholder="Holmen book"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,7 +127,11 @@ const TechicalSpecificationsForm = ({
                 <FormItem>
                   <FormLabel>Tisk</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Digitalni tisk" {...field} />
+                    <Textarea
+                      placeholder="Digitalni tisk"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -125,7 +148,11 @@ const TechicalSpecificationsForm = ({
                 <FormItem>
                   <FormLabel>Vezava</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Bruširano" {...field} />
+                    <Textarea
+                      placeholder="Bruširano"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -140,7 +167,11 @@ const TechicalSpecificationsForm = ({
                 <FormItem>
                   <FormLabel>Pakiranje</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Škatle po 20" {...field} />
+                    <Textarea
+                      placeholder="Škatle po 20"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -157,7 +188,11 @@ const TechicalSpecificationsForm = ({
                 <FormItem>
                   <FormLabel>Naklada</FormLabel>
                   <FormControl>
-                    <Input placeholder="1000" {...field} />
+                    <Input
+                      placeholder="1000"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

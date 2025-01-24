@@ -63,13 +63,13 @@ export type typeFormProps = {
 };
 
 export type TechnicalSpecificationsProps = {
-  format: string;
-  obseg: string;
-  vezava: string;
-  pakiranje: string;
-  material: string;
-  naklada: string;
-  tisk: string;
+  format?: string;
+  obseg?: string;
+  vezava?: string;
+  pakiranje?: string;
+  material?: string;
+  naklada?: string;
+  tisk?: string;
   main_check?: boolean;
   technical_check?: boolean;
 };
@@ -213,7 +213,7 @@ export type TaskProps = {
   project_id: string;
   assigner_id: string;
   name: string;
-  description: string;
+  description?: string;
   phase: string;
   priority: TTaskPriority;
   start_date: Date;

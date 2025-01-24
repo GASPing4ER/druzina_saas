@@ -91,27 +91,13 @@ export const otherFormSchema = z.object({
 });
 
 export const technicalSpecificationsFormSchema = z.object({
-  format: z.string().min(2, {
-    message: "Format mora imeti vsaj 2 karakterja.",
-  }),
-  obseg: z.string().min(2, {
-    message: "Obseg mora imeti vsaj 2 karakterja.",
-  }),
-  material: z.string().min(2, {
-    message: "Material mora imeti vsaj 2 karakterja.",
-  }),
-  tisk: z.string().min(2, {
-    message: "Tisk mora imeti vsaj 2 karakterja.",
-  }),
-  vezava: z.string().min(2, {
-    message: "Vezava mora imeti vsaj 2 karakterja.",
-  }),
-  pakiranje: z.string().min(2, {
-    message: "Pakiranje mora imeti vsaj 2 karakterja.",
-  }),
-  naklada: z.string().min(2, {
-    message: "Naklada mora imeti vsaj 2 karakterja.",
-  }),
+  format: z.string().optional().nullable(),
+  obseg: z.string().optional().nullable(),
+  material: z.string().optional().nullable(),
+  tisk: z.string().optional().nullable(),
+  vezava: z.string().optional().nullable(),
+  pakiranje: z.string().optional().nullable(),
+  naklada: z.string().optional().nullable(),
   main_check: z.boolean(),
   technical_check: z.boolean(),
 });
@@ -125,9 +111,7 @@ export const taskSchema = z.object({
   name: z.string().min(2, {
     message: "Naslov mora imeti vsaj 2 karakterja.",
   }),
-  description: z.string().min(2, {
-    message: "Avtor mora imeti vsaj 2 karakterja.",
-  }),
+  description: z.string().optional(),
   priority: TPrioritySchema.refine(
     (val) => TPrioritySchema.options.includes(val),
     {
