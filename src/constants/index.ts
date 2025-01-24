@@ -39,12 +39,12 @@ export const sidebar_navigation: SidebarNavigationProps = {
         {
           title: "Tednik Družina",
           imgUrl: "/icons/druzina.svg",
-          url: "/urednistvo?type=druzina",
+          url: "/urednistvo?type=tednik",
         },
         {
           title: "Revijalni program",
           imgUrl: "/icons/revija.svg",
-          url: "/urednistvo?type=revija",
+          url: "/urednistvo?type=publikacije",
         },
         {
           title: "Knjižno uredništvo",

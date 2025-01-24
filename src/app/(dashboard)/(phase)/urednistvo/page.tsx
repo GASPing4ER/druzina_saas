@@ -3,10 +3,15 @@ import { getPhaseProjects } from "@/actions/projects";
 import { PhaseTable } from "@/components";
 import { redirect } from "next/navigation";
 
-const UrednistvoPage = async () => {
-  const [user, projects] = await Promise.all([
+const UrednistvoPage = async ({
+  searchParams,
+}: {
+  searchParams: { type: string };
+}) => {
+  const [user, projectsResponse, params] = await Promise.all([
     getUser(),
     getPhaseProjects("urednistvo"),
+    searchParams,
   ]);
 
   if (
@@ -14,11 +19,19 @@ const UrednistvoPage = async () => {
     user.user_metadata.role !== "superadmin"
   )
     redirect("/unauthorized");
+  let projects = projectsResponse.data;
+
+  console.log(projectsResponse.data);
+  if (params.type && projects) {
+    projects = projects.filter(
+      (project) => project.project_data.type === params.type
+    );
+  }
 
   return (
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white">
-      {projects.data && projects.data.length !== 0 && (
-        <PhaseTable projects={projects.data} phase="urednistvo" />
+      {projects && projects.length !== 0 && (
+        <PhaseTable projects={projects} phase="urednistvo" />
       )}
     </main>
   );
