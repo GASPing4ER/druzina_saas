@@ -3,10 +3,12 @@ import { getPhaseProjects } from "@/actions/projects";
 import { PhaseTable } from "@/components";
 import { redirect } from "next/navigation";
 
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
 const UrednistvoPage = async ({
   searchParams,
 }: {
-  searchParams: { type: string };
+  searchParams: SearchParams;
 }) => {
   const [user, projectsResponse, params] = await Promise.all([
     getUser(),
