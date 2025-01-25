@@ -170,6 +170,7 @@ export const getPhaseProjects = async (
       )
       .eq("name", phase)
       .neq("status", "zaključeno")
+      .neq("status", "v čakanju")
       .order("end_date");
 
     return {

@@ -1,3 +1,4 @@
+import { getUser } from "@/actions/auth";
 import { getOffererWithOfferId } from "@/actions/offers";
 import { getProject, getSingleProject } from "@/actions/projects";
 import { NextPhaseModal, ProjectDetails } from "@/components";
@@ -5,16 +6,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDate } from "@/utils";
 import Link from "next/link";
 
-const ProjectDetailsPage = async (
-  props: {
-    params: Promise<{ projectId: string }>;
-  }
-) => {
+const ProjectDetailsPage = async (props: {
+  params: Promise<{ projectId: string }>;
+}) => {
   const params = await props.params;
   const projectId = params.projectId;
-  const [singleProjectResponse, projectResponse] = await Promise.all([
+  const [singleProjectResponse, projectResponse, user] = await Promise.all([
     getSingleProject(projectId),
     getProject(projectId, "tisk"),
+    getUser(),
   ]);
 
   let offerer;
@@ -30,6 +30,7 @@ const ProjectDetailsPage = async (
   }
 
   const project = projectResponse.data;
+  const role = user.user_metadata.role;
   if (!project || !singleProjectResponse.data) {
     return <div>Projekta nismo našli</div>;
   } else {
@@ -87,14 +88,17 @@ const ProjectDetailsPage = async (
           </TabsContent>
         </Tabs>
         <div className="flex justify-between align-items w-full">
-          <Link
-            className="border border-black py-2 px-4 rounded-full"
-            href={`/projekti/${project.project_data.id}`}
-          >
-            Pregled projekta
-          </Link>
-
-          <NextPhaseModal phase="tisk" project={project} />
+          {role === "superadmin" && (
+            <Link
+              className="border border-black py-2 px-4 rounded-full"
+              href={`/projekti/${project.project_data.id}`}
+            >
+              Pregled projekta
+            </Link>
+          )}
+          {role === "superadmin" && (
+            <NextPhaseModal phase="tisk" project={project} />
+          )}
         </div>
       </main>
     );
