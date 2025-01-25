@@ -21,6 +21,7 @@ import { updateTechnicalSpecificationsProject } from "@/actions/projects";
 import { Textarea } from "@/components//ui/textarea";
 import { ProjectWithCreatorProps } from "@/types";
 import { Checkbox } from "@/components//ui/checkbox";
+import { useState } from "react";
 
 type TechincalSpecificationsFormProps = {
   user: User;
@@ -38,11 +39,16 @@ const TechicalSpecificationsForm = ({
       ...project,
     },
   });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // 2. Define a submit handler.
   async function onSubmit(
     values: z.infer<typeof technicalSpecificationsFormSchema>
   ) {
+    setLoading(true);
+    setMessage(null);
     const normalizedValues = {
       ...values,
       format: values.format ?? undefined,
@@ -53,7 +59,16 @@ const TechicalSpecificationsForm = ({
       pakiranje: values.pakiranje ?? undefined,
       naklada: values.naklada ?? undefined,
     };
-    await updateTechnicalSpecificationsProject(normalizedValues, project.id);
+    const response = await updateTechnicalSpecificationsProject(
+      normalizedValues,
+      project.id
+    );
+    setLoading(false);
+    if (response.error === null) {
+      setMessage("Uspešno shranjeno!");
+    } else {
+      setError("Shranitev ni bila mogoča!");
+    }
     router.refresh();
   }
   return (
@@ -237,7 +252,11 @@ const TechicalSpecificationsForm = ({
             </div>
           )}
         </div>
-        <Button type="submit">Shrani</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Shranjujem..." : "Shrani"}
+        </Button>
+        {message && <p className="text-green-500">{message}</p>}
+        {error && <p className="text-red-500">{error}</p>}
       </form>
     </Form>
   );

@@ -40,6 +40,9 @@ type UrednistvoFormProps = {
 
 const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
   const [actionType, setActionType] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof phaseFormSchema>>({
@@ -55,6 +58,8 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseFormSchema>) {
+    setLoading(true);
+    setMessage(null);
     if (actionType === "save") {
       await savePhase(values);
     } else {
@@ -71,17 +76,24 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
   }
 
   async function savePhase(values: z.infer<typeof phaseFormSchema>) {
+    let response;
     if (!project_phase) {
-      await addPhase({
+      response = await addPhase({
         ...values,
         status: "v čakanju",
         project_id: project.id,
         name: "urednistvo",
       });
     } else {
-      await updatePhase(project_phase?.id, {
+      response = await updatePhase(project_phase?.id, {
         ...values,
       });
+    }
+    setLoading(false);
+    if (response.error === null) {
+      setMessage("Uspešno shranjeno!");
+    } else {
+      setError("Shranitev ni bila mogoča!");
     }
     router.refresh();
   }
@@ -191,8 +203,12 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
           </div>
         </div>
         <div className="flex justify-between">
-          <Button onClick={() => setActionType("save")} type="submit">
-            Shrani
+          <Button
+            onClick={() => setActionType("save")}
+            type="submit"
+            disabled={loading}
+          >
+            {loading && actionType === "save" ? "Shranjujem..." : "Shrani"}
           </Button>
           {project_phase?.status !== "zaključeno" && (
             <Button
@@ -206,6 +222,8 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
             </Button>
           )}
         </div>
+        {message && <p className="text-green-500">{message}</p>}
+        {error && <p className="text-red-500">{error}</p>}
       </form>
     </Form>
   );

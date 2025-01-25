@@ -45,6 +45,9 @@ const DistribucijaForm = ({
   project_phases,
 }: DistribucijaFormProps) => {
   const [actionType, setActionType] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const tisk_phase = project_phases
     ? project_phases.find((phase) => phase.name === "tisk")
@@ -69,6 +72,8 @@ const DistribucijaForm = ({
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof phaseFormSchema>) {
+    setLoading(true);
+    setMessage(null);
     if (actionType === "save") {
       await savePhase(values);
     } else {
@@ -84,17 +89,24 @@ const DistribucijaForm = ({
   }
 
   async function savePhase(values: z.infer<typeof phaseFormSchema>) {
+    let response;
     if (!distribucija_phase) {
-      await addPhase({
+      response = await addPhase({
         ...values,
         status: "v čakanju",
         project_id: project.id,
         name: "distribucija",
       });
     } else {
-      await updatePhase(distribucija_phase!.id, {
+      response = await updatePhase(distribucija_phase!.id, {
         ...values,
       });
+    }
+    setLoading(false);
+    if (response.error === null) {
+      setMessage("Uspešno shranjeno!");
+    } else {
+      setError("Shranitev ni bila mogoča!");
     }
     router.refresh();
   }
@@ -249,8 +261,12 @@ const DistribucijaForm = ({
           </div>
         </div>
         <div className="flex justify-between">
-          <Button onClick={() => setActionType("save")} type="submit">
-            Shrani
+          <Button
+            onClick={() => setActionType("save")}
+            type="submit"
+            disabled={loading}
+          >
+            {loading && actionType === "save" ? "Shranjujem..." : "Shrani"}
           </Button>
           {tisk_phase &&
             tisk_phase.status === "zaključeno" &&
@@ -266,6 +282,8 @@ const DistribucijaForm = ({
               </Button>
             )}
         </div>
+        {message && <p className="text-green-500">{message}</p>}
+        {error && <p className="text-red-500">{error}</p>}
       </form>
     </Form>
   );

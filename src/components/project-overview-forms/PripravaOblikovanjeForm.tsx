@@ -102,9 +102,9 @@ const PripravOblikovanjeForm = ({
     }
     setLoading(false);
     if (response.error === null) {
-      setMessage(response.message);
+      setMessage("Uspešno shranjeno!");
     } else {
-      setError(response.message);
+      setError("Shranitev ni bila mogoča!");
     }
     router.refresh();
   }
