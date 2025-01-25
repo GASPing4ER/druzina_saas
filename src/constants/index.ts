@@ -35,21 +35,25 @@ export const sidebar_navigation: SidebarNavigationProps = {
       title: "Uredništvo",
       imgUrl: "/icons/urednistvo.svg",
       url: "/urednistvo",
+      access_group: "urednistvo",
       children: [
         {
           title: "Tednik Družina",
           imgUrl: "/icons/druzina.svg",
           url: "/urednistvo?type=tednik",
+          access_group: "urednistvo",
         },
         {
           title: "Revijalni program",
           imgUrl: "/icons/revija.svg",
           url: "/urednistvo?type=publikacije",
+          access_group: "urednistvo",
         },
         {
           title: "Knjižno uredništvo",
           imgUrl: "/icons/knjiga.svg",
           url: "/urednistvo?type=knjiga",
+          access_group: "urednistvo",
         },
       ],
     },
@@ -57,16 +61,19 @@ export const sidebar_navigation: SidebarNavigationProps = {
       title: "Priprava in tisk",
       imgUrl: "/icons/tehnika.svg",
       url: "#",
+      access_group: "priprava-in-tisk",
       children: [
         {
           title: "Priprava in oblikovanje",
           imgUrl: "/icons/priprava-in-oblikovanje.svg",
           url: "/priprava-in-oblikovanje",
+          access_group: "priprava-in-oblikovanje",
         },
         {
           title: "Tisk",
           imgUrl: "/icons/tisk.svg",
           url: "/tisk",
+          access_group: "tisk",
           children: [
             {
               title: "Notranji",
@@ -88,6 +95,7 @@ export const sidebar_navigation: SidebarNavigationProps = {
       title: "Komerciala",
       imgUrl: "/icons/distribucija.svg",
       url: "#",
+      access_group: "distribucija",
       children: [
         {
           title: "Distribucija",

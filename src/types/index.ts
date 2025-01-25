@@ -265,6 +265,7 @@ export type SidebarNavigationItemProps = {
   imgUrl?: string;
   url: string;
   children?: SidebarNavigationItemProps[];
+  access_group?: string;
 };
 
 // ACTIONS INPUT TYPES

@@ -24,7 +24,10 @@ const SidebarNav = ({
             title !== "Procesi" ||
             role === "superadmin" ||
             role === "admin" ||
-            item.url.split("/")[1] === department;
+            item.access_group === department ||
+            (item.access_group === "priprava-in-tisk" &&
+              (department === "priprava-in-oblikovanje" ||
+                department === "tisk"));
 
           return (
             <li key={item.title}>
