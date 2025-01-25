@@ -21,7 +21,7 @@ const ProjectDetailsPage = async (props: {
     ]);
 
   if (
-    user.user_metadata.department !== "urednistvo" &&
+    user.user_metadata.department !== "priprava-in-oblikovanje" &&
     user.user_metadata.role !== "superadmin"
   )
     redirect("/unauthorized");
@@ -78,8 +78,8 @@ const ProjectDetailsPage = async (props: {
               type="naloge"
               phase="priprava-in-oblikovanje"
               data={tasks}
-              projectId={projectId}
-              role={role}
+              project={project}
+              user={user}
             />
           </TabsContent>
           <TabsContent value="tehnični-podatki">

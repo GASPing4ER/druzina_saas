@@ -17,8 +17,10 @@ export default async function Home() {
     filteredProjects = projects || [];
   } else {
     filteredProjects = projects
-      ? projects.filter((project) =>
-          tasks?.find((task) => task.project_id === project.project_id)
+      ? projects.filter(
+          (project) =>
+            tasks?.find((task) => task.project_id === project.project_id) ||
+            project.project_data.creator_id === user.id
         )
       : [];
   }

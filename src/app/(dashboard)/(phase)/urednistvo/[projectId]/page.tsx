@@ -93,8 +93,8 @@ const ProjectDetailsPage = async (props: {
               type="naloge"
               phase="urednistvo"
               data={tasks}
-              projectId={projectId}
-              role={role}
+              project={project}
+              user={user}
             />
           </TabsContent>
           <TabsContent value="datoteke">
@@ -102,8 +102,8 @@ const ProjectDetailsPage = async (props: {
               type="datoteke"
               phase="urednistvo"
               data={files}
-              projectId={projectId}
-              role={role}
+              project={project}
+              user={user}
             />
           </TabsContent>
           <TabsContent value="tehnični-podatki">

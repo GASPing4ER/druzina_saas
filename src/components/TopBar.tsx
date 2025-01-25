@@ -36,6 +36,7 @@ const TopBar = ({ user }: TopBarProps) => {
   const path = usePathname();
   const paths = path.split("/");
   const navDetails = getPathname(paths[1]);
+  const role = user.user_metadata.role;
 
   useEffect(() => {
     const getProjectData = async () => {
@@ -92,7 +93,9 @@ const TopBar = ({ user }: TopBarProps) => {
                   </Button>
                 )}
               </DialogHeader>
-              {type === "" ? (
+              {role === "member" ? (
+                <OtherForm user={user} handleClose={() => setOpen(false)} />
+              ) : type === "" ? (
                 <TypeChoice setType={setType} />
               ) : type === "knjiga" ? (
                 <BookForm user={user} handleClose={() => setOpen(false)} />

@@ -59,14 +59,27 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
 
   useEffect(() => {
     const getUsersData = async () => {
-      const response = await getUsers();
+      const [response, user] = await Promise.all([getUsers(), getUser()]);
 
-      if (response.data) {
-        const result = response.data.filter(
-          (user: UserProps) =>
-            user.department === phase && user.role === "member"
-        );
-        setUsers(result);
+      if (user.user_metadata.role === "member") {
+        setUsers([
+          {
+            id: user.id,
+            email: user.email as string,
+            first_name: user.user_metadata.first_name,
+            last_name: user.user_metadata.last_name,
+            department: user.user_metadata.department,
+            role: user.user_metadata.role,
+          },
+        ]);
+      } else {
+        if (response.data) {
+          const result = response.data.filter(
+            (user: UserProps) =>
+              user.department === phase && user.role === "member"
+          );
+          setUsers(result);
+        }
       }
     };
 
