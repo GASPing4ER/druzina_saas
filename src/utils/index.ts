@@ -58,6 +58,20 @@ export const getPhaseNameByNapredek = (napredek: number) => {
   }
 };
 
+export const getPhaseSlugByNapredek = (napredek: number) => {
+  if (napredek === 0) {
+    return "osnutek";
+  } else if (napredek === 1) {
+    return "urednistvo";
+  } else if (napredek === 2) {
+    return "priprava-in-oblikovanje";
+  } else if (napredek === 3) {
+    return "tisk";
+  } else if (napredek === 4) {
+    return "distribucija";
+  }
+};
+
 export const getCompleteData = (
   values: typeFormProps,
   user: User

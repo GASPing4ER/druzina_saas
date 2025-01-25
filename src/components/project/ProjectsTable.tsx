@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { User } from "@supabase/supabase-js";
+import { getPhaseSlugByNapredek } from "@/utils";
 
 type ProjectsTableProps = {
   projects: ProjectWithCreatorProps[];
@@ -84,7 +85,7 @@ const ProjectsTable = ({ projects, user, phase }: ProjectsTableProps) => {
             const path = phase
               ? `${phase}`
               : role === "member"
-              ? `${project.name}`
+              ? `${getPhaseSlugByNapredek(project.napredek)}`
               : "projekti";
             if (project.id) {
               pathname = `/${path}/${project.id}`;

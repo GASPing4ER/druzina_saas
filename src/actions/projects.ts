@@ -20,45 +20,22 @@ export const getProjects = async (
   message: string;
 }> => {
   try {
-    if (
-      user.user_metadata.role === "superadmin" ||
-      user.user_metadata.role === "admin"
-    ) {
-      const { data, error } = await supabase
-        .from("project_data")
-        .select(
-          `
+    const { data, error } = await supabase
+      .from("project_data")
+      .select(
+        `
           *,
           creator:users (*)
         `
-        )
-        .neq("status", "zaključeno")
-        .order("end_date");
+      )
+      .neq("status", "zaključeno")
+      .order("end_date");
 
-      return {
-        data,
-        error,
-        message: `Successfully Fetched Projects for ${user.user_metadata.role}`,
-      };
-    } else {
-      const { data, error } = await supabase
-        .from("project_data")
-        .select(
-          `
-        *,
-        creator:users (*)
-      `
-        )
-        .eq("name", user.user_metadata.department)
-        .neq("status", "zaključeno")
-        .order("end_date");
-
-      return {
-        data,
-        error,
-        message: "Successfully Fetched Projects for member",
-      };
-    }
+    return {
+      data,
+      error,
+      message: `Successfully Fetched Projects for ${user.user_metadata.role}`,
+    };
   } catch (error: unknown) {
     return {
       data: null,
