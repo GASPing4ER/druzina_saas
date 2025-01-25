@@ -117,6 +117,7 @@ const PripravOblikovanjeForm = ({
           status: "v teku",
           project_id: project.id,
           name: "priprava-in-oblikovanje",
+          start_date: new Date(),
         }),
         updateProject(
           {
@@ -129,7 +130,11 @@ const PripravOblikovanjeForm = ({
       ]);
     } else if (project_phase.status === "v čakanju") {
       await Promise.all([
-        updatePhase(project_phase.id, { ...values, status: "v teku" }),
+        updatePhase(project_phase.id, {
+          ...values,
+          status: "v teku",
+          start_date: new Date(),
+        }),
         updateProject(
           {
             napredek: project.napredek > 2 ? project.napredek : 2,
@@ -140,7 +145,11 @@ const PripravOblikovanjeForm = ({
         ),
       ]);
     } else {
-      updatePhase(project_phase.id, { ...values, status: "v teku" });
+      updatePhase(project_phase.id, {
+        ...values,
+        status: "v teku",
+        start_date: new Date(),
+      });
     }
     setLoading(false);
     router.refresh();

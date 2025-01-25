@@ -107,6 +107,7 @@ const DistribucijaForm = ({
           status: "v teku",
           project_id: project.id,
           name: "distribucija",
+          start_date: new Date(),
         }),
         updateProject(
           {
@@ -119,7 +120,11 @@ const DistribucijaForm = ({
       ]);
     } else if (distribucija_phase.status === "v čakanju") {
       await Promise.all([
-        updatePhase(distribucija_phase.id, { ...values, status: "v teku" }),
+        updatePhase(distribucija_phase.id, {
+          ...values,
+          status: "v teku",
+          start_date: new Date(),
+        }),
         updateProject(
           {
             napredek: project.napredek > 4 ? project.napredek : 4,
@@ -130,7 +135,11 @@ const DistribucijaForm = ({
         ),
       ]);
     } else {
-      updatePhase(distribucija_phase.id, { ...values, status: "v teku" });
+      updatePhase(distribucija_phase.id, {
+        ...values,
+        status: "v teku",
+        start_date: new Date(),
+      });
     }
     router.refresh();
     if (distribucija_phase?.status === "v teku") {

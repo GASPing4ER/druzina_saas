@@ -127,6 +127,7 @@ const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
           status: "v teku",
           project_id: project.id,
           name: "tisk",
+          start_date: new Date(),
         }),
         updateProject(
           {
@@ -139,7 +140,11 @@ const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
       ]);
     } else if (tisk_phase.status === "v čakanju") {
       await Promise.all([
-        updatePhase(tisk_phase.id, { ...values, status: "v teku" }),
+        updatePhase(tisk_phase.id, {
+          ...values,
+          status: "v teku",
+          start_date: new Date(),
+        }),
         updateProject(
           {
             napredek: project.napredek > 3 ? project.napredek : 3,
@@ -150,7 +155,11 @@ const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
         ),
       ]);
     } else {
-      updatePhase(tisk_phase.id, { ...values, status: "v teku" });
+      updatePhase(tisk_phase.id, {
+        ...values,
+        status: "v teku",
+        start_date: new Date(),
+      });
     }
     router.refresh();
     if (tisk_phase?.status === "v teku") {
