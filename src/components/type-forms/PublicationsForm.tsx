@@ -76,7 +76,7 @@ const PublicationsForm = ({ user, handleClose }: PublicationsFormProps) => {
                 <FormItem>
                   <FormLabel>Naslov</FormLabel>
                   <FormControl>
-                    <Input placeholder="Mavrica" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -93,7 +93,7 @@ const PublicationsForm = ({ user, handleClose }: PublicationsFormProps) => {
                 <FormItem>
                   <FormLabel>Številka izdaje</FormLabel>
                   <FormControl>
-                    <Input placeholder="12" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,7 +108,7 @@ const PublicationsForm = ({ user, handleClose }: PublicationsFormProps) => {
                 <FormItem>
                   <FormLabel>Priloge</FormLabel>
                   <FormControl>
-                    <Input placeholder="..." {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -65,7 +65,7 @@ const FileEditForm = ({ file, handleClose }: FileEditFormProps) => {
                 <FormItem>
                   <FormLabel>Naziv datoteke</FormLabel>
                   <FormControl>
-                    <Input placeholder="Vsebina knjige" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -80,7 +80,7 @@ const FileEditForm = ({ file, handleClose }: FileEditFormProps) => {
                 <FormItem>
                   <FormLabel>Link do datoteke</FormLabel>
                   <FormControl>
-                    <Input placeholder="https://wetransfer.com/" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -97,10 +97,7 @@ const FileEditForm = ({ file, handleClose }: FileEditFormProps) => {
                 <FormItem>
                   <FormLabel>Opis datoteke</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Zadnja lektorirana verzija, s popravki"
-                      {...field}
-                    />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -158,7 +158,6 @@ const OfferForm = ({ projectId, handleClose }: OfferFormProps) => {
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="400"
                       {...field}
                       onChange={(e) => field.onChange(e.target.valueAsNumber)}
                     />
@@ -178,7 +177,6 @@ const OfferForm = ({ projectId, handleClose }: OfferFormProps) => {
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="10,00"
                       {...field}
                       onChange={(e) => field.onChange(e.target.valueAsNumber)}
                     />

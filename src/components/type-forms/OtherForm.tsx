@@ -101,7 +101,7 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
                 <FormItem>
                   <FormLabel>Naslov</FormLabel>
                   <FormControl>
-                    <Input placeholder="Plakat" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

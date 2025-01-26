@@ -73,7 +73,7 @@ const BookForm = ({ user, handleClose }: BookFormProps) => {
                 <FormItem>
                   <FormLabel>Naslov</FormLabel>
                   <FormControl>
-                    <Input placeholder="Družina, št.42" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -88,7 +88,7 @@ const BookForm = ({ user, handleClose }: BookFormProps) => {
                 <FormItem>
                   <FormLabel>Avtor</FormLabel>
                   <FormControl>
-                    <Input placeholder="Janez Novak" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -60,7 +60,7 @@ const TaskHoursEditForm = ({ task, handleClose }: TaskHoursEditFormProps) => {
                 <FormItem>
                   <FormLabel>Število opravljenih ur</FormLabel>
                   <FormControl>
-                    <Input placeholder="3" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -75,10 +75,7 @@ const TaskHoursEditForm = ({ task, handleClose }: TaskHoursEditFormProps) => {
                 <FormItem>
                   <FormLabel>Opis opravljenega dela</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Lektoriraj vsebino na strani 8"
-                      {...field}
-                    />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

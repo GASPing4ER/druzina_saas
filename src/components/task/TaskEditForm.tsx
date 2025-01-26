@@ -111,7 +111,7 @@ const TaskEditForm = ({ task, handleClose }: TaskEditFormProps) => {
                 <FormItem>
                   <FormLabel>Naziv naloge</FormLabel>
                   <FormControl>
-                    <Input placeholder="Lektoriranje vsebine" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -126,10 +126,7 @@ const TaskEditForm = ({ task, handleClose }: TaskEditFormProps) => {
                 <FormItem>
                   <FormLabel>Opis naloge</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Lektoriraj vsebino na strani 8"
-                      {...field}
-                    />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

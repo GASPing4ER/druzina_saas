@@ -120,7 +120,7 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
                 <FormItem>
                   <FormLabel>Naziv naloge</FormLabel>
                   <FormControl>
-                    <Input placeholder="Lektoriranje vsebine" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormDescription>Naziv naloge</FormDescription>
                   <FormMessage />
@@ -136,10 +136,7 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
                 <FormItem>
                   <FormLabel>Opis naloge</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Lektoriraj vsebino na strani 8"
-                      {...field}
-                    />
+                    <Input {...field} />
                   </FormControl>
                   <FormDescription>Opis naloge</FormDescription>
                   <FormMessage />

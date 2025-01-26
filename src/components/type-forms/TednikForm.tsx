@@ -77,7 +77,7 @@ const TednikForm = ({ user, handleClose }: TednikFormProps) => {
                 <FormItem>
                   <FormLabel>Številka izdaje</FormLabel>
                   <FormControl>
-                    <Input placeholder="12" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

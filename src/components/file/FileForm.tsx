@@ -61,7 +61,7 @@ const FileForm = ({ projectId, handleClose }: FileFormProps) => {
                 <FormItem>
                   <FormLabel>Naziv datoteke</FormLabel>
                   <FormControl>
-                    <Input placeholder="Vsebina knjige" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormDescription>Naziv datoteke</FormDescription>
                   <FormMessage />
@@ -77,7 +77,7 @@ const FileForm = ({ projectId, handleClose }: FileFormProps) => {
                 <FormItem>
                   <FormLabel>Link do datoteke</FormLabel>
                   <FormControl>
-                    <Input placeholder="https://wetransfer.com/" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormDescription>Link do datoteke</FormDescription>
                   <FormMessage />
@@ -95,10 +95,7 @@ const FileForm = ({ projectId, handleClose }: FileFormProps) => {
                 <FormItem>
                   <FormLabel>Opis datoteke</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Zadnja lektorirana verzija, s popravki"
-                      {...field}
-                    />
+                    <Input {...field} />
                   </FormControl>
                   <FormDescription>Opis datoteke</FormDescription>
                   <FormMessage />
