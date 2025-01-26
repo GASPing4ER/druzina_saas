@@ -224,9 +224,17 @@ const TechicalSpecificationsForm = ({
             </div>
           )}
         </div>
-        <Button type="submit" disabled={loading}>
-          {loading ? "Shranjujem..." : "Shrani"}
-        </Button>
+        <div className="flex justify-between">
+          <Button type="submit" disabled={loading}>
+            {loading ? "Shranjujem..." : "Shrani"}
+          </Button>
+          <Button
+            type="button"
+            className="bg-transparent border border-black text-black hover:text-white"
+          >
+            Izvozi povpraševanje
+          </Button>
+        </div>
         {message && <p className="text-green-500">{message}</p>}
         {error && <p className="text-red-500">{error}</p>}
       </form>
