@@ -102,6 +102,7 @@ const PripravOblikovanjeForm = ({
       setMessage("Uspešno shranjeno!");
     } else {
       setError("Shranitev ni bila mogoča!");
+      console.log(response.error);
     }
     router.refresh();
   }
@@ -215,25 +216,21 @@ const PripravOblikovanjeForm = ({
                 )}
               />
             </div>
-            {project.type === "knjiga" && (
-              <>
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="oblikovanje"
-                    render={({ field }) => (
-                      <FormItem className="flex items-center justify-between gap-2">
-                        <FormLabel>Oblikovanje:</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </>
-            )}
+            <div>
+              <FormField
+                control={form.control}
+                name="oblikovanje"
+                render={({ field }) => (
+                  <FormItem className="flex items-center justify-between gap-2">
+                    <FormLabel>Oblikovanje:</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
           <div className="flex-1">
             <FormField
