@@ -163,8 +163,6 @@ export const updateTaskStatus = async (
     let status: TTaskStatus;
     if (task.status === "assigned") {
       status = "done";
-    } else if (task.status === "done") {
-      status = "checked";
     } else {
       status = "completed";
     }

@@ -21,7 +21,7 @@ export type TDepartment =
 
 export type TRole = "member" | "admin" | "superadmin";
 
-export type TTaskStatus = "assigned" | "done" | "checked" | "completed";
+export type TTaskStatus = "assigned" | "done" | "completed";
 
 export type TTaskPriority = "nizka" | "normalna" | "visoka";
 

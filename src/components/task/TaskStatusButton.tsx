@@ -26,8 +26,6 @@ const TaskStatusButton = ({ task, user }: TaskStatusButtonProps) => {
           ? "border-black bg-gray-100 disabled:border-gray-400"
           : task.status === "done"
           ? "border-orange-400 bg-gray-100 disabled:border-orange-200"
-          : task.status === "checked"
-          ? "border-green-400 bg-gray-100 disabled:border-green-200"
           : "border-green-400 bg-green-400"
       }`}
       disabled={
@@ -35,8 +33,6 @@ const TaskStatusButton = ({ task, user }: TaskStatusButtonProps) => {
           task.status === "assigned" &&
           user.id !== task.employee_id) ||
         (task.status === "done" && user.id !== task.assigner_id) ||
-        (task.status === "checked" &&
-          user.user_metadata.role !== "superadmin") ||
         task.status === "completed"
       }
     >
