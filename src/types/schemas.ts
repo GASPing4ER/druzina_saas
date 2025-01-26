@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const TTypeSchema = z.enum(["publikacije", "tednik", "knjiga", "drugo"]);
-const TPrioritySchema = z.enum(["nizka", "normalna", "visoka"]);
+// const TPrioritySchema = z.enum(["nizka", "normalna", "visoka"]);
 const TDepartment = z.enum([
   "urednistvo",
   "priprava-in-oblikovanje",
@@ -88,21 +88,9 @@ export const phaseSchema = z.object({
 });
 
 export const taskSchema = z.object({
-  name: z.string().min(2, {
-    message: "Naslov mora imeti vsaj 2 karakterja.",
+  employee_ids: z.array(z.string()).nonempty({
+    message: "Izberite vsaj enega izvajalca.",
   }),
-  description: z.string().optional(),
-  priority: TPrioritySchema.refine(
-    (val) => TPrioritySchema.options.includes(val),
-    {
-      message: "Izberite pravilno prioriteto.",
-    }
-  ),
-  employee_id: z.string().min(2, {
-    message: "Vrsta projekta mora imeti vsaj 2 karakterja.",
-  }),
-  start_date: z.date(),
-  end_date: z.date(),
 });
 
 export const taskHoursSchema = z.object({

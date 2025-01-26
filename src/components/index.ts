@@ -18,15 +18,12 @@ import UtilityModal from "./UtilityModal";
 import TaskForm from "./task/TaskForm";
 import TasksTable from "./task/TasksTable";
 import TaskRow from "./task/TaskRow";
-import TaskModal from "./task/TaskModal";
 import TaskStatusButton from "./task/TaskStatusButton";
 import FileForm from "./file/FileForm";
 import FilesTable from "./file/FilesTable";
 import FileRow from "./file/FileRow";
 import UserForm from "./auth/UserForm";
 import LoginUserForm from "./auth/LoginUserForm";
-import TaskEditModal from "./task/TaskEditModal";
-import TaskEditForm from "./task/TaskEditForm";
 import FileEditModal from "./file/FileEditModal";
 import FileEditForm from "./file/FileEditForm";
 import ProjectTimeline from "./project/ProjectTimeline";
@@ -76,15 +73,12 @@ export {
   TaskForm,
   TasksTable,
   TaskRow,
-  TaskModal,
   TaskStatusButton,
   FileForm,
   FilesTable,
   FileRow,
   UserForm,
   LoginUserForm,
-  TaskEditModal,
-  TaskEditForm,
   FileEditModal,
   FileEditForm,
   ProjectTimeline,

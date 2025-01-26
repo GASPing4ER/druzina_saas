@@ -208,12 +208,7 @@ export type TaskProps = {
   employee_id: string;
   project_id: string;
   assigner_id: string;
-  name: string;
-  description?: string;
   phase: string;
-  priority: TTaskPriority;
-  start_date: Date;
-  end_date: Date;
   status: TTaskStatus;
   created_at: Date;
 };

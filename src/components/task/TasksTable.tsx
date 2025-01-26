@@ -21,10 +21,7 @@ const TasksTable = async ({ tasks }: TaskTableProps) => {
         <TableRow>
           <TableHead></TableHead>
           <TableHead>Izvajalec</TableHead>
-          <TableHead>Začetek</TableHead>
-          <TableHead>Rok</TableHead>
-          <TableHead>Prioriteta</TableHead>
-          <TableHead>Naziv naloge</TableHead>
+          <TableHead>Status</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
