@@ -78,11 +78,7 @@ const LoginUserForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="ana.novak@gmail.com"
-                      {...field}
-                    />
+                    <Input type="email" {...field} />
                   </FormControl>
                   <FormDescription>Email zaposlenega</FormDescription>
                   <FormMessage />
