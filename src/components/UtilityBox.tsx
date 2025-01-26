@@ -42,7 +42,11 @@ const UtilityBox = ({ type, phase, data, project, user }: UtilityBoxProps) => {
         {(role === "superadmin" ||
           user.id === project.project_data.creator_id ||
           (type !== "naloge" && type !== "opombe")) && (
-          <UtilityModal phase={phase} type={type} projectId={project.id} />
+          <UtilityModal
+            phase={phase}
+            type={type}
+            projectId={project.project_data.id}
+          />
         )}
       </div>
       {data && data.length > 0 ? (
