@@ -20,7 +20,7 @@ import {
   TypeChoice,
 } from "@/components";
 import { User } from "@supabase/supabase-js";
-import { getProject } from "@/actions/projects";
+import { getCompleteProjectPhase } from "@/actions/projects";
 import { getPathname } from "@/utils";
 import Image from "next/image";
 import { Button } from "./ui/button";
