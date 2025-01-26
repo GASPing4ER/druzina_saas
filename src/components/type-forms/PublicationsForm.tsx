@@ -30,6 +30,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { addProject } from "@/actions/projects";
 import { phases } from "@/constants";
 import { addProjectPhase } from "@/actions/project-phases";
+import { useState } from "react";
 
 type PublicationsFormProps = {
   user: User;
@@ -43,10 +44,13 @@ const PublicationsForm = ({ user, handleClose }: PublicationsFormProps) => {
     resolver: zodResolver(publicationsFormSchema),
   });
 
+  const [loading, setLoading] = useState(false);
+
   const startDate = form.watch("start_date");
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof publicationsFormSchema>) {
+    setLoading(true);
     const completeData = getCompleteData(
       { ...values, type: "publikacije" },
       user
@@ -62,6 +66,7 @@ const PublicationsForm = ({ user, handleClose }: PublicationsFormProps) => {
     });
 
     router.replace("/");
+    setLoading(false);
     handleClose();
   }
   return (
@@ -215,7 +220,9 @@ const PublicationsForm = ({ user, handleClose }: PublicationsFormProps) => {
             />
           </div>
         </div>
-        <Button type="submit">Ustvari</Button>
+        <Button disabled={loading} type="submit">
+          {loading ? "Ustvarjam..." : "Ustvari"}
+        </Button>
       </form>
     </Form>
   );

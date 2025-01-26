@@ -31,6 +31,7 @@ import { addProject } from "@/actions/projects";
 import { phases } from "@/constants";
 import { addProjectPhase } from "@/actions/project-phases";
 import { Textarea } from "../ui/textarea";
+import { useState } from "react";
 
 type TednikFormProps = {
   user: User;
@@ -44,10 +45,13 @@ const TednikForm = ({ user, handleClose }: TednikFormProps) => {
     resolver: zodResolver(tednikFormSchema),
   });
 
+  const [loading, setLoading] = useState(false);
+
   const startDate = form.watch("start_date");
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof tednikFormSchema>) {
+    setLoading(true);
     const completeData = getCompleteData(
       { ...values, type: "tednik", name: `Tednik ${values.st_izdaje}` },
       user
@@ -63,6 +67,7 @@ const TednikForm = ({ user, handleClose }: TednikFormProps) => {
     });
 
     router.replace("/");
+    setLoading(false);
     handleClose();
   }
   return (
@@ -201,7 +206,9 @@ const TednikForm = ({ user, handleClose }: TednikFormProps) => {
             />
           </div>
         </div>
-        <Button type="submit">Ustvari</Button>
+        <Button disabled={loading} type="submit">
+          {loading ? "Ustvarjam..." : "Ustvari"}
+        </Button>
       </form>
     </Form>
   );

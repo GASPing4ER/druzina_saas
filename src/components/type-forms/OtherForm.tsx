@@ -30,6 +30,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { addProject } from "@/actions/projects";
 import { phases } from "@/constants";
 import { addProjectPhase } from "@/actions/project-phases";
+import { useState } from "react";
 
 type OtherFormProps = {
   user: User;
@@ -43,13 +44,15 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
     resolver: zodResolver(otherFormSchema),
   });
 
+  const [loading, setLoading] = useState(false);
+
   const startDate = form.watch("start_date");
 
   console.log("Inside OtherForm");
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof otherFormSchema>) {
-    console.log("Inside submit function");
+    setLoading(true);
     const completeData = getCompleteData({ ...values, type: "drugo" }, user);
     const { data, error } = await addProject(completeData);
     console.log("Data:", data);
@@ -62,6 +65,7 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
     });
 
     router.replace("/");
+    setLoading(false);
     handleClose();
   }
   return (
@@ -183,8 +187,8 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
             />
           </div>
         </div>
-        <Button onClick={() => console.log("I am clicked")} type="submit">
-          Ustvari
+        <Button disabled={loading} type="submit">
+          {loading ? "Ustvarjam..." : "Ustvari"}
         </Button>
       </form>
     </Form>

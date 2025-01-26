@@ -30,6 +30,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { addProject } from "@/actions/projects";
 import { phases } from "@/constants";
 import { addProjectPhase } from "@/actions/project-phases";
+import { useState } from "react";
 
 type BookFormProps = {
   user: User;
@@ -43,10 +44,13 @@ const BookForm = ({ user, handleClose }: BookFormProps) => {
     resolver: zodResolver(bookFormSchema),
   });
 
+  const [loading, setLoading] = useState(false);
+
   const startDate = form.watch("start_date");
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof bookFormSchema>) {
+    setLoading(true);
     const completeData = getCompleteData({ ...values, type: "knjiga" }, user);
     const { data, error } = await addProject(completeData);
     console.log("Data:", data);
@@ -59,6 +63,7 @@ const BookForm = ({ user, handleClose }: BookFormProps) => {
     });
 
     router.replace("/");
+    setLoading(false);
     handleClose();
   }
   return (
@@ -195,7 +200,9 @@ const BookForm = ({ user, handleClose }: BookFormProps) => {
             />
           </div>
         </div>
-        <Button type="submit">Ustvari</Button>
+        <Button disabled={loading} type="submit">
+          {loading ? "Ustvarjam..." : "Ustvari"}
+        </Button>
       </form>
     </Form>
   );
