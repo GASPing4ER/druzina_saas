@@ -19,16 +19,19 @@ const TaskRow = ({ task, user }: TaskRowProps) => {
     <>
       <TableRow className="cursor-pointer">
         <TableCell>
-          <Image
-            onClick={(e: MouseEvent) => {
-              e.stopPropagation();
-              setOpenHoursForm(true);
-            }}
-            src="/icons/edit.svg"
-            alt="edit"
-            width={25}
-            height={25}
-          />
+          {(user.id === task.employee_id ||
+            user.user_metadata.role === "superadmin") && (
+            <Image
+              onClick={(e: MouseEvent) => {
+                e.stopPropagation();
+                setOpenHoursForm(true);
+              }}
+              src="/icons/edit.svg"
+              alt="edit"
+              width={25}
+              height={25}
+            />
+          )}
         </TableCell>
         <TableCell>
           {task.employee.first_name} {task.employee.last_name}
