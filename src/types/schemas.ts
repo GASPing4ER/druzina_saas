@@ -42,9 +42,7 @@ export const bookFormSchema = z.object({
   name: z.string().min(2, {
     message: "Naslov mora imeti vsaj 2 karakterja.",
   }),
-  author: z.string().min(2, {
-    message: "Vrsta projekta mora imeti vsaj 2 karakterja.",
-  }),
+  author: z.string().optional(),
   start_date: z.date(),
   end_date: z.date(),
 });
