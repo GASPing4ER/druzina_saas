@@ -3,6 +3,7 @@ import {
   CompleteProjectPhaseProps,
   NewProjectDataProps,
   ProjectPhaseProps,
+  SidebarNavigationItemProps,
   typeFormProps,
   UpdatedProjectDataProps,
 } from "@/types";
@@ -42,6 +43,23 @@ export const isPast = (endDate: Date) => {
 export const getPhaseName = (inputPhase: string) => {
   const phase = phases.find((phase) => phase.slug === inputPhase);
   return phase?.title || "/";
+};
+
+export const canAccessItem = (
+  item: SidebarNavigationItemProps,
+  department: string,
+  role: string
+): boolean => {
+  if (role === "superadmin" || role === "admin") return true;
+  if (!item.access_group) return true;
+  if (item.access_group === department) return true;
+  if (
+    item.access_group === "priprava-in-tisk" &&
+    ["priprava-in-oblikovanje", "tisk"].includes(department)
+  )
+    return true;
+
+  return false;
 };
 
 export const getPhaseNameByNapredek = (napredek: number) => {

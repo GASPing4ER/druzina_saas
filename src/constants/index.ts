@@ -23,11 +23,13 @@ export const sidebar_navigation: SidebarNavigationProps = {
       title: "Projekti",
       imgUrl: "/icons/projekti.svg",
       url: "/projekti",
+      access_group: "admin",
     },
     {
       title: "Statistika",
       imgUrl: "/icons/statistika.svg",
       url: "/statistika",
+      access_group: "admin",
     },
   ],
   procesi: [

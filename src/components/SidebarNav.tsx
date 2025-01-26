@@ -1,12 +1,13 @@
 import { SidebarNavigationItemProps } from "@/types";
+import { canAccessItem } from "@/utils";
 import Image from "next/image";
 import Link from "next/link";
 
 type SidebarNavProps = {
   title: string;
   navigation: SidebarNavigationItemProps[];
-  department?: string;
-  role?: string;
+  department: string;
+  role: string;
 };
 
 const SidebarNav = ({
@@ -20,15 +21,7 @@ const SidebarNav = ({
       <h3 className="sidebar-h3">{title}</h3>
       <ul className="my-2 ml-5 flex flex-col gap-4">
         {navigation.map((item) => {
-          const canAccess =
-            title !== "Procesi" ||
-            role === "superadmin" ||
-            role === "admin" ||
-            item.access_group === department ||
-            (item.access_group === "priprava-in-tisk" &&
-              (department === "priprava-in-oblikovanje" ||
-                department === "tisk"));
-
+          const canAccess = canAccessItem(item, department, role);
           return (
             <li key={item.title}>
               <Link
@@ -49,7 +42,7 @@ const SidebarNav = ({
               </Link>
 
               {/* Recursively render children if they exist */}
-              {item.children && (
+              {item.children && canAccess && (
                 <ul className="ml-6 mt-2 flex flex-col gap-2">
                   {item.children.map((subitem) => (
                     <li key={subitem.title}>
