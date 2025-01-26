@@ -73,7 +73,7 @@ const ProjectDetailsPage = async (props: {
             </Link>
           )}
           {role === "superadmin" && (
-            <NextPhaseModal phase="tisk" project={project} />
+            <NextPhaseModal phase="arhiv" project={project} />
           )}
         </div>
       </main>
