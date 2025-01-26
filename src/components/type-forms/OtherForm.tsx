@@ -41,22 +41,16 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof otherFormSchema>>({
     resolver: zodResolver(otherFormSchema),
-    defaultValues: {
-      type: "drugo",
-    },
   });
 
   const startDate = form.watch("start_date");
-  if (user.user_metadata.role !== "superadmin") {
-    form.setValue("type", "drugo");
-  }
 
   console.log("Inside OtherForm");
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof otherFormSchema>) {
     console.log("Inside submit function");
-    const completeData = getCompleteData(values, user);
+    const completeData = getCompleteData({ ...values, type: "drugo" }, user);
     const { data, error } = await addProject(completeData);
     console.log("Data:", data);
     console.log("Error:", error);
@@ -74,25 +68,6 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex gap-2 items-baseline">
-          <div className="flex-1">
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem className="h-full">
-                  <FormLabel>Vrsta</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      value="drugo"
-                      className="disabled:bg-gray-300 disabled:text-black"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <div className="flex-1">
             <FormField
               control={form.control}

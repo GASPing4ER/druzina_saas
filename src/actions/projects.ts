@@ -12,7 +12,53 @@ import {
 import { PostgrestError, User } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 
-export const getProjects = async (
+export const getCompleteProjectPhase = async (
+  projectId: string,
+  phase?: string
+): Promise<{
+  data: CompleteProjectPhaseProps | null;
+  error: PostgrestError | null | unknown;
+  message: string;
+}> => {
+  try {
+    let query = supabase
+      .from("project_phases")
+      .select(
+        `
+      *,
+      project_data (
+        *,
+        creator:users (
+        *
+      )
+      )
+    `
+      )
+      .eq("project_id", projectId)
+      .neq("status", "zaključeno")
+      .neq("status", "v čakanju")
+      .order("end_date");
+
+    if (phase) {
+      query = query.eq("name", phase);
+    }
+    const { data, error } = await query.maybeSingle();
+
+    return {
+      data: data,
+      error,
+      message: "Successful Fetch of a Project",
+    };
+  } catch (error) {
+    return {
+      data: null,
+      error,
+      message: "Database Error: Failed to Fetch Project",
+    };
+  }
+};
+
+export const getProjectsWithCreator = async (
   user: User
 ): Promise<{
   data: ProjectWithCreatorProps[] | null;
@@ -45,7 +91,7 @@ export const getProjects = async (
   }
 };
 
-export const getSingleProject = async (
+export const getProjectWithCreator = async (
   projectId: string
 ): Promise<{
   data: ProjectWithCreatorProps | null;
@@ -183,52 +229,6 @@ export const getPhaseProjects = async (
       data: null,
       error: error as PostgrestError,
       message: "Database Error: Phase based Projects Fetching unsuccessful.",
-    };
-  }
-};
-
-export const getProject = async (
-  projectId: string,
-  phase?: string
-): Promise<{
-  data: CompleteProjectPhaseProps | null;
-  error: PostgrestError | null | unknown;
-  message: string;
-}> => {
-  try {
-    let query = supabase
-      .from("project_phases")
-      .select(
-        `
-      *,
-      project_data (
-        *,
-        creator:users (
-        *
-      )
-      )
-    `
-      )
-      .eq("project_id", projectId)
-      .neq("status", "zaključeno")
-      .neq("status", "v čakanju")
-      .order("end_date");
-
-    if (phase) {
-      query = query.eq("name", phase);
-    }
-    const { data, error } = await query.maybeSingle();
-
-    return {
-      data: data,
-      error,
-      message: "Successful Fetch of a Project",
-    };
-  } catch (error) {
-    return {
-      data: null,
-      error,
-      message: "Database Error: Failed to Fetch Project",
     };
   }
 };

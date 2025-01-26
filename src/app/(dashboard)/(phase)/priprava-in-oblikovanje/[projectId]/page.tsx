@@ -1,5 +1,5 @@
 import { getUser } from "@/actions/auth";
-import { getProject, getSingleProject } from "@/actions/projects";
+import { getProject, getProjectWithCreator } from "@/actions/projects";
 import { getTasksWithNames } from "@/actions/tasks";
 import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,8 +14,8 @@ const ProjectDetailsPage = async (props: {
   const projectId = params.projectId;
   const [singleProjectResponse, projectResponse, tasksResponse, user] =
     await Promise.all([
-      getSingleProject(projectId),
-      getProject(projectId, "priprava-in-oblikovanje"),
+      getProjectWithCreator(projectId),
+      getCompleteProjectPhase(projectId, "priprava-in-oblikovanje"),
       getTasksWithNames(projectId, "priprava-in-oblikovanje"),
       getUser(),
     ]);

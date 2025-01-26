@@ -28,14 +28,12 @@ export const phaseFormSchema = z.object({
   start_date: z.date().optional(),
   end_date: z.date().optional(),
   oblikovanje: z.string().optional(),
-  sken: z.string().optional(),
-  postavitev: z.string().optional(),
   predogled: z.boolean().optional(),
   potrditev_postavitve: z.boolean().optional(),
+  potrditev_testnega_odtisa: z.boolean().optional(),
   navodila: z.string().optional(),
   prevzem: z.boolean().optional(),
   ponudba_id: z.string().optional(),
-  opombe: z.string().optional(),
 });
 
 export const bookFormSchema = z.object({
@@ -67,9 +65,6 @@ export const tednikFormSchema = z.object({
 export const otherFormSchema = z.object({
   name: z.string().min(2, {
     message: "Naslov mora imeti vsaj 2 karakterja.",
-  }),
-  type: TTypeSchema.refine((val) => TTypeSchema.options.includes(val), {
-    message: "Izberite pravilno vrsto.",
   }),
   start_date: z.date(),
   end_date: z.date(),

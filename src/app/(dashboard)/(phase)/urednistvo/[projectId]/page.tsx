@@ -1,6 +1,6 @@
 import { getUser } from "@/actions/auth";
 import { getFiles } from "@/actions/files";
-import { getProject, getSingleProject } from "@/actions/projects";
+import { getProject, getProjectWithCreator } from "@/actions/projects";
 import { getTasksWithNames } from "@/actions/tasks";
 import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,8 +20,8 @@ const ProjectDetailsPage = async (props: {
     filesResponse,
     user,
   ] = await Promise.all([
-    getSingleProject(projectId),
-    getProject(projectId, "urednistvo"),
+    getProjectWithCreator(projectId),
+    getCompleteProjectPhase(projectId, "urednistvo"),
     getTasksWithNames(projectId, "urednistvo"),
     getFiles(projectId),
     getUser(),

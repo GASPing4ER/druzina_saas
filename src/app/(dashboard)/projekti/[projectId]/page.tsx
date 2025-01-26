@@ -1,7 +1,7 @@
 import { getUser } from "@/actions/auth";
 import { getOffers } from "@/actions/offers";
 import { getProjectPhases } from "@/actions/project-phases";
-import { getSingleProject } from "@/actions/projects";
+import { getProjectWithCreator } from "@/actions/projects";
 import {
   PhaseSpecifications,
   ProjectDetails,
@@ -16,7 +16,7 @@ const ProjectDetailsPage = async (props: {
   console.log(projectId);
   const [projectDataResult, projectPhasesResult, offersResults] =
     await Promise.all([
-      getSingleProject(projectId),
+      getProjectWithCreator(projectId),
       getProjectPhases(projectId),
       getOffers(projectId),
     ]);

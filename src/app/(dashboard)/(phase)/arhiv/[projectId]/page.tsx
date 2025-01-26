@@ -1,14 +1,12 @@
-import { getSingleProject } from "@/actions/projects";
+import { getProjectWithCreator } from "@/actions/projects";
 import { ProjectDetails } from "@/components";
 
-const ProjectDetailsPage = async (
-  props: {
-    params: Promise<{ projectId: string }>;
-  }
-) => {
+const ProjectDetailsPage = async (props: {
+  params: Promise<{ projectId: string }>;
+}) => {
   const params = await props.params;
   const projectId = params.projectId;
-  const { data: project } = await getSingleProject(projectId);
+  const { data: project } = await getProjectWithCreator(projectId);
 
   if (!project) {
     return <div>Projekta nismo našli</div>;

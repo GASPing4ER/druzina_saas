@@ -1,16 +1,14 @@
-import { getProject, getSingleProject } from "@/actions/projects";
+import { getProject, getProjectWithCreator } from "@/actions/projects";
 import { NextPhaseModal, ProjectDetails } from "@/components";
 
-const ProjectDetailsPage = async (
-  props: {
-    params: Promise<{ projectId: string }>;
-  }
-) => {
+const ProjectDetailsPage = async (props: {
+  params: Promise<{ projectId: string }>;
+}) => {
   const params = await props.params;
   const projectId = params.projectId;
   const [singleProjectResponse, projectResponse] = await Promise.all([
-    getSingleProject(projectId),
-    getProject(projectId, "osnutek"),
+    getProjectWithCreator(projectId),
+    getCompleteProjectPhase(projectId, "osnutek"),
   ]);
 
   if (!projectResponse.data || !singleProjectResponse.data) {

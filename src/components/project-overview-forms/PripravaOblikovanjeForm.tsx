@@ -32,7 +32,6 @@ import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import { useState } from "react";
 import { updateProject } from "@/actions/projects";
-import { Textarea } from "../ui/textarea";
 import { chooseNextPhaseAction } from "@/actions/next-phase";
 
 type PripravOblikovanjeFormProps = {
@@ -60,11 +59,9 @@ const PripravOblikovanjeForm = ({
           new Date(project_phase?.end_date)) ||
         undefined,
       oblikovanje: project_phase?.oblikovanje || "",
-      opombe: project_phase?.opombe || "",
-      sken: project_phase?.sken || "",
-      postavitev: project_phase?.postavitev || "",
       predogled: project_phase?.predogled,
       potrditev_postavitve: project_phase?.potrditev_postavitve,
+      potrditev_testnega_odtisa: project_phase?.potrditev_testnega_odtisa,
     },
   });
 
@@ -218,7 +215,7 @@ const PripravOblikovanjeForm = ({
                 )}
               />
             </div>
-            {project.type === "knjiga" ? (
+            {project.type === "knjiga" && (
               <>
                 <div>
                   <FormField
@@ -235,53 +232,7 @@ const PripravOblikovanjeForm = ({
                     )}
                   />
                 </div>
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="sken"
-                    render={({ field }) => (
-                      <FormItem className="flex items-center justify-between gap-2">
-                        <FormLabel>Sken in obdelava fotografij:</FormLabel>
-                        <FormControl className="flex-1">
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="postavitev"
-                    render={({ field }) => (
-                      <FormItem className="flex items-center justify-between gap-2">
-                        <FormLabel>Postavitev:</FormLabel>
-                        <FormControl className="flex-1">
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
               </>
-            ) : (
-              <div>
-                <FormField
-                  control={form.control}
-                  name="opombe"
-                  render={({ field }) => (
-                    <FormItem className="flex items-center justify-between gap-2">
-                      <FormLabel>Opombe:</FormLabel>
-                      <FormControl className="flex-1">
-                        <Textarea {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
             )}
           </div>
           <div className="flex-1">
@@ -319,6 +270,24 @@ const PripravOblikovanjeForm = ({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="potrditev_testnega_odtisa"
+              render={({ field }) => (
+                <FormItem className="flex items-center justify-between gap-2">
+                  <FormLabel className="mt-[5px]">
+                    Potrditev testnega odtisa:
+                  </FormLabel>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(checked) => field.onChange(checked)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </div>
         <div className="flex justify-between">
@@ -339,7 +308,8 @@ const PripravOblikovanjeForm = ({
                 Aktiviraj fazo
               </Button>
             ) : project_phase.predogled === true &&
-              project_phase.potrditev_postavitve === true ? (
+              project_phase.potrditev_postavitve === true &&
+              project_phase.potrditev_testnega_odtisa === true ? (
               <Button
                 onClick={() => setActionType("activate")}
                 type="submit"

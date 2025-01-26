@@ -40,7 +40,7 @@ const TopBar = ({ user }: TopBarProps) => {
 
   useEffect(() => {
     const getProjectData = async () => {
-      const { data } = await getProject(paths[2]);
+      const { data } = await getCompleteProjectPhase(paths[2]);
       const projectName = data?.project_data.name || "";
       setProjectName(projectName);
     };
