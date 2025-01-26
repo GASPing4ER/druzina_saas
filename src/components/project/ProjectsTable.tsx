@@ -46,7 +46,6 @@ const ProjectsTable = ({ projects, user, phase }: ProjectsTableProps) => {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold">Projects</h2>
         <Select
           onValueChange={(value) => setSelectedType(value)}
           defaultValue="all"
