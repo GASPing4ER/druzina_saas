@@ -1,6 +1,9 @@
 import { getUser } from "@/actions/auth";
 import { getFiles } from "@/actions/files";
-import { getProject, getProjectWithCreator } from "@/actions/projects";
+import {
+  getCompleteProjectPhase,
+  getProjectWithCreator,
+} from "@/actions/projects";
 import { getTasksWithNames } from "@/actions/tasks";
 import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

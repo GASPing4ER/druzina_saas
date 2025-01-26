@@ -1,4 +1,7 @@
-import { getProject, getProjectWithCreator } from "@/actions/projects";
+import {
+  getCompleteProjectPhase,
+  getProjectWithCreator,
+} from "@/actions/projects";
 import { NextPhaseModal, ProjectDetails } from "@/components";
 
 const ProjectDetailsPage = async (props: {

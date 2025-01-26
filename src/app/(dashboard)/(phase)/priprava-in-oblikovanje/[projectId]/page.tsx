@@ -1,5 +1,8 @@
 import { getUser } from "@/actions/auth";
-import { getProject, getProjectWithCreator } from "@/actions/projects";
+import {
+  getCompleteProjectPhase,
+  getProjectWithCreator,
+} from "@/actions/projects";
 import { getTasksWithNames } from "@/actions/tasks";
 import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -104,26 +107,13 @@ const ProjectDetailsPage = async (props: {
               className={`border bg-white w-full shadow-2xl p-8 rounded-xl flex gap-8`}
             >
               <div className="flex flex-col gap-4">
-                {project.project_data.type === "knjiga" ? (
+                {project.project_data.type === "knjiga" && (
                   <>
                     <div className="flex gap-4">
                       <p>OBLIKOVANJE:</p>
                       <p>{project.oblikovanje}</p>
                     </div>
-                    <div className="flex gap-4">
-                      <p>SKEN IN OBDELAVA FOTOGRAFIJ:</p>
-                      <p>{project.sken}</p>
-                    </div>
-                    <div className="flex gap-4">
-                      <p>POSTAVITEV:</p>
-                      <p>{project.postavitev}</p>
-                    </div>
                   </>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    <p>OPOMBE:</p>
-                    <p className="max-w-[500px]">{project.opombe}</p>
-                  </div>
                 )}
               </div>
             </div>

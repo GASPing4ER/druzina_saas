@@ -1,6 +1,9 @@
 import { getUser } from "@/actions/auth";
 import { getOffererWithOfferId } from "@/actions/offers";
-import { getProject, getProjectWithCreator } from "@/actions/projects";
+import {
+  getCompleteProjectPhase,
+  getProjectWithCreator,
+} from "@/actions/projects";
 import { NextPhaseModal, ProjectDetails } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDate } from "@/utils";
