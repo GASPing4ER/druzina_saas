@@ -20,7 +20,6 @@ export const formSchema = z.object({
   type: TTypeSchema.refine((val) => TTypeSchema.options.includes(val), {
     message: "Izberite pravilno vrsto.",
   }),
-  published_date: z.date(),
   start_date: z.date(),
   end_date: z.date(),
 });
@@ -46,35 +45,23 @@ export const bookFormSchema = z.object({
   author: z.string().min(2, {
     message: "Vrsta projekta mora imeti vsaj 2 karakterja.",
   }),
-  type: TTypeSchema.refine((val) => TTypeSchema.options.includes(val), {
-    message: "Izberite pravilno vrsto.",
-  }),
-  published_date: z.date(),
   start_date: z.date(),
   end_date: z.date(),
 });
 
 export const publicationsFormSchema = z.object({
-  type: TTypeSchema.refine((val) => TTypeSchema.options.includes(val), {
-    message: "Izberite pravilno vrsto.",
-  }),
   name: z.string().min(2, {
     message: "Naslov mora imeti vsaj 2 karakterja.",
   }),
   priloge: z.string(),
   st_izdaje: z.string(),
-  published_date: z.date(),
   start_date: z.date(),
   end_date: z.date(),
 });
 
 export const tednikFormSchema = z.object({
-  type: TTypeSchema.refine((val) => TTypeSchema.options.includes(val), {
-    message: "Izberite pravilno vrsto.",
-  }),
   priloge: z.string(),
   st_izdaje: z.string(),
-  published_date: z.date(),
   start_date: z.date(),
   end_date: z.date(),
 });

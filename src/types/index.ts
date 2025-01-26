@@ -35,7 +35,6 @@ export type ProjectProps = {
   creator_id: string;
   start_date: Date;
   end_date: Date;
-  published_date?: Date;
   status: TStatus;
   napredek: TNapredek;
   stanje: number;
@@ -56,7 +55,6 @@ export type typeFormProps = {
   type: TType;
   start_date: Date;
   end_date: Date;
-  published_date?: Date;
   author?: string;
   priloge?: string;
   st_izdaje?: string;
