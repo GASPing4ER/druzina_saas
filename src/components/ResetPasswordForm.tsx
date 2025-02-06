@@ -66,7 +66,7 @@ const ResetPasswordForm = () => {
                 <FormItem>
                   <FormLabel>Potrdi geslo:</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
