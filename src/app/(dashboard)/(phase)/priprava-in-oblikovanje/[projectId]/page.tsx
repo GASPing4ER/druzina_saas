@@ -25,8 +25,8 @@ const ProjectDetailsPage = async (props: {
 
   if (
     user.user_metadata.department !== "priprava-in-oblikovanje" &&
-    (user.user_metadata.role !== "superadmin" ||
-      user.user_metadata.role !== "admin")
+    user.user_metadata.role !== "superadmin" &&
+    user.user_metadata.role !== "admin"
   )
     redirect("/unauthorized");
 
