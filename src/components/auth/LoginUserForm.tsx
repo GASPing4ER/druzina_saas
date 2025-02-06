@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { login } from "@/actions/auth";
+import { forgotPassword, login } from "@/actions/auth";
 
 import { loginUserSchema } from "@/types/schemas";
 import { LoginUserProps } from "@/types";
@@ -31,6 +31,26 @@ const LoginUserForm = () => {
     resolver: zodResolver(loginUserSchema),
     defaultValues: {},
   });
+
+  const email = form.watch("email");
+
+  const handlePasswordReset = async (email: string) => {
+    if (!email) {
+      setErrorMessage("Vpišite email!");
+      return;
+    }
+
+    const { error } = await forgotPassword(email);
+
+    if (error) {
+      setErrorMessage(error);
+    }
+
+    if (!error) {
+      setErrorMessage("");
+      setSuccessMessage("Povezava do resetiranja gesla je bila poslana.");
+    }
+  };
 
   // Submit handler
   async function onSubmit(values: z.infer<typeof loginUserSchema>) {
@@ -103,10 +123,14 @@ const LoginUserForm = () => {
             />
           </div>
         </div>
-
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Prijavljam..." : "Prijavi se"}
         </Button>
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mt-6">
+          <button type="button" onClick={() => handlePasswordReset(email)}>
+            <p className="text-center text-sm">Ste pozabili geslo?</p>
+          </button>
+        </div>
       </form>
     </Form>
   );

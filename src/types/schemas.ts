@@ -148,3 +148,17 @@ export const loginUserSchema = z.object({
     message: "Password mora imeti vsaj 8 karakterja.",
   }),
 });
+
+export const resetPasswordSchema = z
+  .object({
+    password: z.string().min(2, {
+      message: "Email mora imeti vsaj 2 karakterja.",
+    }),
+    confirm_password: z.string().min(8, {
+      message: "Password mora imeti vsaj 8 karakterja.",
+    }),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Gesli se ne ujemata.",
+    path: ["confirm_password"], // Attach the error to the confirm_password field
+  });

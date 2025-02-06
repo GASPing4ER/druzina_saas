@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { addUser } from "./users";
 import { LoginUserProps, NewUserDataProps } from "@/types";
 import { User } from "@supabase/supabase-js";
+import { headers } from "next/headers";
 
 export const signup = async (formData: NewUserDataProps) => {
   const supabaseAuth = await createClient();
@@ -64,4 +65,49 @@ export const getUser = async (): Promise<User> => {
   }
 
   return data.user;
+};
+
+export const updatePassword = async (code: string, new_password: string) => {
+  const supabaseAuth = await createClient();
+
+  const { error: codeError } = await supabaseAuth.auth.exchangeCodeForSession(
+    code
+  );
+
+  if (codeError) {
+    console.log(codeError);
+    return { error: codeError.message };
+  }
+
+  const { error } = await supabaseAuth.auth.updateUser({
+    password: new_password,
+  });
+
+  if (error) {
+    return { error: "Error occurred" };
+  }
+
+  return { data: "Password updated successfully." };
+};
+
+export const forgotPassword = async (email: string) => {
+  const supabaseAuth = await createClient();
+  const origin = (await headers()).get("origin");
+
+  const { error } = await supabaseAuth.auth.resetPasswordForEmail(email, {
+    redirectTo: `${origin}/reset-password`,
+  });
+
+  if (error) {
+    if (error.code === "over_email_send_rate_limit") {
+      return {
+        error: "Za spremembo gesla lahko ponovno zaprosite čez 1 minuto.",
+      };
+    }
+    return { error: "Napaka pri pošiljanju povezave za spremembo gesla." };
+  }
+
+  return {
+    data: "Na vaš E-naslov smo vam poslali povezavo za spremembo gesla.",
+  };
 };

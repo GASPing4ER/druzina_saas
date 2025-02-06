@@ -51,6 +51,7 @@ import TaskHoursRow from "./task/TaskHoursRow";
 import OfferForm from "./offer/OfferForm";
 import OfferModal from "./offer/OfferModal";
 import BarChartComponent from "./charts/BarChartComponent";
+import ResetPasswordForm from "./ResetPasswordForm";
 
 export {
   Sidebar,
@@ -106,4 +107,5 @@ export {
   OfferForm,
   OfferModal,
   BarChartComponent,
+  ResetPasswordForm,
 };
