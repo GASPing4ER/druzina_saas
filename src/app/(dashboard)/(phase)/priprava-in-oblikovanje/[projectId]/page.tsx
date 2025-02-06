@@ -121,15 +121,14 @@ const ProjectDetailsPage = async (props: {
           </TabsContent>
         </Tabs>
         <div className="flex justify-between align-items w-full">
-          {role === "superadmin" ||
-            (role === "admin" && (
-              <Link
-                className="border border-black py-2 px-4 rounded-full"
-                href={`/projekti/${project.project_data.id}`}
-              >
-                Pregled projekta
-              </Link>
-            ))}
+          {(role === "superadmin" || role === "admin") && (
+            <Link
+              className="border border-black py-2 px-4 rounded-full"
+              href={`/projekti/${project.project_data.id}`}
+            >
+              Pregled projekta
+            </Link>
+          )}
 
           {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
           {tasksCompleted && (role === "superadmin" || role === "admin") && (

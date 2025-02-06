@@ -18,6 +18,7 @@ const TaskStatusButton = ({ task, user }: TaskStatusButtonProps) => {
     await updateTaskStatus(task);
     router.refresh();
   };
+  console.log(task.status);
   return (
     <button
       onClick={handleStatusChange}
@@ -33,7 +34,7 @@ const TaskStatusButton = ({ task, user }: TaskStatusButtonProps) => {
           user.user_metadata.role !== "admin" &&
           task.status === "assigned" &&
           user.id !== task.employee_id) ||
-        (task.status === "done" && user.id !== task.assigner_id) ||
+        (task.status === "done" && user.id === task.assigner_id) ||
         task.status === "completed"
       }
     >
