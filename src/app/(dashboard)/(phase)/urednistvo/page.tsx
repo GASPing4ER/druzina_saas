@@ -18,7 +18,8 @@ const UrednistvoPage = async ({
 
   if (
     user.user_metadata.department !== "urednistvo" &&
-    user.user_metadata.role !== "superadmin"
+    user.user_metadata.role !== "superadmin" &&
+    user.user_metadata.role !== "admin"
   )
     redirect("/unauthorized");
   let projects = projectsResponse.data;

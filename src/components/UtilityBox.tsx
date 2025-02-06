@@ -40,6 +40,7 @@ const UtilityBox = ({ type, phase, data, project, user }: UtilityBoxProps) => {
       <div className="flex items-center gap-4">
         <h2 className="uppercase text-lg">{type}</h2>
         {(role === "superadmin" ||
+          role === "admin" ||
           user.id === project.project_data.creator_id ||
           (type !== "naloge" && type !== "opombe")) && (
           <UtilityModal

@@ -20,7 +20,8 @@ const TaskRow = ({ task, user }: TaskRowProps) => {
       <TableRow className="cursor-pointer">
         <TableCell>
           {(user.id === task.employee_id ||
-            user.user_metadata.role === "superadmin") && (
+            user.user_metadata.role === "superadmin" ||
+            user.user_metadata.role === "admin") && (
             <Image
               onClick={(e: MouseEvent) => {
                 e.stopPropagation();

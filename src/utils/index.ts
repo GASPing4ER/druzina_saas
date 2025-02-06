@@ -50,7 +50,8 @@ export const canAccessItem = (
   department: string,
   role: string
 ): boolean => {
-  if (role === "superadmin" || role === "admin") return true;
+  if (role === "superadmin") return true;
+  if (role === "admin" && item.url !== "/statistika") return true;
   if (!item.access_group) return true;
   if (item.access_group === department) return true;
   if (

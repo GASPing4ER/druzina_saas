@@ -52,7 +52,10 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
   });
 
   const startDate = form.watch("start_date");
-  if (user.user_metadata.role !== "superadmin") {
+  if (
+    user.user_metadata.role !== "superadmin" &&
+    user.user_metadata.role !== "admin"
+  ) {
     form.setValue("type", "drugo");
   }
 
@@ -82,7 +85,8 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
                 <FormItem>
                   <FormLabel>Vrsta</FormLabel>
                   <FormControl>
-                    {user.user_metadata.role === "superadmin" ? (
+                    {user.user_metadata.role === "superadmin" ||
+                    user.user_metadata.role === "admin" ? (
                       // Superadmin: Can select any type
                       <Select
                         onValueChange={field.onChange}

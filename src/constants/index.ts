@@ -29,7 +29,7 @@ export const sidebar_navigation: SidebarNavigationProps = {
       title: "Statistika",
       imgUrl: "/icons/statistika.svg",
       url: "/statistika",
-      access_group: "admin",
+      access_group: "superadmin",
     },
   ],
   procesi: [

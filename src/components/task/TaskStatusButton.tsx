@@ -30,6 +30,7 @@ const TaskStatusButton = ({ task, user }: TaskStatusButtonProps) => {
       }`}
       disabled={
         (user.user_metadata.role !== "superadmin" &&
+          user.user_metadata.role !== "admin" &&
           task.status === "assigned" &&
           user.id !== task.employee_id) ||
         (task.status === "done" && user.id !== task.assigner_id) ||

@@ -14,12 +14,20 @@ import { cn } from "@/lib/utils";
 import { BarChartComponent } from "@/components";
 import { StatisticsData } from "@/types";
 import { getReportData } from "@/actions/statistics";
+import { useUser } from "@/hooks/user";
+import { redirect } from "next/navigation";
 
 const StatistikaPage = () => {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [data, setData] = useState<StatisticsData | null>();
+
+  const user = useUser();
+
+  if (user?.user_metadata.role !== "superadmin") {
+    redirect("/unauthorized");
+  }
 
   useEffect(() => {
     const fetchStatisticsData = async () => {

@@ -25,7 +25,8 @@ const ProjectDetailsPage = async (props: {
 
   if (
     user.user_metadata.department !== "priprava-in-oblikovanje" &&
-    user.user_metadata.role !== "superadmin"
+    (user.user_metadata.role !== "superadmin" ||
+      user.user_metadata.role !== "admin")
   )
     redirect("/unauthorized");
 
@@ -120,17 +121,18 @@ const ProjectDetailsPage = async (props: {
           </TabsContent>
         </Tabs>
         <div className="flex justify-between align-items w-full">
-          {role === "superadmin" && (
-            <Link
-              className="border border-black py-2 px-4 rounded-full"
-              href={`/projekti/${project.project_data.id}`}
-            >
-              Pregled projekta
-            </Link>
-          )}
+          {role === "superadmin" ||
+            (role === "admin" && (
+              <Link
+                className="border border-black py-2 px-4 rounded-full"
+                href={`/projekti/${project.project_data.id}`}
+              >
+                Pregled projekta
+              </Link>
+            ))}
 
           {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
-          {tasksCompleted && role === "superadmin" && (
+          {tasksCompleted && (role === "superadmin" || role === "admin") && (
             <NextPhaseModal phase="tisk" project={project} />
           )}
         </div>
