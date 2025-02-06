@@ -63,22 +63,16 @@ const OfferForm = ({ projectId, handleClose }: OfferFormProps) => {
     const { offerer_name, ...rest } = values;
     try {
       if (values.offerer_id === "nov_izvajalec" && values.offerer_name) {
-        const { data, error, message } = await addOfferer({
+        const { data } = await addOfferer({
           name: values.offerer_name,
         });
-        console.log(data, error, message);
         if (data) {
-          const {
-            data: offerData,
-            error,
-            message,
-          } = await addOffer({
+          await addOffer({
             ...rest,
             offerer_id: data.id,
             project_id: projectId,
             total: rest.price * rest.quantity,
           });
-          console.log(offerData, error, message);
         }
       } else {
         await addOffer({

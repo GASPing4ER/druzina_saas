@@ -37,9 +37,12 @@ const TaskHoursEditForm = ({ task, handleClose }: TaskHoursEditFormProps) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof taskHoursSchema>) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const formattedHours = values.hours.replace(",", ".");
+
     try {
       await addTaskHours({
         ...values,
+        hours: formattedHours, // Ensure it's a number
         task_id: task.id,
       });
       router.refresh();

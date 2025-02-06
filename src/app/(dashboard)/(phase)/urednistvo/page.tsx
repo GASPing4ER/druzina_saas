@@ -24,7 +24,6 @@ const UrednistvoPage = async ({
     redirect("/unauthorized");
   let projects = projectsResponse.data;
 
-  console.log(projectsResponse.data);
   if (params.type && projects) {
     projects = projects.filter(
       (project) => project.project_data.type === params.type

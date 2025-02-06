@@ -14,7 +14,6 @@ type TaskRowProps = {
 
 const TaskRow = ({ task, user }: TaskRowProps) => {
   const [openHoursForm, setOpenHoursForm] = useState(false);
-  console.log(user);
   return (
     <>
       <TableRow className="cursor-pointer">

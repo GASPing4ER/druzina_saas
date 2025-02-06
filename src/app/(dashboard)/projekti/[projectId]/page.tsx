@@ -13,7 +13,6 @@ const ProjectDetailsPage = async (props: {
 }) => {
   const params = await props.params;
   const projectId = params.projectId;
-  console.log(projectId);
   const [projectDataResult, projectPhasesResult, offersResults] =
     await Promise.all([
       getProjectWithCreator(projectId),

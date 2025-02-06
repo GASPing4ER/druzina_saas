@@ -55,9 +55,7 @@ const PublicationsForm = ({ user, handleClose }: PublicationsFormProps) => {
       { ...values, type: "publikacije" },
       user
     );
-    const { data, error } = await addProject(completeData);
-    console.log("Data:", data);
-    console.log("Error:", error);
+    const { data } = await addProject(completeData);
     const phase = phases[completeData.napredek].slug;
     await addProjectPhase({
       project_id: data!.id,

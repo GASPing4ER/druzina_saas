@@ -52,9 +52,7 @@ const BookForm = ({ user, handleClose }: BookFormProps) => {
   async function onSubmit(values: z.infer<typeof bookFormSchema>) {
     setLoading(true);
     const completeData = getCompleteData({ ...values, type: "knjiga" }, user);
-    const { data, error } = await addProject(completeData);
-    console.log("Data:", data);
-    console.log("Error:", error);
+    const { data } = await addProject(completeData);
     const phase = phases[completeData.napredek].slug;
     await addProjectPhase({
       project_id: data!.id,

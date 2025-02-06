@@ -24,8 +24,6 @@ export default async function Home() {
         )
       : [];
   }
-  console.log("PROJECTS:", projects);
-  console.log("TASKS:", tasks);
 
   return (
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start pl-12 py-6 bg-white w-[1000px]">

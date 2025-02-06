@@ -55,8 +55,7 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
         ]);
       } else if (response.data) {
         const filteredUsers = response.data.filter(
-          (user: UserProps) =>
-            user.department === phase && user.role === "member"
+          (user: UserProps) => user.department === phase
         );
         setUsers(filteredUsers);
       }
@@ -65,7 +64,6 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
   }, [phase]);
 
   async function onSubmit(values: z.infer<typeof taskSchema>) {
-    console.log("Submitting...");
     const currentUser = await getUser();
     const tasks: NewTaskDataProps[] = values.employee_ids.map((userId) => ({
       employee_id: userId,
@@ -77,14 +75,12 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
 
     try {
       for (const task of tasks) {
-        console.log("Adding new task:", task);
-        const response = await addTask(task);
-        console.log("Error:", response.error);
+        await addTask(task);
       }
       router.refresh();
       handleClose();
     } catch (error) {
-      console.error("Error adding tasks:", error);
+      throw new Error(error as string);
     }
   }
 
@@ -135,9 +131,7 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
             )}
           />
         </div>
-        <Button onClick={() => console.log("Clicked to submit")} type="submit">
-          Dodaj naloge
-        </Button>
+        <Button type="submit">Dodaj naloge</Button>
       </form>
     </Form>
   );

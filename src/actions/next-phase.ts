@@ -81,7 +81,6 @@ export const chooseNextPhaseAction = async (
     }
   } else if (next_phase_name === "priprava-in-oblikovanje") {
     const next_phase = getProjectPhase(data, next_phase_name);
-    console.log("next_phase:", next_phase);
     if (next_phase === null) {
       await Promise.all([
         await updatePhase(current_phase.id, {

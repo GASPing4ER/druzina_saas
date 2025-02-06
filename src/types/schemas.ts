@@ -145,14 +145,14 @@ export const loginUserSchema = z.object({
     message: "Email mora imeti vsaj 2 karakterja.",
   }),
   password: z.string().min(8, {
-    message: "Password mora imeti vsaj 8 karakterja.",
+    message: "Geslo mora imeti vsaj 8 karakterja.",
   }),
 });
 
 export const resetPasswordSchema = z
   .object({
-    password: z.string().min(2, {
-      message: "Email mora imeti vsaj 2 karakterja.",
+    password: z.string().min(8, {
+      message: "Geslo mora imeti vsaj 8 karakterja.",
     }),
     confirm_password: z.string().min(8, {
       message: "Password mora imeti vsaj 8 karakterja.",

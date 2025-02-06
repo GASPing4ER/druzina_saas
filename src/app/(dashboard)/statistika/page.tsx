@@ -14,17 +14,33 @@ import { cn } from "@/lib/utils";
 import { BarChartComponent } from "@/components";
 import { StatisticsData } from "@/types";
 import { getReportData } from "@/actions/statistics";
-import { useUser } from "@/hooks/user";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { User } from "@supabase/supabase-js";
+import { getUser } from "@/actions/auth";
 
 const StatistikaPage = () => {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [data, setData] = useState<StatisticsData | null>();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true); // ✅ Track loading state
+  const router = useRouter(); // ✅ Use router for navigation
 
-  const user = useUser();
-  console.log("user:", user);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userResponse = await getUser();
+        setUser(userResponse);
+      } catch (error) {
+        throw new Error(error as string);
+      } finally {
+        setLoading(false); // ✅ Ensure loading state updates
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const fetchStatisticsData = async () => {
@@ -36,8 +52,14 @@ const StatistikaPage = () => {
     fetchStatisticsData();
   }, [startDate, endDate]);
 
-  if (user?.user_metadata.role !== "superadmin") {
-    redirect("/unauthorized");
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (user?.user_metadata?.role !== "superadmin") {
+    console.warn("🚫 User is not superadmin, redirecting...");
+    router.push("/unauthorized");
+    return null;
   }
 
   const handleExport = async () => {
@@ -60,7 +82,6 @@ const StatistikaPage = () => {
       });
 
       if (!response.ok) {
-        console.log(response);
         throw new Error("Failed to export report");
       }
 

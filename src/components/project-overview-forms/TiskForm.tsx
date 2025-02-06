@@ -55,7 +55,6 @@ const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
   const tisk_phase = project_phases
     ? project_phases.find((phase) => phase.name === "tisk")
     : null;
-  console.log(tisk_phase);
   const urednistvo_phase = project_phases
     ? project_phases.find((phase) => phase.name === "urednistvo")
     : null;

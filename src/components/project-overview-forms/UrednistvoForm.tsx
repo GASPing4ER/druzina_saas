@@ -64,7 +64,6 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
       await savePhase(values);
     } else {
       if (project_phase?.status === "v teku") {
-        console.log("Choosing next phase...");
         await chooseNextPhaseAction("priprava-in-oblikovanje", {
           ...project_phase,
           project_data: project,

@@ -48,15 +48,11 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
 
   const startDate = form.watch("start_date");
 
-  console.log("Inside OtherForm");
-
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof otherFormSchema>) {
     setLoading(true);
     const completeData = getCompleteData({ ...values, type: "drugo" }, user);
-    const { data, error } = await addProject(completeData);
-    console.log("Data:", data);
-    console.log("Error:", error);
+    const { data } = await addProject(completeData);
     const phase = phases[completeData.napredek].slug;
     await addProjectPhase({
       project_id: data!.id,

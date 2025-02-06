@@ -43,14 +43,7 @@ const ProjectDetailsPage = async (props: {
   const tasks = tasksResponse.data;
   const files = filesResponse.data;
   const role = user.user_metadata.role;
-  console.log(
-    "PROJECT:",
-    project,
-    "PROJECT ERROR:",
-    projectResponse.error,
-    "SINGLE PROJECT:",
-    singleProject
-  );
+
   const tasksCompleted =
     tasks &&
     (tasks.length === 0 || tasks.every((task) => task.status === "completed"));

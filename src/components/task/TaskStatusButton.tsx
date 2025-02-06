@@ -18,7 +18,6 @@ const TaskStatusButton = ({ task, user }: TaskStatusButtonProps) => {
     await updateTaskStatus(task);
     router.refresh();
   };
-  console.log(task.status);
   return (
     <button
       onClick={handleStatusChange}

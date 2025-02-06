@@ -56,9 +56,7 @@ const TednikForm = ({ user, handleClose }: TednikFormProps) => {
       { ...values, type: "tednik", name: `Tednik ${values.st_izdaje}` },
       user
     );
-    const { data, error } = await addProject(completeData);
-    console.log("Data:", data);
-    console.log("Error:", error);
+    const { data } = await addProject(completeData);
     const phase = phases[completeData.napredek].slug;
     await addProjectPhase({
       project_id: data!.id,

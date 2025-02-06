@@ -21,14 +21,11 @@ const ProjectDetailsPage = async (props: {
   ]);
 
   let offerer;
-  console.log("rendering...");
 
   if (projectResponse.data && projectResponse.data.ponudba_id) {
-    console.log("fetching...");
     const { data } = await getOffererWithOfferId(
       projectResponse.data.ponudba_id
     );
-    console.log(data);
     offerer = data?.offerer.name;
   }
 
