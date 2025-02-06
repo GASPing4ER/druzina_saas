@@ -66,7 +66,7 @@ export const getProjectsWithCreator = async (
   message: string;
 }> => {
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from("project_data")
       .select(
         `
@@ -76,6 +76,13 @@ export const getProjectsWithCreator = async (
       )
       .neq("status", "zaključeno")
       .order("end_date");
+
+    // If the user is a "member", filter projects where creator_id === user.id
+    if (user.user_metadata.role === "member") {
+      query = query.eq("creator_id", user.id);
+    }
+
+    const { data, error } = await query;
 
     return {
       data,

@@ -24,10 +24,7 @@ const StatistikaPage = () => {
   const [data, setData] = useState<StatisticsData | null>();
 
   const user = useUser();
-
-  if (user?.user_metadata.role !== "superadmin") {
-    redirect("/unauthorized");
-  }
+  console.log("user:", user);
 
   useEffect(() => {
     const fetchStatisticsData = async () => {
@@ -38,6 +35,10 @@ const StatistikaPage = () => {
     };
     fetchStatisticsData();
   }, [startDate, endDate]);
+
+  if (user?.user_metadata.role !== "superadmin") {
+    redirect("/unauthorized");
+  }
 
   const handleExport = async () => {
     if (!startDate || !endDate) {

@@ -23,7 +23,6 @@ export const sidebar_navigation: SidebarNavigationProps = {
       title: "Projekti",
       imgUrl: "/icons/projekti.svg",
       url: "/projekti",
-      access_group: "admin",
     },
     {
       title: "Statistika",

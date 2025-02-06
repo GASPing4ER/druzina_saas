@@ -18,18 +18,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { User } from "@supabase/supabase-js";
-import { getPhaseSlugByNapredek } from "@/utils";
 
 type ProjectsTableProps = {
   projects: ProjectWithCreatorProps[];
-  user: User;
-  phase?: string;
 };
 
-const ProjectsTable = ({ projects, user, phase }: ProjectsTableProps) => {
-  const role = user.user_metadata.role;
-
+const ProjectsTable = ({ projects }: ProjectsTableProps) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   // Get unique types from the projects
@@ -81,11 +75,7 @@ const ProjectsTable = ({ projects, user, phase }: ProjectsTableProps) => {
         <TableBody>
           {filteredProjects?.map((project) => {
             let pathname: string;
-            const path = phase
-              ? `${phase}`
-              : role === "member"
-              ? `${getPhaseSlugByNapredek(project.napredek)}`
-              : "projekti";
+            const path = "projekti";
             if (project.id) {
               pathname = `/${path}/${project.id}`;
             } else {
