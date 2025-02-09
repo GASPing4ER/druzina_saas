@@ -144,9 +144,9 @@ export type CompleteProjectPhaseProps = ProjectPhaseProps & {
 export type FileProps = {
   id: string;
   project_id: string;
-  name: string;
+  name?: string;
   phase: string;
-  description: string;
+  description?: string;
   link: string;
   created_at: Date;
 };

@@ -100,12 +100,18 @@ export const taskHoursSchema = z.object({
 });
 
 export const fileSchema = z.object({
-  name: z.string().min(2, {
-    message: "Naslov mora imeti vsaj 2 karakterja.",
-  }),
-  description: z.string().min(2, {
-    message: "Opis mora imeti vsaj 2 karakterja.",
-  }),
+  name: z
+    .string()
+    .min(2, {
+      message: "Naslov mora imeti vsaj 2 karakterja.",
+    })
+    .optional(),
+  description: z
+    .string()
+    .min(2, {
+      message: "Opis mora imeti vsaj 2 karakterja.",
+    })
+    .optional(),
   link: z.string().min(2, {
     message: "Link mora imeti vsaj 2 karakterja.",
   }),
