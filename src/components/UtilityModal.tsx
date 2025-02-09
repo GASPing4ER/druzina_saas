@@ -44,6 +44,7 @@ const UtilityModal = ({ type, phase, projectId }: UtilityModalProps) => {
           ) : (
             <FileForm
               projectId={projectId}
+              phase={phase}
               handleClose={() => setOpen(false)}
             />
           )}

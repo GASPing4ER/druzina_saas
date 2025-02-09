@@ -26,7 +26,7 @@ const ProjectDetailsPage = async (props: {
     getProjectWithCreator(projectId),
     getCompleteProjectPhase(projectId, "urednistvo"),
     getTasksWithNames(projectId, "urednistvo"),
-    getFiles(projectId),
+    getFiles(projectId, "urednistvo"),
     getUser(),
   ]);
 

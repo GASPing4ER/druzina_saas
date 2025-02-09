@@ -145,6 +145,7 @@ export type FileProps = {
   id: string;
   project_id: string;
   name: string;
+  phase: string;
   description: string;
   link: string;
   created_at: Date;

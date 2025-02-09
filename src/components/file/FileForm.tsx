@@ -23,10 +23,11 @@ import { NewFileDataProps } from "@/types";
 
 type FileFormProps = {
   projectId: string;
+  phase: string;
   handleClose: () => void;
 };
 
-const FileForm = ({ projectId, handleClose }: FileFormProps) => {
+const FileForm = ({ projectId, phase, handleClose }: FileFormProps) => {
   const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof fileSchema>>({
@@ -39,6 +40,7 @@ const FileForm = ({ projectId, handleClose }: FileFormProps) => {
     try {
       const completeData: NewFileDataProps = {
         ...values,
+        phase,
         project_id: projectId,
       };
 

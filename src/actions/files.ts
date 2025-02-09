@@ -4,7 +4,8 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 
 export const getFiles = async (
-  projectId: string
+  projectId: string,
+  phase: string
 ): Promise<{
   data: FileProps[] | null;
   error: PostgrestError | null;
@@ -14,7 +15,8 @@ export const getFiles = async (
     const { data, error } = await supabase
       .from("files")
       .select()
-      .eq("project_id", projectId);
+      .eq("project_id", projectId)
+      .eq("phase", phase);
 
     if (error) {
       // If there's an error from Supabase, handle it explicitly
@@ -55,7 +57,7 @@ export const addFile = async (
       };
     }
 
-    revalidatePath(`/urednistvo/${values.project_id}`, "page");
+    revalidatePath(`/${values.phase}/${values.project_id}`, "page");
 
     return {
       error: null,

@@ -1,4 +1,5 @@
 import { getUser } from "@/actions/auth";
+import { getFiles } from "@/actions/files";
 import {
   getCompleteProjectPhase,
   getProjectWithCreator,
@@ -15,13 +16,19 @@ const ProjectDetailsPage = async (props: {
 }) => {
   const params = await props.params;
   const projectId = params.projectId;
-  const [singleProjectResponse, projectResponse, tasksResponse, user] =
-    await Promise.all([
-      getProjectWithCreator(projectId),
-      getCompleteProjectPhase(projectId, "priprava-in-oblikovanje"),
-      getTasksWithNames(projectId, "priprava-in-oblikovanje"),
-      getUser(),
-    ]);
+  const [
+    singleProjectResponse,
+    projectResponse,
+    tasksResponse,
+    filesResponse,
+    user,
+  ] = await Promise.all([
+    getProjectWithCreator(projectId),
+    getCompleteProjectPhase(projectId, "priprava-in-oblikovanje"),
+    getTasksWithNames(projectId, "priprava-in-oblikovanje"),
+    getFiles(projectId, "priprava-in-oblikovanje"),
+    getUser(),
+  ]);
 
   if (
     user.user_metadata.department !== "priprava-in-oblikovanje" &&
@@ -32,6 +39,7 @@ const ProjectDetailsPage = async (props: {
 
   const project = projectResponse.data;
   const tasks = tasksResponse.data;
+  const files = filesResponse.data;
   const role = user.user_metadata.role;
 
   const tasksCompleted =
@@ -50,6 +58,12 @@ const ProjectDetailsPage = async (props: {
             <TabsList className="py-8 rounded-[30px]">
               <TabsTrigger className="py-4 px-8 rounded-[30px]" value="naloge">
                 Naloge
+              </TabsTrigger>
+              <TabsTrigger
+                className="py-4 px-8 rounded-[30px]"
+                value="datoteke"
+              >
+                Datoteke
               </TabsTrigger>
               <TabsTrigger
                 className="py-4 px-8 rounded-[30px]"
@@ -82,6 +96,15 @@ const ProjectDetailsPage = async (props: {
               type="naloge"
               phase="priprava-in-oblikovanje"
               data={tasks}
+              project={project}
+              user={user}
+            />
+          </TabsContent>
+          <TabsContent value="datoteke">
+            <UtilityBox
+              type="datoteke"
+              phase="priprava-in-oblikovanje"
+              data={files}
               project={project}
               user={user}
             />
