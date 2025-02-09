@@ -23,6 +23,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -98,6 +105,27 @@ const BookForm = ({ user, handleClose }: BookFormProps) => {
               )}
             />
           </div>
+        </div>
+        <div className="flex-1">
+          <FormField
+            control={form.control}
+            name="vrsta_izdaje"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Vrsta izdaje" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="prva-izdaja">Prva izdaja</SelectItem>
+                    <SelectItem value="ponatis">Ponatis</SelectItem>
+                    <SelectItem value="dotisk">Dotisk</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <div className="flex gap-2">
           <div className="flex-1">

@@ -75,7 +75,6 @@ export const updatePassword = async (code: string, new_password: string) => {
   );
 
   if (codeError) {
-    console.log(codeError);
     return { error: codeError.message };
   }
 

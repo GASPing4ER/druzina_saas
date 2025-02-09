@@ -1,4 +1,4 @@
-import { formatDate } from "@/utils";
+import { formatDate, getVrstaIzdaje } from "@/utils";
 import { ProgressBar } from "@/components";
 import Image from "next/image";
 import { ProjectWithCreatorProps } from "@/types";
@@ -11,7 +11,15 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
   return (
     <div className="flex items-end gap-20 w-full rounded-xl shadow-2xl p-8 border-b-4 border-orange-300">
       <div className="flex-1">
-        <p className="capitalize font-semibold">{project.type}</p>
+        <div className="flex gap-1">
+          <p className="capitalize font-semibold">{project.type}</p>
+          {project.type === "knjiga" && (
+            <>
+              <p>-</p>
+              <p>{getVrstaIzdaje(project.vrsta_izdaje!)}</p>
+            </>
+          )}
+        </div>
         <h1 className="text-4xl">{project.name}</h1>
         <h2 className="text-xl">{project.author}</h2>
         <div>

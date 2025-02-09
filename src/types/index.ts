@@ -48,6 +48,7 @@ export type ProjectProps = {
   tisk?: string;
   main_check?: boolean;
   technical_check?: boolean;
+  vrsta_izdaje?: string;
 };
 
 export type typeFormProps = {
@@ -58,6 +59,7 @@ export type typeFormProps = {
   author?: string;
   priloge?: string;
   st_izdaje?: string;
+  vrsta_izdaje?: string;
 };
 
 export type TechnicalSpecificationsProps = {

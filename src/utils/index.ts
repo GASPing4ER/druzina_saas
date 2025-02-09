@@ -202,3 +202,13 @@ export const getProjectPhase = (
     return phase_found;
   }
 };
+
+export const getVrstaIzdaje = (vrsta: string) => {
+  if (vrsta === "prva-izdaja") {
+    return "Prva izdaja";
+  } else if (vrsta === "ponatis") {
+    return "Ponatis";
+  } else {
+    return "Dotisk";
+  }
+};
