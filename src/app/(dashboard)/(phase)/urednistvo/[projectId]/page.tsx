@@ -1,11 +1,11 @@
 import { getUser } from "@/actions/auth";
-import { getFiles } from "@/actions/files";
+// import { getFiles } from "@/actions/files";
 import {
   getCompleteProjectPhase,
   getProjectWithCreator,
 } from "@/actions/projects";
-import { getTasksWithNames } from "@/actions/tasks";
-import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
+// import { getTasksWithNames } from "@/actions/tasks";
+import { NextPhaseModal, ProjectDetails } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDate } from "@/utils";
 import Link from "next/link";
@@ -19,14 +19,14 @@ const ProjectDetailsPage = async (props: {
   const [
     singleProjectResponse,
     projectResponse,
-    tasksResponse,
-    filesResponse,
+    // tasksResponse,
+    // filesResponse,
     user,
   ] = await Promise.all([
     getProjectWithCreator(projectId),
     getCompleteProjectPhase(projectId, "urednistvo"),
-    getTasksWithNames(projectId, "urednistvo"),
-    getFiles(projectId, "urednistvo"),
+    // getTasksWithNames(projectId, "urednistvo"),
+    // getFiles(projectId, "urednistvo"),
     getUser(),
   ]);
 
@@ -40,23 +40,23 @@ const ProjectDetailsPage = async (props: {
   const singleProject = singleProjectResponse.data;
   const project = projectResponse.data;
 
-  const tasks = tasksResponse.data;
-  const files = filesResponse.data;
+  // const tasks = tasksResponse.data;
+  // const files = filesResponse.data;
   const role = user.user_metadata.role;
 
-  const tasksCompleted =
-    tasks &&
-    (tasks.length === 0 || tasks.every((task) => task.status === "completed"));
+  // const tasksCompleted =
+  //   tasks &&
+  //   (tasks.length === 0 || tasks.every((task) => task.status === "completed"));
   if (!project || !singleProject) {
     return <div>Projekta nismo našli</div>;
   } else {
     return (
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start px-12 py-6 bg-white text-slate-900">
         <ProjectDetails project={singleProject} />
-        <Tabs defaultValue="naloge" className="w-full flex-1">
+        <Tabs defaultValue="tehnični-podatki" className="w-full flex-1">
           <div className="flex justify-between">
             <TabsList className="py-8 rounded-[30px]">
-              <TabsTrigger className="py-4 px-8 rounded-[30px]" value="naloge">
+              {/* <TabsTrigger className="py-4 px-8 rounded-[30px]" value="naloge">
                 Naloge
               </TabsTrigger>
               <TabsTrigger
@@ -64,7 +64,7 @@ const ProjectDetailsPage = async (props: {
                 value="datoteke"
               >
                 Datoteke
-              </TabsTrigger>
+              </TabsTrigger> */}
               <TabsTrigger
                 className="py-4 px-8 rounded-[30px]"
                 value="tehnični-podatki"
@@ -85,7 +85,7 @@ const ProjectDetailsPage = async (props: {
               </p>
             </div>
           </div>
-          <TabsContent value="naloge">
+          {/* <TabsContent value="naloge">
             <UtilityBox
               type="naloge"
               phase="urednistvo"
@@ -102,7 +102,7 @@ const ProjectDetailsPage = async (props: {
               project={project}
               user={user}
             />
-          </TabsContent>
+          </TabsContent> */}
           <TabsContent value="tehnični-podatki">
             <div
               className={`border bg-white w-full shadow-2xl p-8 rounded-xl flex gap-8`}
@@ -131,7 +131,7 @@ const ProjectDetailsPage = async (props: {
             </Link>
           )}
           {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
-          {tasksCompleted && (role === "superadmin" || role === "admin") && (
+          {(role === "superadmin" || role === "admin") && (
             <NextPhaseModal phase="priprava-in-oblikovanje" project={project} />
           )}
         </div>
