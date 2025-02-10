@@ -34,9 +34,9 @@ export default async function Home() {
           </h1>
           <p className="font-semibold">Preveri pretekle dejavnosti.</p>
         </div>
-        <button className="text-zinc-400 py-3 px-8 border border-zinc-400 rounded-xl">
+        {/* <button className="text-zinc-400 py-3 px-8 border border-zinc-400 rounded-xl">
           Oktober 2024
-        </button>
+        </button> */}
       </div>
       {projects !== null && (
         <>
