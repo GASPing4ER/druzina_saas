@@ -13,7 +13,7 @@ const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
     <ul className="flex flex-col gap-3 w-full">
       {projects.map((project) => {
         return (
-          <li key={project.project_data.id}>
+          <li key={project.id}>
             <Link
               href={`/${project.name}/${project.project_data.id}`}
               className="flex justify-between items-center bg-slate-100 py-4 px-8 w-full rounded-xl"

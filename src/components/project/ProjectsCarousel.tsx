@@ -19,7 +19,7 @@ const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
         const colorIndex = index % 3;
         return (
           <Link
-            key={project.project_data.id}
+            key={project.id}
             href={`/${project.name}/${project.project_data.id}`}
           >
             <div key={project.id} className="inline-block">

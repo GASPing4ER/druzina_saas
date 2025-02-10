@@ -16,7 +16,7 @@ import {
 import { taskSchema } from "@/types/schemas";
 import { useRouter } from "next/navigation";
 import { getUsers } from "@/actions/users";
-import { addTask } from "@/actions/tasks";
+import { addTask, getTasks } from "@/actions/tasks";
 import { NewTaskDataProps, UserProps } from "@/types";
 import { getUser } from "@/actions/auth";
 
@@ -38,10 +38,17 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const [response, currentUser] = await Promise.all([
+      const [response, tasksResponse, currentUser] = await Promise.all([
         getUsers(),
+        getTasks(projectId, phase),
         getUser(),
       ]);
+
+      const tasks = tasksResponse.data;
+      const assignedUserIds = new Set(
+        tasks?.map((task: NewTaskDataProps) => task.employee_id)
+      );
+
       if (currentUser.user_metadata.role === "member") {
         setUsers([
           {
@@ -55,13 +62,14 @@ const TaskForm = ({ projectId, phase, handleClose }: TaskFormProps) => {
         ]);
       } else if (response.data) {
         const filteredUsers = response.data.filter(
-          (user: UserProps) => user.department === phase
+          (user: UserProps) =>
+            user.department === phase && !assignedUserIds.has(user.id)
         );
         setUsers(filteredUsers);
       }
     };
     fetchUsers();
-  }, [phase]);
+  }, [phase, projectId]);
 
   async function onSubmit(values: z.infer<typeof taskSchema>) {
     const currentUser = await getUser();
