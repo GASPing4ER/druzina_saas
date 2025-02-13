@@ -190,7 +190,7 @@ const StatistikaPage = () => {
           onClick={handleExport}
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Exporting..." : "Export Report to Excel"}
+          {isSubmitting ? "Izvažam..." : "Izvozi poročilo"}
         </Button>
       )}
     </div>

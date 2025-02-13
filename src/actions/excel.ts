@@ -1,6 +1,7 @@
 "use server";
 import * as XLSX from "xlsx";
 import { getReportData } from "./statistics";
+import { TechnicalSpecificationsToExcelProps } from "@/types";
 
 // Export report function
 export const exportReportToExcel = async ({
@@ -34,6 +35,40 @@ export const exportReportToExcel = async ({
     } else {
       throw new Error("Error generating Excel report");
     }
+  } catch (error) {
+    console.error("Error generating Excel report:", error);
+    throw new Error("Error generating Excel report");
+  }
+};
+
+export const exportTechnicalSpecificationsToExcel = async (
+  technicalSpecifications: TechnicalSpecificationsToExcelProps
+): Promise<Buffer> => {
+  try {
+    // Convert data into a suitable format for Excel
+    const formattedData = [
+      {
+        Format: technicalSpecifications.format || "",
+        Obseg: technicalSpecifications.obseg || "",
+        Material: technicalSpecifications.material || "",
+        Tisk: technicalSpecifications.tisk || "",
+        Vezava: technicalSpecifications.vezava || "",
+        Pakiranje: technicalSpecifications.pakiranje || "",
+        Naklada: technicalSpecifications.naklada || "",
+      },
+    ];
+    // Create an Excel sheet
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Tehnične specifikacije");
+
+    // Generate the Excel file as a buffer
+    const excelBuffer = XLSX.write(workbook, {
+      type: "buffer",
+      bookType: "xlsx",
+    });
+
+    return excelBuffer;
   } catch (error) {
     console.error("Error generating Excel report:", error);
     throw new Error("Error generating Excel report");

@@ -42,6 +42,7 @@ const TechicalSpecificationsForm = ({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 2. Define a submit handler.
   async function onSubmit(
@@ -51,13 +52,13 @@ const TechicalSpecificationsForm = ({
     setMessage(null);
     const normalizedValues = {
       ...values,
-      format: values.format ?? undefined,
-      obseg: values.obseg ?? undefined,
-      material: values.material ?? undefined,
-      tisk: values.tisk ?? undefined,
-      vezava: values.vezava ?? undefined,
-      pakiranje: values.pakiranje ?? undefined,
-      naklada: values.naklada ?? undefined,
+      format: values.format ?? "",
+      obseg: values.obseg ?? "",
+      material: values.material ?? "",
+      tisk: values.tisk ?? "",
+      vezava: values.vezava ?? "",
+      pakiranje: values.pakiranje ?? "",
+      naklada: values.naklada ?? "",
     };
     const response = await updateTechnicalSpecificationsProject(
       normalizedValues,
@@ -71,6 +72,50 @@ const TechicalSpecificationsForm = ({
     }
     router.refresh();
   }
+
+  const handleExport = async () => {
+    try {
+      setIsSubmitting(true);
+
+      // Extract only the relevant fields
+      const formData = form.getValues();
+      const technicalSpecifications = {
+        format: formData.format ?? null,
+        obseg: formData.obseg ?? null,
+        material: formData.material ?? null,
+        tisk: formData.tisk ?? null,
+        vezava: formData.vezava ?? null,
+        pakiranje: formData.pakiranje ?? null,
+        naklada: formData.naklada ?? null,
+      };
+
+      const response = await fetch("/api/export-technical-specifications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(technicalSpecifications),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to export report: ${await response.text()}`);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "technical_specifications.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("Error exporting report:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -231,8 +276,10 @@ const TechicalSpecificationsForm = ({
           <Button
             type="button"
             className="bg-transparent border border-black text-black hover:text-white"
+            onClick={handleExport}
+            disabled={isSubmitting}
           >
-            Izvozi povpraševanje
+            {isSubmitting ? "Izvažam..." : "Izvozi povpraševanje"}
           </Button>
         </div>
         {message && <p className="text-green-500">{message}</p>}
