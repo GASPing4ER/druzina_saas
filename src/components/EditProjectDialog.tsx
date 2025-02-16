@@ -75,7 +75,8 @@ const EditProjectDialog = ({ project, user }: EditProjectDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {user.user_metadata.role.includes("admin") && (
+        {(user.user_metadata.role.includes("admin") ||
+          user.id === project.creator_id) && (
           <Image
             src="/icons/edit.svg"
             alt="edit icon"
