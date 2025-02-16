@@ -174,7 +174,7 @@ const PublicationsForm = ({ user, handleClose }: PublicationsFormProps) => {
               name="end_date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Konec projekta</FormLabel>
+                  <FormLabel>Rok izvedbe</FormLabel>
                   <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <FormControl>

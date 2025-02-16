@@ -49,7 +49,7 @@ const ProjectDetailsPage = async (props: {
                   : formatDate(project.project_data.start_date)}
               </p>
               <p>
-                Konec faze:{" "}
+                Rok izvedbe:{" "}
                 {project.end_date ? formatDate(project.end_date) : ""}
               </p>
             </div>

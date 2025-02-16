@@ -172,7 +172,7 @@ const PripravOblikovanjeForm = ({
                 name="end_date"
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between">
-                    <FormLabel className="w-[200px]">Konec faze:</FormLabel>
+                    <FormLabel className="w-[200px]">Rok izvedbe:</FormLabel>
                     <Popover modal={true}>
                       <PopoverTrigger asChild>
                         <FormControl>

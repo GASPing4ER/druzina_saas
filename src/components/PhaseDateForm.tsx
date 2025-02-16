@@ -114,7 +114,7 @@ const PhaseDateForm = ({ project }: PhaseDateFormProps) => {
               name="end_date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Konec faze</FormLabel>
+                  <FormLabel>Rok izvedbe</FormLabel>
                   <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <FormControl>
