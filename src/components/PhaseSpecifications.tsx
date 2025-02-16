@@ -115,7 +115,9 @@ const PhaseSpecifications = ({
           </>
         )}
       </Accordion>
-      <DeleteProjectDialog projectId={project.id} />
+      {user.id === project.creator_id && (
+        <DeleteProjectDialog projectId={project.id} />
+      )}
     </div>
   );
 };
