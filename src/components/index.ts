@@ -52,6 +52,8 @@ import OfferForm from "./offer/OfferForm";
 import OfferModal from "./offer/OfferModal";
 import BarChartComponent from "./charts/BarChartComponent";
 import ResetPasswordForm from "./ResetPasswordForm";
+import DeleteDialog from "./DeleteDialog";
+import DeleteProjectDialog from "./DeleteProjectDialog";
 
 export {
   Sidebar,
@@ -108,4 +110,6 @@ export {
   OfferModal,
   BarChartComponent,
   ResetPasswordForm,
+  DeleteDialog,
+  DeleteProjectDialog,
 };

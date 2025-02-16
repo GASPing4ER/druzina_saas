@@ -12,6 +12,7 @@ import {
 } from "@/types";
 import { getProjectPhase } from "@/utils";
 import {
+  DeleteProjectDialog,
   DistribucijaForm,
   PripravOblikovanjeForm,
   TechicalSpecificationsForm,
@@ -33,7 +34,7 @@ const PhaseSpecifications = ({
   offers,
 }: PhaseSpecificationsProps) => {
   return (
-    <div className="flex-1">
+    <div className="flex-1 flex flex-col gap-2">
       <Accordion type="multiple" className="flex flex-col gap-2">
         <AccordionItem
           className="bg-gray-100 rounded-b-md"
@@ -114,6 +115,7 @@ const PhaseSpecifications = ({
           </>
         )}
       </Accordion>
+      <DeleteProjectDialog projectId={project.id} />
     </div>
   );
 };

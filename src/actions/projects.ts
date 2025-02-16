@@ -340,6 +340,32 @@ export const addProject = async (
   }
 };
 
+export const deleteProject = async (
+  projectId: string
+): Promise<{
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    const { error } = await supabase
+      .from("project_data")
+      .delete()
+      .eq("id", projectId);
+
+    revalidatePath("/", "page");
+
+    return {
+      error,
+      message: "Successfully Created a new Project",
+    };
+  } catch (error: unknown) {
+    return {
+      error: error as PostgrestError,
+      message: "Database Error: Failed to Create Project",
+    };
+  }
+};
+
 export const updateProject = async (
   updatedData: UpdatedProjectDataProps,
   projectId: string
