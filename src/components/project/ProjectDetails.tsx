@@ -1,15 +1,18 @@
 import { formatDate, getVrstaIzdaje } from "@/utils";
-import { ProgressBar } from "@/components";
+import { EditProjectDialog, ProgressBar } from "@/components";
 import Image from "next/image";
 import { ProjectWithCreatorProps } from "@/types";
+import { getUser } from "@/actions/auth";
 
 type ProjectDetailsProps = {
   project: ProjectWithCreatorProps;
 };
 
-const ProjectDetails = ({ project }: ProjectDetailsProps) => {
+const ProjectDetails = async ({ project }: ProjectDetailsProps) => {
+  const user = await getUser();
   return (
-    <div className="flex items-end gap-20 w-full rounded-xl shadow-2xl p-8 border-b-4 border-orange-300">
+    <div className="relative flex items-end gap-20 w-full rounded-xl shadow-2xl p-8 border-b-4 border-orange-300">
+      <EditProjectDialog project={project} user={user} />
       <div className="flex-1">
         <div className="flex gap-1">
           <p className="capitalize font-semibold">{project.type}</p>

@@ -27,21 +27,34 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { addProject } from "@/actions/projects";
+import { addProject, updateProjectData } from "@/actions/projects";
 import { phases } from "@/constants";
 import { addProjectPhase } from "@/actions/project-phases";
 import { useState } from "react";
+import { ProjectWithCreatorProps } from "@/types";
 
 type PublicationsFormProps = {
   user: User;
+  project?: ProjectWithCreatorProps;
+  action?: "add" | "edit";
   handleClose: () => void;
 };
 
-const PublicationsForm = ({ user, handleClose }: PublicationsFormProps) => {
+const PublicationsForm = ({
+  user,
+  project,
+  action = "add",
+  handleClose,
+}: PublicationsFormProps) => {
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof publicationsFormSchema>>({
     resolver: zodResolver(publicationsFormSchema),
+    defaultValues: {
+      ...project,
+      start_date: project && new Date(project.start_date),
+      end_date: project && new Date(project.end_date),
+    },
   });
 
   const [loading, setLoading] = useState(false);
@@ -55,15 +68,19 @@ const PublicationsForm = ({ user, handleClose }: PublicationsFormProps) => {
       { ...values, type: "publikacije" },
       user
     );
-    const { data } = await addProject(completeData);
-    const phase = phases[completeData.napredek].slug;
-    await addProjectPhase({
-      project_id: data!.id,
-      name: phase,
-      status: completeData.status,
-    });
+    if (action === "add") {
+      const { data } = await addProject(completeData);
+      const phase = phases[completeData.napredek].slug;
+      await addProjectPhase({
+        project_id: data!.id,
+        name: phase,
+        status: completeData.status,
+      });
+    } else if (action === "edit" && project) {
+      await updateProjectData({ ...values }, project.id);
+    }
 
-    router.replace("/");
+    router.refresh();
     setLoading(false);
     handleClose();
   }

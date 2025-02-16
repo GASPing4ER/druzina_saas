@@ -170,3 +170,10 @@ export const resetPasswordSchema = z
     message: "Gesli se ne ujemata.",
     path: ["confirm_password"], // Attach the error to the confirm_password field
   });
+
+// Define a type that represents all possible project forms
+export type ProjectUpdateData =
+  | z.infer<typeof bookFormSchema>
+  | z.infer<typeof otherFormSchema>
+  | z.infer<typeof publicationsFormSchema>
+  | z.infer<typeof tednikFormSchema>;

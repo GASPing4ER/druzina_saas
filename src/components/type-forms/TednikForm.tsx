@@ -27,22 +27,35 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { addProject } from "@/actions/projects";
+import { addProject, updateProjectData } from "@/actions/projects";
 import { phases } from "@/constants";
 import { addProjectPhase } from "@/actions/project-phases";
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
+import { ProjectWithCreatorProps } from "@/types";
 
 type TednikFormProps = {
   user: User;
+  project?: ProjectWithCreatorProps;
+  action?: "add" | "edit";
   handleClose: () => void;
 };
 
-const TednikForm = ({ user, handleClose }: TednikFormProps) => {
+const TednikForm = ({
+  user,
+  project,
+  action = "add",
+  handleClose,
+}: TednikFormProps) => {
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof tednikFormSchema>>({
     resolver: zodResolver(tednikFormSchema),
+    defaultValues: {
+      ...project,
+      start_date: project && new Date(project.start_date),
+      end_date: project && new Date(project.end_date),
+    },
   });
 
   const [loading, setLoading] = useState(false);
@@ -56,15 +69,23 @@ const TednikForm = ({ user, handleClose }: TednikFormProps) => {
       { ...values, type: "tednik", name: `Tednik ${values.st_izdaje}` },
       user
     );
-    const { data } = await addProject(completeData);
-    const phase = phases[completeData.napredek].slug;
-    await addProjectPhase({
-      project_id: data!.id,
-      name: phase,
-      status: completeData.status,
-    });
+    if (action === "add") {
+      const { data } = await addProject(completeData);
+      const phase = phases[completeData.napredek].slug;
+      await addProjectPhase({
+        project_id: data!.id,
+        name: phase,
+        status: completeData.status,
+      });
+    } else if (action === "edit" && project) {
+      const { data, error } = await updateProjectData(
+        { ...values, name: `Tednik ${values.st_izdaje}` },
+        project.id
+      );
+      console.log("Data:", data, "Error:", error);
+    }
 
-    router.replace("/");
+    router.refresh();
     setLoading(false);
     handleClose();
   }

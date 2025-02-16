@@ -54,6 +54,7 @@ import BarChartComponent from "./charts/BarChartComponent";
 import ResetPasswordForm from "./ResetPasswordForm";
 import DeleteDialog from "./DeleteDialog";
 import DeleteProjectDialog from "./DeleteProjectDialog";
+import EditProjectDialog from "./EditProjectDialog";
 
 export {
   Sidebar,
@@ -112,4 +113,5 @@ export {
   ResetPasswordForm,
   DeleteDialog,
   DeleteProjectDialog,
+  EditProjectDialog,
 };

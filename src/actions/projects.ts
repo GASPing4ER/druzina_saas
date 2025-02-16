@@ -9,6 +9,7 @@ import {
   TechnicalSpecificationsProps,
   UpdatedProjectDataProps,
 } from "@/types";
+import { ProjectUpdateData } from "@/types/schemas";
 import { PostgrestError, User } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 
@@ -383,6 +384,37 @@ export const updateProject = async (
 
     return {
       data,
+      error,
+      message: "Successfully Updated a new Project",
+    };
+  } catch (error: unknown) {
+    return {
+      data: null,
+      error: error as PostgrestError,
+      message: "Database Error: Failed to Update Project",
+    };
+  }
+};
+
+export const updateProjectData = async (
+  updatedData: ProjectUpdateData,
+  projectId: string
+): Promise<{
+  data: ProjectProps | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("project_data")
+      .update({ ...updatedData })
+      .eq("id", projectId)
+      .select()
+      .maybeSingle();
+
+    revalidatePath("/", "layout");
+    return {
+      data: data as ProjectProps,
       error,
       message: "Successfully Updated a new Project",
     };

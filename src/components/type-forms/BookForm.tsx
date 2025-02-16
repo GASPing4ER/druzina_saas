@@ -34,21 +34,34 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { addProject } from "@/actions/projects";
+import { addProject, updateProjectData } from "@/actions/projects";
 import { phases } from "@/constants";
 import { addProjectPhase } from "@/actions/project-phases";
 import { useState } from "react";
+import { ProjectWithCreatorProps } from "@/types";
 
 type BookFormProps = {
   user: User;
+  project?: ProjectWithCreatorProps;
+  action?: "add" | "edit";
   handleClose: () => void;
 };
 
-const BookForm = ({ user, handleClose }: BookFormProps) => {
+const BookForm = ({
+  user,
+  project,
+  action = "add",
+  handleClose,
+}: BookFormProps) => {
   // 1. Define your form.
   const router = useRouter();
   const form = useForm<z.infer<typeof bookFormSchema>>({
     resolver: zodResolver(bookFormSchema),
+    defaultValues: {
+      ...project,
+      start_date: project && new Date(project.start_date),
+      end_date: project && new Date(project.end_date),
+    },
   });
 
   const [loading, setLoading] = useState(false);
@@ -59,15 +72,19 @@ const BookForm = ({ user, handleClose }: BookFormProps) => {
   async function onSubmit(values: z.infer<typeof bookFormSchema>) {
     setLoading(true);
     const completeData = getCompleteData({ ...values, type: "knjiga" }, user);
-    const { data } = await addProject(completeData);
-    const phase = phases[completeData.napredek].slug;
-    await addProjectPhase({
-      project_id: data!.id,
-      name: phase,
-      status: completeData.status,
-    });
+    if (action === "add") {
+      const { data } = await addProject(completeData);
+      const phase = phases[completeData.napredek].slug;
+      await addProjectPhase({
+        project_id: data!.id,
+        name: phase,
+        status: completeData.status,
+      });
+    } else if (action === "edit" && project) {
+      await updateProjectData({ ...values }, project.id);
+    }
 
-    router.replace("/");
+    router.refresh();
     setLoading(false);
     handleClose();
   }
