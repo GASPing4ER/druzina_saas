@@ -2,10 +2,12 @@
 
 import { MouseEvent, useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { TaskHoursEditModal, TaskStatusButton } from "@/components";
+import { TaskHoursEditModal } from "@/components";
 import { User } from "@supabase/supabase-js";
 import { TaskWithNamesProps } from "@/types";
 import Image from "next/image";
+import { X } from "lucide-react";
+import { deleteTask } from "@/actions/tasks";
 
 type TaskRowProps = {
   task: TaskWithNamesProps;
@@ -14,6 +16,10 @@ type TaskRowProps = {
 
 const TaskRow = ({ task, user }: TaskRowProps) => {
   const [openHoursForm, setOpenHoursForm] = useState(false);
+
+  const onHandleDelete = async (taskId: string) => {
+    await deleteTask(taskId);
+  };
   return (
     <>
       <TableRow className="cursor-pointer">
@@ -38,7 +44,10 @@ const TaskRow = ({ task, user }: TaskRowProps) => {
         </TableCell>
 
         <TableCell className="flex justify-between gap-4">
-          <TaskStatusButton task={task} user={user} />
+          {/* <TaskStatusButton task={task} user={user} /> */}
+          {user.user_metadata.role.includes("admin") && (
+            <X onClick={() => onHandleDelete(task.id)} />
+          )}
         </TableCell>
       </TableRow>
       <TaskHoursEditModal

@@ -239,3 +239,24 @@ export const getTaskHours = async (
     };
   }
 };
+
+export const deleteTask = async (
+  taskId: string
+): Promise<{
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    const { error } = await supabase.from("tasks").delete().eq("id", taskId);
+    revalidatePath(`/`, "layout");
+    return {
+      error,
+      message: "Successful Deletion of a Task",
+    };
+  } catch (error: unknown) {
+    return {
+      error: error as PostgrestError,
+      message: "Database Error: Failed to Delete Task",
+    };
+  }
+};

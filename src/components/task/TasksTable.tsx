@@ -21,7 +21,7 @@ const TasksTable = async ({ tasks }: TaskTableProps) => {
         <TableRow>
           <TableHead></TableHead>
           <TableHead>Izvajalec</TableHead>
-          <TableHead>Status</TableHead>
+          {user.user_metadata.role.includes("admin") && <TableHead></TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
