@@ -42,11 +42,6 @@ const ProjectDetailsPage = async (props: {
   const files = filesResponse.data;
   const role = user.user_metadata.role;
 
-  const tasksCompleted =
-    tasksResponse.data &&
-    (tasksResponse.data.length === 0 ||
-      tasksResponse.data.every((task) => task.status === "completed"));
-
   if (!project || !singleProjectResponse.data) {
     return <div>Projekta nismo našli</div>;
   } else {
@@ -150,8 +145,11 @@ const ProjectDetailsPage = async (props: {
           )}
 
           {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
-          {tasksCompleted && (role === "superadmin" || role === "admin") && (
-            <NextPhaseModal phase="tisk" project={project} />
+          {(role === "superadmin" || role === "admin") && (
+            <NextPhaseModal
+              phase={project.project_data.is_for_tisk ? "tisk" : "arhiv"}
+              project={project}
+            />
           )}
         </div>
       </main>

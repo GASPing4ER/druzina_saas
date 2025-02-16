@@ -73,10 +73,17 @@ const PripravOblikovanjeForm = ({
       savePhase(values);
     } else {
       if (project_phase?.status === "v teku") {
-        await chooseNextPhaseAction("tisk", {
-          ...project_phase,
-          project_data: project,
-        });
+        if (project.is_for_tisk) {
+          await chooseNextPhaseAction("tisk", {
+            ...project_phase,
+            project_data: project,
+          });
+        } else {
+          await chooseNextPhaseAction("arhiv", {
+            ...project_phase,
+            project_data: project,
+          });
+        }
       } else {
         await activatePhase(values);
       }
