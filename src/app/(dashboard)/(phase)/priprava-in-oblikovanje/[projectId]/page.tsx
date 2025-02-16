@@ -131,14 +131,10 @@ const ProjectDetailsPage = async (props: {
               className={`border bg-white w-full shadow-2xl p-8 rounded-xl flex gap-8`}
             >
               <div className="flex flex-col gap-4">
-                {project.project_data.type === "knjiga" && (
-                  <>
-                    <div className="flex gap-4">
-                      <p>OBLIKOVANJE:</p>
-                      <p>{project.oblikovanje}</p>
-                    </div>
-                  </>
-                )}
+                <div className="flex gap-4">
+                  <p>OBLIKOVANJE:</p>
+                  <p>{project.oblikovanje}</p>
+                </div>
               </div>
             </div>
           </TabsContent>
