@@ -56,7 +56,7 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
       <div className="flex-1">
         <div className="flex-1 flex flex-col gap-4">
           <div>
-            <p>Naročnik</p>
+            <p>Vodja projekta</p>
             <div className="flex gap-4 items-end">
               <Image
                 src="/icons/user.svg"
