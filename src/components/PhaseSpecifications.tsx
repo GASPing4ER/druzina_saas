@@ -81,34 +81,38 @@ const PhaseSpecifications = ({
             />
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem className="bg-gray-100 rounded-b-md" value="tisk">
-          <AccordionTrigger className="bg-gray-300 rounded-full px-4">
-            TISK
-          </AccordionTrigger>
-          <AccordionContent className="px-4 py-4">
-            <TiskForm
-              user={user}
-              project={project}
-              project_phases={project_phases}
-              offers={offers}
-            />
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem
-          className="bg-gray-100 rounded-b-md"
-          value="distribucija"
-        >
-          <AccordionTrigger className="bg-gray-300 rounded-full px-4">
-            DISTRIBUCIJA
-          </AccordionTrigger>
-          <AccordionContent className="px-4 py-4">
-            <DistribucijaForm
-              user={user}
-              project={project}
-              project_phases={project_phases}
-            />
-          </AccordionContent>
-        </AccordionItem>
+        {project.is_for_tisk && (
+          <>
+            <AccordionItem className="bg-gray-100 rounded-b-md" value="tisk">
+              <AccordionTrigger className="bg-gray-300 rounded-full px-4">
+                TISK
+              </AccordionTrigger>
+              <AccordionContent className="px-4 py-4">
+                <TiskForm
+                  user={user}
+                  project={project}
+                  project_phases={project_phases}
+                  offers={offers}
+                />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem
+              className="bg-gray-100 rounded-b-md"
+              value="distribucija"
+            >
+              <AccordionTrigger className="bg-gray-300 rounded-full px-4">
+                DISTRIBUCIJA
+              </AccordionTrigger>
+              <AccordionContent className="px-4 py-4">
+                <DistribucijaForm
+                  user={user}
+                  project={project}
+                  project_phases={project_phases}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          </>
+        )}
       </Accordion>
     </div>
   );

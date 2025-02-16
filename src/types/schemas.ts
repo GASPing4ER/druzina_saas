@@ -67,6 +67,7 @@ export const otherFormSchema = z.object({
   name: z.string().min(2, {
     message: "Naslov mora imeti vsaj 2 karakterja.",
   }),
+  is_for_tisk: z.boolean(),
   start_date: z.date(),
   end_date: z.date(),
 });

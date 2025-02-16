@@ -49,6 +49,7 @@ export type ProjectProps = {
   main_check?: boolean;
   technical_check?: boolean;
   vrsta_izdaje?: string;
+  is_for_tisk?: boolean;
 };
 
 export type typeFormProps = {

@@ -23,6 +23,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -31,6 +33,7 @@ import { addProject } from "@/actions/projects";
 import { phases } from "@/constants";
 import { addProjectPhase } from "@/actions/project-phases";
 import { useState } from "react";
+import { Label } from "../ui/label";
 
 type OtherFormProps = {
   user: User;
@@ -47,6 +50,8 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
   const [loading, setLoading] = useState(false);
 
   const startDate = form.watch("start_date");
+  const tiskStatus = form.watch("is_for_tisk");
+  console.log("Changes in tisk status:", tiskStatus);
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof otherFormSchema>) {
@@ -182,6 +187,34 @@ const OtherForm = ({ user, handleClose }: OtherFormProps) => {
               )}
             />
           </div>
+        </div>
+        <div className="flex-1">
+          <FormField
+            control={form.control}
+            name="is_for_tisk"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Ali gre projekt v tisk?</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    className="flex gap-4"
+                    value={String(field.value)} // Ensure value is a string
+                    onValueChange={(value) => field.onChange(value === "true")} // Convert to boolean
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="true" id="r1" />
+                      <Label htmlFor="r1">Da</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="false" id="r2" />
+                      <Label htmlFor="r2">Ne</Label>
+                    </div>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <Button disabled={loading} type="submit">
           {loading ? "Ustvarjam..." : "Ustvari"}
