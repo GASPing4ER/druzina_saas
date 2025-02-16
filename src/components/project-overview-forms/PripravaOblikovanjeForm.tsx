@@ -221,7 +221,7 @@ const PripravOblikovanjeForm = ({
                 name="oblikovanje"
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between gap-2">
-                    <FormLabel>Oblikovanje:</FormLabel>
+                    <FormLabel>Navodila:</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
