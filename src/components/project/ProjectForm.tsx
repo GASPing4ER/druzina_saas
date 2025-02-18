@@ -64,11 +64,14 @@ const ProjectForm = ({ user, handleClose }: ProjectFormProps) => {
     const completeData = getCompleteData(values, user);
     const { data } = await addProject(completeData);
     const phase = phases[completeData.napredek].slug;
-    await addProjectPhase({
-      project_id: data!.id,
-      name: phase,
-      status: completeData.status,
-    });
+    await addProjectPhase(
+      {
+        project_id: data!.id,
+        name: phase,
+        status: completeData.status,
+      },
+      user.id
+    );
 
     router.replace("/");
     handleClose();
