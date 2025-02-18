@@ -72,15 +72,19 @@ const TednikForm = ({
     if (action === "add") {
       const { data } = await addProject(completeData);
       const phase = phases[completeData.napredek].slug;
-      await addProjectPhase({
-        project_id: data!.id,
-        name: phase,
-        status: completeData.status,
-      });
+      await addProjectPhase(
+        {
+          project_id: data!.id,
+          name: phase,
+          status: completeData.status,
+        },
+        user.id
+      );
     } else if (action === "edit" && project) {
       const { data, error } = await updateProjectData(
         { ...values, name: `Tednik ${values.st_izdaje}` },
-        project.id
+        project.id,
+        user.id
       );
       console.log("Data:", data, "Error:", error);
     }

@@ -8,9 +8,11 @@ import {
 } from "@/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { addActivity } from "./activities";
 
 export const addProjectPhase = async (
-  values: NewProjectPhaseDataProps
+  values: NewProjectPhaseDataProps,
+  userId: string
 ): Promise<{
   error: PostgrestError | null;
   data: ProjectPhaseProps | null;
@@ -22,6 +24,13 @@ export const addProjectPhase = async (
       .insert({ ...values })
       .select()
       .maybeSingle();
+
+    await addActivity(
+      values.project_id,
+      userId,
+      `PHASE:${values.name}`,
+      "CREATE"
+    );
 
     revalidatePath("/", "page");
     return {
@@ -69,6 +78,7 @@ export const closeProjectPhase = async (
 
 export const updatePhase = async (
   projectId: string,
+  userId: string,
   values: UpdateProjectPhaseDataProps
 ): Promise<{
   error: PostgrestError | null;
@@ -76,11 +86,20 @@ export const updatePhase = async (
   message: string;
 }> => {
   try {
-    const { data, error } = await supabase
-      .from("project_phases")
-      .update({ ...values })
-      .eq("id", projectId)
-      .maybeSingle();
+    const { project_id, name, ...rest } = values;
+    let action = "UPDATE";
+    if (values.status === "zaključeno") {
+      action = "END";
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [{ data, error }, _] = await Promise.all([
+      supabase
+        .from("project_phases")
+        .update({ ...rest })
+        .eq("id", projectId)
+        .maybeSingle(),
+      addActivity(project_id, userId, `PHASE:${name}`, action),
+    ]);
 
     revalidatePath("/", "page");
     return {
@@ -98,18 +117,23 @@ export const updatePhase = async (
 };
 
 export const addPhase = async (
-  values: NewProjectPhaseDataProps
+  values: NewProjectPhaseDataProps,
+  userId: string
 ): Promise<{
   error: PostgrestError | null;
   data: ProjectPhaseProps | null;
   message: string;
 }> => {
   try {
-    const { data, error } = await supabase
-      .from("project_phases")
-      .insert({ ...values })
-      .select()
-      .maybeSingle();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [{ data, error }, _] = await Promise.all([
+      supabase
+        .from("project_phases")
+        .insert({ ...values })
+        .select()
+        .maybeSingle(),
+      addActivity(values.project_id, userId, `PHASE:${values.name}`, "CREATE"),
+    ]);
 
     revalidatePath("/", "page");
     return {

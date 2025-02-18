@@ -71,13 +71,16 @@ const PublicationsForm = ({
     if (action === "add") {
       const { data } = await addProject(completeData);
       const phase = phases[completeData.napredek].slug;
-      await addProjectPhase({
-        project_id: data!.id,
-        name: phase,
-        status: completeData.status,
-      });
+      await addProjectPhase(
+        {
+          project_id: data!.id,
+          name: phase,
+          status: completeData.status,
+        },
+        user.id
+      );
     } else if (action === "edit" && project) {
-      await updateProjectData({ ...values }, project.id);
+      await updateProjectData({ ...values }, project.id, user.id);
     }
 
     router.refresh();

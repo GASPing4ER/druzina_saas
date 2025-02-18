@@ -41,6 +41,7 @@ type PripravOblikovanjeFormProps = {
 };
 
 const PripravOblikovanjeForm = ({
+  user,
   project,
   project_phase,
 }: PripravOblikovanjeFormProps) => {
@@ -93,15 +94,20 @@ const PripravOblikovanjeForm = ({
   async function savePhase(values: z.infer<typeof phaseFormSchema>) {
     let response;
     if (!project_phase) {
-      response = await addPhase({
+      response = await addPhase(
+        {
+          ...values,
+          status: "v čakanju",
+          project_id: project.id,
+          name: "priprava-in-oblikovanje",
+        },
+        user.id
+      );
+    } else {
+      response = await updatePhase(project_phase?.id, user.id, {
         ...values,
-        status: "v čakanju",
         project_id: project.id,
         name: "priprava-in-oblikovanje",
-      });
-    } else {
-      response = await updatePhase(project_phase?.id, {
-        ...values,
       });
     }
     setLoading(false);
@@ -116,13 +122,16 @@ const PripravOblikovanjeForm = ({
   async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
     if (!project_phase) {
       await Promise.all([
-        await addPhase({
-          ...values,
-          status: "v teku",
-          project_id: project.id,
-          name: "priprava-in-oblikovanje",
-          start_date: new Date(),
-        }),
+        await addPhase(
+          {
+            ...values,
+            status: "v teku",
+            project_id: project.id,
+            name: "priprava-in-oblikovanje",
+            start_date: new Date(),
+          },
+          user.id
+        ),
         updateProject(
           {
             napredek: project.napredek > 2 ? project.napredek : 2,
@@ -134,10 +143,12 @@ const PripravOblikovanjeForm = ({
       ]);
     } else if (project_phase.status === "v čakanju") {
       await Promise.all([
-        updatePhase(project_phase.id, {
+        updatePhase(project_phase.id, user.id, {
           ...values,
+          project_id: project.id,
           status: "v teku",
           start_date: new Date(),
+          name: "priprava-in-oblikovanje",
         }),
         updateProject(
           {
@@ -149,10 +160,12 @@ const PripravOblikovanjeForm = ({
         ),
       ]);
     } else {
-      updatePhase(project_phase.id, {
+      updatePhase(project_phase.id, user.id, {
         ...values,
+        project_id: project.id,
         status: "v teku",
         start_date: new Date(),
+        name: "priprava-in-oblikovanje",
       });
     }
     setLoading(false);

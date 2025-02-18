@@ -3,13 +3,18 @@ import { EditProjectDialog, ProgressBar } from "@/components";
 import Image from "next/image";
 import { ProjectWithCreatorProps } from "@/types";
 import { getUser } from "@/actions/auth";
+import { getLastActivity } from "@/actions/activities";
 
 type ProjectDetailsProps = {
   project: ProjectWithCreatorProps;
 };
 
 const ProjectDetails = async ({ project }: ProjectDetailsProps) => {
-  const user = await getUser();
+  const [user, { data: activity, error }] = await Promise.all([
+    getUser(),
+    getLastActivity(project.id),
+  ]);
+  console.log(error);
   return (
     <div className="relative flex items-end gap-20 w-full rounded-xl shadow-2xl p-8 border-b-4 border-orange-300">
       <EditProjectDialog project={project} user={user} />
@@ -75,7 +80,7 @@ const ProjectDetails = async ({ project }: ProjectDetailsProps) => {
             <hr className="w-full border-1 border-slate-500" />
           </div>
           <div>
-            <p>Projekt obdeluje:</p>
+            <p>Zadnji obdeloval:</p>
             {/* TODO: make it dynamic */}
             <div className="flex gap-4 items-end">
               <Image
@@ -85,7 +90,11 @@ const ProjectDetails = async ({ project }: ProjectDetailsProps) => {
                 height={20}
                 className=" bg-blue-400 rounded-full p-[2px]"
               />
-              <p className="font-semibold">Andrej Špes</p>
+              <p className="font-semibold">
+                {activity
+                  ? `${activity.users.first_name} ${activity.users.last_name}`
+                  : "/"}
+              </p>
             </div>
             <hr className="w-full border-1 border-slate-500" />
           </div>

@@ -1,8 +1,10 @@
+import { getActivities } from "@/actions/activities";
 import { getUser } from "@/actions/auth";
 import { getOffers } from "@/actions/offers";
 import { getProjectPhases } from "@/actions/project-phases";
 import { getProjectWithCreator } from "@/actions/projects";
 import {
+  ActivityTable,
   PhaseSpecifications,
   ProjectDetails,
   ProjectTimeline,
@@ -13,14 +15,20 @@ const ProjectDetailsPage = async (props: {
 }) => {
   const params = await props.params;
   const projectId = params.projectId;
-  const [projectDataResult, projectPhasesResult, offersResults] =
-    await Promise.all([
-      getProjectWithCreator(projectId),
-      getProjectPhases(projectId),
-      getOffers(projectId),
-    ]);
+  const [
+    projectDataResult,
+    projectPhasesResult,
+    offersResults,
+    activitiesResults,
+  ] = await Promise.all([
+    getProjectWithCreator(projectId),
+    getProjectPhases(projectId),
+    getOffers(projectId),
+    getActivities(projectId),
+  ]);
   const { data: project } = projectDataResult;
   const { data: projectPhases } = projectPhasesResult;
+  const { data: activities } = activitiesResults;
   const user = await getUser();
   if (!project) {
     return <div>ProjectDetailsPage</div>;
@@ -39,6 +47,7 @@ const ProjectDetailsPage = async (props: {
             offers={offersResults.data}
           />
         </div>
+        <ActivityTable activities={activities} />
       </main>
     );
   }

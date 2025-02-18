@@ -38,7 +38,11 @@ type UrednistvoFormProps = {
   project_phase: ProjectPhaseProps | null;
 };
 
-const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
+const UrednistvoForm = ({
+  user,
+  project,
+  project_phase,
+}: UrednistvoFormProps) => {
   const [actionType, setActionType] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -77,15 +81,20 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
   async function savePhase(values: z.infer<typeof phaseFormSchema>) {
     let response;
     if (!project_phase) {
-      response = await addPhase({
+      response = await addPhase(
+        {
+          ...values,
+          status: "v čakanju",
+          project_id: project.id,
+          name: "urednistvo",
+        },
+        user.id
+      );
+    } else {
+      response = await updatePhase(project_phase?.id, user.id, {
         ...values,
-        status: "v čakanju",
         project_id: project.id,
         name: "urednistvo",
-      });
-    } else {
-      response = await updatePhase(project_phase?.id, {
-        ...values,
       });
     }
     setLoading(false);
@@ -100,13 +109,16 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
   async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
     if (!project_phase) {
       await Promise.all([
-        await addPhase({
-          ...values,
-          status: "v teku",
-          project_id: project.id,
-          name: "urednistvo",
-          start_date: new Date(),
-        }),
+        await addPhase(
+          {
+            ...values,
+            status: "v teku",
+            project_id: project.id,
+            name: "urednistvo",
+            start_date: new Date(),
+          },
+          user.id
+        ),
         updateProject(
           {
             napredek: project.napredek > 1 ? project.napredek : 1,
@@ -119,10 +131,12 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
       ]);
     } else if (project_phase.status === "v čakanju") {
       await Promise.all([
-        updatePhase(project_phase.id, {
+        updatePhase(project_phase.id, user.id, {
           ...values,
+          project_id: project.id,
           status: "v teku",
           start_date: new Date(),
+          name: "urednistvo",
         }),
         updateProject(
           {
@@ -135,10 +149,12 @@ const UrednistvoForm = ({ project, project_phase }: UrednistvoFormProps) => {
         ),
       ]);
     } else {
-      updatePhase(project_phase.id, {
+      updatePhase(project_phase.id, user.id, {
         ...values,
+        project_id: project.id,
         status: "v teku",
         start_date: new Date(),
+        name: "urednistvo",
       });
     }
     router.refresh();

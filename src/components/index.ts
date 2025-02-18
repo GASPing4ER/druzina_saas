@@ -55,6 +55,7 @@ import ResetPasswordForm from "./ResetPasswordForm";
 import DeleteDialog from "./DeleteDialog";
 import DeleteProjectDialog from "./DeleteProjectDialog";
 import EditProjectDialog from "./EditProjectDialog";
+import ActivityTable from "./ActivityTable";
 
 export {
   Sidebar,
@@ -114,4 +115,5 @@ export {
   DeleteDialog,
   DeleteProjectDialog,
   EditProjectDialog,
+  ActivityTable,
 };

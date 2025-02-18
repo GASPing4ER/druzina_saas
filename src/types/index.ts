@@ -107,8 +107,8 @@ export type ProjectPhaseProps = {
 
 export type UpdateProjectPhaseProps = {
   id: string;
-  project_id?: string;
-  name?: string;
+  project_id: string;
+  name: string;
   status?: TStatus;
   start_date?: Date;
   end_date?: Date;
@@ -287,4 +287,17 @@ export type TechnicalSpecificationsToExcelProps = {
   vezava?: string | null;
   pakiranje?: string | null;
   naklada?: string | null;
+};
+
+export type ActivityProps = {
+  id: string;
+  user_id: string;
+  project_id: string;
+  entity: string;
+  action: string;
+  created_at: string;
+};
+
+export type ActivityWithCreatorProps = ActivityProps & {
+  users: { first_name: string; last_name: string };
 };

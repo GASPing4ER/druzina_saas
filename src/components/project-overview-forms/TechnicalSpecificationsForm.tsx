@@ -29,6 +29,7 @@ type TechincalSpecificationsFormProps = {
 };
 
 const TechicalSpecificationsForm = ({
+  user,
   project,
 }: TechincalSpecificationsFormProps) => {
   // 1. Define your form.
@@ -62,7 +63,8 @@ const TechicalSpecificationsForm = ({
     };
     const response = await updateTechnicalSpecificationsProject(
       normalizedValues,
-      project.id
+      project.id,
+      user.id
     );
     setLoading(false);
     if (response.error === null) {

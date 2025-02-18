@@ -1,5 +1,6 @@
 import { nav_details, phases } from "@/constants";
 import {
+  ActivityWithCreatorProps,
   CompleteProjectPhaseProps,
   NewProjectDataProps,
   ProjectPhaseProps,
@@ -31,6 +32,22 @@ export const formatDate = (inputDate: Date) => {
   }).format(utcDate);
 
   return formattedDate;
+};
+
+export const formatDateTime = (inputDate: Date) => {
+  const utcDate = new Date(inputDate);
+  const timeZone = "Europe/Ljubljana"; // Adjust based on your needs
+
+  const formattedDateTime = new Intl.DateTimeFormat("sl-SI", {
+    timeZone,
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(utcDate);
+
+  return formattedDateTime;
 };
 
 export const isPast = (endDate: Date) => {
@@ -211,4 +228,45 @@ export const getVrstaIzdaje = (vrsta: string) => {
   } else {
     return "Dotisk";
   }
+};
+
+export const convertActivityToText = (activity: ActivityWithCreatorProps) => {
+  const {
+    users: { first_name, last_name },
+    action,
+    entity,
+  } = activity;
+  // Action mapping
+  const actionMapping: Record<string, string> = {
+    CREATE: "dodal/a",
+    UPDATE: "posodobil/a",
+    DELETE: "izbrisal/a",
+    END: "zaključil/a",
+  };
+
+  // Entity mapping
+  const entityMapping: Record<string, string> = {
+    PROJECT: "projekt",
+    PHASE: "fazo projekta",
+    "PROJECT DATA": "podatke o projektu",
+    "TECHNICAL SPECIFICATIONS": "tehnične specifikacije",
+  };
+
+  // Extract entity name if formatted as "ENTITY:NAME"
+  const [entityType, entityName] = entity.includes(":")
+    ? entity.split(":")
+    : [entity, ""];
+
+  // Get translations, default to entity type if not found
+  const translatedAction = actionMapping[action] || action.toLowerCase();
+  const translatedEntity =
+    entityMapping[entityType] || entityType.toLowerCase();
+
+  // Construct the message
+  let message = `${first_name} ${last_name} je ${translatedAction} ${translatedEntity}`;
+  if (entityName) {
+    message += ` "${getPhaseName(entityName)}"`;
+  }
+
+  return message;
 };

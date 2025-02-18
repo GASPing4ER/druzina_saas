@@ -41,6 +41,7 @@ type DistribucijaFormProps = {
 };
 
 const DistribucijaForm = ({
+  user,
   project,
   project_phases,
 }: DistribucijaFormProps) => {
@@ -91,15 +92,20 @@ const DistribucijaForm = ({
   async function savePhase(values: z.infer<typeof phaseFormSchema>) {
     let response;
     if (!distribucija_phase) {
-      response = await addPhase({
+      response = await addPhase(
+        {
+          ...values,
+          status: "v čakanju",
+          project_id: project.id,
+          name: "distribucija",
+        },
+        user.id
+      );
+    } else {
+      response = await updatePhase(distribucija_phase!.id, user.id, {
         ...values,
-        status: "v čakanju",
         project_id: project.id,
         name: "distribucija",
-      });
-    } else {
-      response = await updatePhase(distribucija_phase!.id, {
-        ...values,
       });
     }
     setLoading(false);
@@ -114,13 +120,16 @@ const DistribucijaForm = ({
   async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
     if (!distribucija_phase) {
       await Promise.all([
-        addPhase({
-          ...values,
-          status: "v teku",
-          project_id: project.id,
-          name: "distribucija",
-          start_date: new Date(),
-        }),
+        addPhase(
+          {
+            ...values,
+            status: "v teku",
+            project_id: project.id,
+            name: "distribucija",
+            start_date: new Date(),
+          },
+          user.id
+        ),
         updateProject(
           {
             napredek: project.napredek > 4 ? project.napredek : 4,
@@ -132,10 +141,12 @@ const DistribucijaForm = ({
       ]);
     } else if (distribucija_phase.status === "v čakanju") {
       await Promise.all([
-        updatePhase(distribucija_phase.id, {
+        updatePhase(distribucija_phase.id, user.id, {
           ...values,
+          project_id: project.id,
           status: "v teku",
           start_date: new Date(),
+          name: "distribucija",
         }),
         updateProject(
           {
@@ -147,17 +158,21 @@ const DistribucijaForm = ({
         ),
       ]);
     } else {
-      updatePhase(distribucija_phase.id, {
+      updatePhase(distribucija_phase.id, user.id, {
         ...values,
+        project_id: project.id,
         status: "v teku",
         start_date: new Date(),
+        name: "distribucija",
       });
     }
     router.refresh();
     if (distribucija_phase?.status === "v teku") {
-      await updatePhase(distribucija_phase!.id, {
+      await updatePhase(distribucija_phase!.id, user.id, {
         ...values,
+        project_id: project.id,
         status: "zaključeno",
+        name: "distribucija",
       });
     }
     router.refresh();

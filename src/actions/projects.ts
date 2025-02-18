@@ -12,6 +12,7 @@ import {
 import { ProjectUpdateData } from "@/types/schemas";
 import { PostgrestError, User } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { addActivity } from "./activities";
 
 export const getCompleteProjectPhase = async (
   projectId: string,
@@ -325,6 +326,8 @@ export const addProject = async (
       .select()
       .maybeSingle();
 
+    await addActivity(data.id, completeData.creator_id, "PROJECT", "CREATE");
+
     revalidatePath("/", "page");
 
     return {
@@ -398,19 +401,24 @@ export const updateProject = async (
 
 export const updateProjectData = async (
   updatedData: ProjectUpdateData,
-  projectId: string
+  projectId: string,
+  userId: string
 ): Promise<{
   data: ProjectProps | null;
   error: PostgrestError | null;
   message: string;
 }> => {
   try {
-    const { data, error } = await supabase
-      .from("project_data")
-      .update({ ...updatedData })
-      .eq("id", projectId)
-      .select()
-      .maybeSingle();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [{ data, error }, _] = await Promise.all([
+      supabase
+        .from("project_data")
+        .update({ ...updatedData })
+        .eq("id", projectId)
+        .select()
+        .maybeSingle(),
+      addActivity(projectId, userId, "PROJECT DATA", "UPDATE"),
+    ]);
 
     revalidatePath("/", "layout");
     return {
@@ -429,17 +437,22 @@ export const updateProjectData = async (
 
 export const updateTechnicalSpecificationsProject = async (
   updatedData: TechnicalSpecificationsProps,
-  projectId: string
+  projectId: string,
+  userId: string
 ): Promise<{
   data: ProjectProps | null;
   error: PostgrestError | null;
   message: string;
 }> => {
   try {
-    const { data, error } = await supabase
-      .from("project_data")
-      .update({ ...updatedData })
-      .eq("id", projectId);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [{ data, error }, _] = await Promise.all([
+      supabase
+        .from("project_data")
+        .update({ ...updatedData })
+        .eq("id", projectId),
+      addActivity(projectId, userId, "TECHNICAL SPECIFICATIONS", "UPDATE"),
+    ]);
     revalidatePath("/", "page");
 
     return {

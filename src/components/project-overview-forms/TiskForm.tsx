@@ -44,7 +44,7 @@ type TiskFormProps = {
   offers: OfferWithOffererProps[] | null;
 };
 
-const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
+const TiskForm = ({ user, project, project_phases, offers }: TiskFormProps) => {
   const [actionType, setActionType] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -110,15 +110,20 @@ const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
   async function savePhase(values: z.infer<typeof phaseFormSchema>) {
     let response;
     if (!tisk_phase) {
-      response = await addPhase({
+      response = await addPhase(
+        {
+          ...values,
+          status: "v čakanju",
+          project_id: project.id,
+          name: "tisk",
+        },
+        user.id
+      );
+    } else {
+      response = await updatePhase(tisk_phase!.id, user.id, {
         ...values,
-        status: "v čakanju",
         project_id: project.id,
         name: "tisk",
-      });
-    } else {
-      response = await updatePhase(tisk_phase!.id, {
-        ...values,
       });
     }
     setLoading(false);
@@ -133,13 +138,16 @@ const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
   async function activatePhase(values: z.infer<typeof phaseFormSchema>) {
     if (!tisk_phase) {
       await Promise.all([
-        addPhase({
-          ...values,
-          status: "v teku",
-          project_id: project.id,
-          name: "tisk",
-          start_date: new Date(),
-        }),
+        addPhase(
+          {
+            ...values,
+            status: "v teku",
+            project_id: project.id,
+            name: "tisk",
+            start_date: new Date(),
+          },
+          user.id
+        ),
         updateProject(
           {
             napredek: project.napredek > 3 ? project.napredek : 3,
@@ -151,10 +159,12 @@ const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
       ]);
     } else if (tisk_phase.status === "v čakanju") {
       await Promise.all([
-        updatePhase(tisk_phase.id, {
+        updatePhase(tisk_phase.id, user.id, {
           ...values,
+          project_id: project.id,
           status: "v teku",
           start_date: new Date(),
+          name: "tisk",
         }),
         updateProject(
           {
@@ -166,17 +176,21 @@ const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
         ),
       ]);
     } else {
-      updatePhase(tisk_phase.id, {
+      updatePhase(tisk_phase.id, user.id, {
         ...values,
+        project_id: project.id,
         status: "v teku",
         start_date: new Date(),
+        name: "tisk",
       });
     }
     router.refresh();
     if (tisk_phase?.status === "v teku") {
-      await updatePhase(tisk_phase!.id, {
+      await updatePhase(tisk_phase!.id, user.id, {
         ...values,
+        project_id: project.id,
         status: "zaključeno",
+        name: "tisk",
       });
     }
     router.refresh();
@@ -184,7 +198,12 @@ const TiskForm = ({ project, project_phases, offers }: TiskFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit, () =>
+          setError("Izberi ponudnika!")
+        )}
+        className="space-y-4"
+      >
         <div className="flex flex-col gap-2">
           <div className="flex gap-4">
             <p>Začetek faze:</p>
