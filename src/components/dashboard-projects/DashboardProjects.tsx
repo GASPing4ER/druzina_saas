@@ -32,7 +32,9 @@ const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
                   1/3
                 </div> */}
                 <div className="text-sm bg-slate-200 py-1 px-4 rounded-2xl">
-                  {formatDate(project.project_data.end_date)}
+                  {project.end_date
+                    ? formatDate(project.end_date)
+                    : "Še ni izbran"}
                 </div>
                 <Image
                   src="/icons/user.svg"
