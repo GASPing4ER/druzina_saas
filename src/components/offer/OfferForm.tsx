@@ -27,6 +27,7 @@ import {
 } from "../ui/select";
 import { useEffect, useState } from "react";
 import { addOffer, addOfferer, getOfferers } from "@/actions/offers";
+import { toSlug } from "@/utils";
 
 type OfferFormProps = {
   projectId: string;
@@ -65,6 +66,7 @@ const OfferForm = ({ projectId, handleClose }: OfferFormProps) => {
       if (values.offerer_id === "nov_izvajalec" && values.offerer_name) {
         const { data } = await addOfferer({
           name: values.offerer_name,
+          slug: toSlug(values.offerer_name),
         });
         if (data) {
           await addOffer({

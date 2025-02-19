@@ -56,6 +56,8 @@ import DeleteDialog from "./DeleteDialog";
 import DeleteProjectDialog from "./DeleteProjectDialog";
 import EditProjectDialog from "./EditProjectDialog";
 import ActivityTable from "./ActivityTable";
+import TiskPhaseTable from "./phase/TiskPhaseTable";
+import TiskPhaseRow from "./phase/TiskPhaseRow";
 
 export {
   Sidebar,
@@ -116,4 +118,6 @@ export {
   DeleteProjectDialog,
   EditProjectDialog,
   ActivityTable,
+  TiskPhaseTable,
+  TiskPhaseRow,
 };

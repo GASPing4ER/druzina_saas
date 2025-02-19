@@ -3,6 +3,7 @@
 import { supabase } from "@/lib/supabase";
 import {
   CompleteProjectPhaseProps,
+  CompleteProjectPhaseWithOffererProps,
   NewProjectDataProps,
   ProjectProps,
   ProjectWithCreatorProps,
@@ -465,6 +466,55 @@ export const updateTechnicalSpecificationsProject = async (
       data: null,
       error: error as PostgrestError,
       message: "Database Error: Failed to Update Project",
+    };
+  }
+};
+
+export const getPhaseProjectsWithOfferer = async (
+  phase: string
+): Promise<{
+  data: CompleteProjectPhaseWithOffererProps[] | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("project_phases")
+      .select(
+        `
+        *,
+        project_data (
+          *,
+          creator:users (
+            *
+        )
+        ),
+        offers:ponudba_id (
+          *,
+          offerers:offerer_id (
+            id,
+            name,
+            slug
+          )
+        )
+      `
+      )
+      .eq("name", phase)
+      .neq("status", "zaključeno")
+      .neq("status", "v čakanju")
+      .order("end_date");
+
+    return {
+      data,
+      error,
+      message: "Successfully fetched phase projects with offerer details.",
+    };
+  } catch (error: unknown) {
+    return {
+      data: null,
+      error: error as PostgrestError,
+      message:
+        "Database Error: Failed to fetch phase projects with offerer details.",
     };
   }
 };

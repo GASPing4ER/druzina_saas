@@ -82,7 +82,7 @@ export const sidebar_navigation: SidebarNavigationProps = {
             },
             {
               title: "Dtisk",
-              url: "/tisk?type=dtisk",
+              url: "/tisk?type=d-tisk",
             },
             {
               title: "Zunanji",

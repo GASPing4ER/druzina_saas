@@ -270,3 +270,7 @@ export const convertActivityToText = (activity: ActivityWithCreatorProps) => {
 
   return message;
 };
+
+export function toSlug(name: string): string {
+  return name.toLowerCase().trim().replace(/\s+/g, "-"); // Replace all spaces with '-'
+}

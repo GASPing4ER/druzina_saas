@@ -140,6 +140,13 @@ export type CompleteProjectPhaseProps = ProjectPhaseProps & {
   project_data: ProjectWithCreatorProps;
 };
 
+export type CompleteProjectPhaseWithOffererProps = ProjectPhaseProps & {
+  project_data: ProjectWithCreatorProps;
+  offers?: OfferProps & {
+    offerers?: OffererProps;
+  };
+};
+
 // FILE TYPES
 
 export type FileProps = {
@@ -169,6 +176,7 @@ export type OfferProps = {
 export type OfferWithOffererProps = OfferProps & {
   offerer: {
     id: string;
+    slug: string;
     name: string;
   };
 };
@@ -176,6 +184,7 @@ export type OfferWithOffererProps = OfferProps & {
 export type OffererProps = {
   id: string;
   name: string;
+  slug: string;
   created_at: Date;
 };
 
