@@ -41,7 +41,9 @@ const ProjectsCarousel = async ({ projects }: ProjectsCarouselProps) => {
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-sm text-white font-semibold bg-slate-300 py-1 px-4 rounded-xl">
-                    {formatDate(project.project_data.end_date)}
+                    {project.end_date
+                      ? formatDate(project.end_date)
+                      : "Ni izbran"}
                   </p>
                   <div className="flex">
                     {carouselProjectUserColors.map((color: string) => (
