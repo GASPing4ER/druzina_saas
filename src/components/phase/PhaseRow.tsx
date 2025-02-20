@@ -19,11 +19,16 @@ const PhaseRow = ({ project, pathname }: PhaseRowProps) => {
       <TableCell>{getPhaseName(project.name)}</TableCell>
       <TableCell>{project.project_data.name}</TableCell>
       <TableCell className="capitalize">{project.project_data.type}</TableCell>
-      <TableCell>{formatDate(project.project_data.start_date)}</TableCell>
+      <TableCell>
+        {" "}
+        {project.start_date ? formatDate(project.start_date) : "/"}
+      </TableCell>
       <TableCell
-        className={`${isPast(project.project_data.end_date) && "text-red-500"}`}
+        className={`${
+          project.end_date && isPast(project.end_date) ? "text-red-500" : ""
+        }`}
       >
-        {formatDate(project.project_data.end_date)}
+        {project.end_date ? formatDate(project.end_date) : "/"}
       </TableCell>
       <TableCell>
         {project.project_data.creator.first_name}{" "}
