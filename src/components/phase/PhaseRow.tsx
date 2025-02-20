@@ -3,7 +3,7 @@
 import React from "react";
 import { TableCell, TableRow } from "../ui/table";
 import { formatDate, getPhaseName, isPast } from "@/utils";
-import { ProgressBar } from "@/components";
+// import { ProgressBar } from "@/components";
 import { useRouter } from "next/navigation";
 import { CompleteProjectPhaseProps } from "@/types";
 
@@ -34,7 +34,7 @@ const PhaseRow = ({ project, pathname }: PhaseRowProps) => {
         {project.project_data.creator.first_name}{" "}
         {project.project_data.creator.last_name}
       </TableCell>
-      <TableCell
+      {/* <TableCell
         className={`${
           project.project_data.status === "v teku"
             ? "bg-orange-300/40 text-orange-400"
@@ -44,14 +44,14 @@ const PhaseRow = ({ project, pathname }: PhaseRowProps) => {
         }`}
       >
         {project.project_data.status}
-      </TableCell>
-      <TableCell className="text-center">
+      </TableCell> */}
+      {/* <TableCell className="text-center">
         {project.project_data.napredek}/4
-      </TableCell>
-      <TableCell>
+      </TableCell> */}
+      {/* <TableCell>
         <ProgressBar stanje={project.project_data.stanje} />
         {project.project_data.stanje}%
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   );
 };

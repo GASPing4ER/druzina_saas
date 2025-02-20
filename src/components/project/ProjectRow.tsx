@@ -3,7 +3,7 @@
 import React from "react";
 import { TableCell, TableRow } from "../ui/table";
 import { formatDate, getPhaseNameByNapredek, isPast } from "@/utils";
-import { ProgressBar } from "@/components";
+// import { ProgressBar } from "@/components";
 import { useRouter } from "next/navigation";
 import { ProjectWithCreatorProps } from "@/types";
 
@@ -37,11 +37,11 @@ const ProjectRow = ({ project, pathname }: ProjectRowProps) => {
       >
         {project.status}
       </TableCell>
-      <TableCell className="text-center">{project.napredek}/4</TableCell>
+      {/* <TableCell className="text-center">{project.napredek}/4</TableCell>
       <TableCell>
         <ProgressBar stanje={project.stanje} />
         {project.stanje}%
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   );
 };

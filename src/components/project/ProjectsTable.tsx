@@ -68,8 +68,8 @@ const ProjectsTable = ({ projects }: ProjectsTableProps) => {
             <TableHead>Konec</TableHead>
             <TableHead>Vodja projekta</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Napredek</TableHead>
-            <TableHead>Stanje</TableHead>
+            {/* <TableHead>Napredek</TableHead> */}
+            {/* <TableHead>Stanje</TableHead> */}
           </TableRow>
         </TableHeader>
         <TableBody>
