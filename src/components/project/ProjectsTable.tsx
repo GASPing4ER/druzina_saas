@@ -24,7 +24,7 @@ type ProjectsTableProps = {
   is_arhiv?: boolean;
 };
 
-const ProjectsTable = ({ projects, is_arhiv }: ProjectsTableProps) => {
+const ProjectsTable = ({ projects, is_arhiv = false }: ProjectsTableProps) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   // Get unique types from the projects
@@ -84,6 +84,7 @@ const ProjectsTable = ({ projects, is_arhiv }: ProjectsTableProps) => {
                 key={project.id}
                 project={project}
                 pathname={pathname}
+                is_arhiv={is_arhiv}
               />
             );
           })}

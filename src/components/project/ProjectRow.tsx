@@ -10,17 +10,24 @@ import { ProjectWithCreatorProps } from "@/types";
 type ProjectRowProps = {
   project: ProjectWithCreatorProps;
   pathname: string;
+  is_arhiv?: boolean;
 };
 
-const ProjectRow = ({ project, pathname }: ProjectRowProps) => {
+const ProjectRow = ({ project, pathname, is_arhiv }: ProjectRowProps) => {
   const router = useRouter();
   return (
     <TableRow onClick={() => router.push(pathname)} className="cursor-pointer">
-      <TableCell>{getPhaseNameByNapredek(project.napredek)}</TableCell>
+      <TableCell>
+        {is_arhiv ? "Arhiv" : getPhaseNameByNapredek(project.napredek)}
+      </TableCell>
       <TableCell>{project.name}</TableCell>
       <TableCell className="capitalize">{project.type}</TableCell>
       <TableCell>{formatDate(project.start_date)}</TableCell>
-      <TableCell className={`${isPast(project.end_date) && "text-red-500"}`}>
+      <TableCell
+        className={`${isPast(project.end_date) && "text-red-500"} ${
+          is_arhiv && "text-black"
+        }`}
+      >
         {formatDate(project.end_date)}
       </TableCell>
       <TableCell>
