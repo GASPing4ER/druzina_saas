@@ -91,7 +91,11 @@ const ProjectDetailsPage = async (props: {
           {(role === "superadmin" || role === "admin") && (
             <Link
               className="border border-black py-2 px-4 rounded-full"
-              href={`/projekti/${project.project_data.id}`}
+              href={`/${
+                project.project_data.status === "zaključeno"
+                  ? "arhiv"
+                  : "projekti"
+              }/${project.project_data.id}`}
             >
               Pregled projekta
             </Link>
