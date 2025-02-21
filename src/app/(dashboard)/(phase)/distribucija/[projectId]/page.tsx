@@ -3,7 +3,7 @@ import {
   getCompleteProjectPhase,
   getProjectWithCreator,
 } from "@/actions/projects";
-import { NextPhaseModal, ProjectDetails } from "@/components";
+import { ProjectDetails } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDate } from "@/utils";
 import Link from "next/link";
@@ -14,7 +14,7 @@ const ProjectDetailsPage = async (props: {
   const params = await props.params;
   const projectId = params.projectId;
   const [singleProjectResponse, projectResponse, user] = await Promise.all([
-    getProjectWithCreator(projectId),
+    getProjectWithCreator(projectId, true),
     getCompleteProjectPhase(projectId, "distribucija"),
     getUser(),
   ]);
@@ -72,9 +72,9 @@ const ProjectDetailsPage = async (props: {
               Pregled projekta
             </Link>
           )}
-          {(role === "superadmin" || role === "admin") && (
+          {/* {(role === "superadmin" || role === "admin") && (
             <NextPhaseModal phase="arhiv" project={project} />
-          )}
+          )} */}
         </div>
       </main>
     );

@@ -38,7 +38,6 @@ export const getCompleteProjectPhase = async (
     `
       )
       .eq("project_id", projectId)
-      .neq("status", "zaključeno")
       .neq("status", "v čakanju")
       .order("end_date");
 
@@ -101,15 +100,56 @@ export const getProjectsWithCreator = async (
   }
 };
 
+export const getArhivProjectsWithCreator = async (
+  user: User
+): Promise<{
+  data: ProjectWithCreatorProps[] | null;
+  error: PostgrestError | null;
+  message: string;
+}> => {
+  try {
+    let query = supabase
+      .from("project_data")
+      .select(
+        `
+          *,
+          creator:users (*)
+        `
+      )
+      .eq("status", "zaključeno")
+      .order("end_date");
+
+    // If the user is a "member", filter projects where creator_id === user.id
+    if (user.user_metadata.role === "member") {
+      query = query.eq("creator_id", user.id);
+    }
+
+    const { data, error } = await query;
+
+    return {
+      data,
+      error,
+      message: `Successfully Fetched Projects for ${user.user_metadata.role}`,
+    };
+  } catch (error: unknown) {
+    return {
+      data: null,
+      error: error as PostgrestError,
+      message: "Database Error: Projects Fetching unsuccessful.",
+    };
+  }
+};
+
 export const getProjectWithCreator = async (
-  projectId: string
+  projectId: string,
+  is_shown?: boolean
 ): Promise<{
   data: ProjectWithCreatorProps | null;
   error: PostgrestError | null;
   message: string;
 }> => {
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from("project_data")
       .select(
         `
@@ -118,9 +158,13 @@ export const getProjectWithCreator = async (
         `
       )
       .eq("id", projectId)
-      .neq("status", "zaključeno")
-      .order("end_date")
-      .maybeSingle();
+      .order("end_date");
+
+    if (!is_shown) {
+      query = query.neq("status", "zaključeno");
+    }
+
+    const { data, error } = await query.maybeSingle();
 
     return {
       data,

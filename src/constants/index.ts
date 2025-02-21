@@ -105,6 +105,12 @@ export const sidebar_navigation: SidebarNavigationProps = {
         },
       ],
     },
+    {
+      title: "Arhiv",
+      imgUrl: "/icons/arhiv.svg",
+      url: "/arhiv",
+      access_group: "superadmin",
+    },
   ],
 };
 

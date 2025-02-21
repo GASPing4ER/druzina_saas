@@ -11,7 +11,7 @@ const Sidebar = async ({ user }: SidebarProps) => {
   const department = user.user_metadata.department;
   return (
     <div className="w-[300px] h-full fixed z-10 bg-white top-0 left-0 border-r border-black flex flex-col justify-between">
-      <div className="px-4 py-10 flex flex-col gap-4">
+      <div className="px-4 py-4 flex flex-col gap-4 overflow-y-scroll">
         <div className="flex flex-col gap-4">
           <Image
             src="/images/logo.png"

@@ -5,7 +5,7 @@ import {
   getProjectWithCreator,
 } from "@/actions/projects";
 import { getTasksWithNames } from "@/actions/tasks";
-import { NextPhaseModal, ProjectDetails, UtilityBox } from "@/components";
+import { ProjectDetails, UtilityBox } from "@/components";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDate } from "@/utils";
 import Link from "next/link";
@@ -23,7 +23,7 @@ const ProjectDetailsPage = async (props: {
     filesResponse,
     user,
   ] = await Promise.all([
-    getProjectWithCreator(projectId),
+    getProjectWithCreator(projectId, true),
     getCompleteProjectPhase(projectId, "priprava-in-oblikovanje"),
     getTasksWithNames(projectId, "priprava-in-oblikovanje"),
     getFiles(projectId, "priprava-in-oblikovanje"),
@@ -145,12 +145,12 @@ const ProjectDetailsPage = async (props: {
           )}
 
           {/* <UtilityBox type="datoteke" data={tasks} projectId={project.id} /> */}
-          {(role === "superadmin" || role === "admin") && (
+          {/* {(role === "superadmin" || role === "admin") && (
             <NextPhaseModal
               phase={project.project_data.is_for_tisk ? "tisk" : "arhiv"}
               project={project}
             />
-          )}
+          )} */}
         </div>
       </main>
     );

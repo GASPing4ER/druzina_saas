@@ -21,9 +21,10 @@ import {
 
 type ProjectsTableProps = {
   projects: ProjectWithCreatorProps[];
+  is_arhiv?: boolean;
 };
 
-const ProjectsTable = ({ projects }: ProjectsTableProps) => {
+const ProjectsTable = ({ projects, is_arhiv }: ProjectsTableProps) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   // Get unique types from the projects
@@ -74,12 +75,9 @@ const ProjectsTable = ({ projects }: ProjectsTableProps) => {
         </TableHeader>
         <TableBody>
           {filteredProjects?.map((project) => {
-            let pathname: string;
-            const path = "projekti";
+            let pathname = is_arhiv ? "arhiv" : "projekti";
             if (project.id) {
-              pathname = `/${path}/${project.id}`;
-            } else {
-              pathname = `/${path}`;
+              pathname = `/${pathname}/${project.id}`;
             }
             return (
               <ProjectRow
