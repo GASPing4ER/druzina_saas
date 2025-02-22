@@ -1,7 +1,10 @@
+"use client";
+
 import { SidebarNavigationItemProps } from "@/types";
 import { canAccessItem } from "@/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type SidebarNavProps = {
   title: string;
@@ -16,6 +19,8 @@ const SidebarNav = ({
   department,
   role,
 }: SidebarNavProps) => {
+  const pathname = usePathname();
+  console.log(pathname);
   return (
     <div className="flex flex-col gap-2">
       <h3 className="sidebar-h3">{title}</h3>
@@ -38,7 +43,13 @@ const SidebarNav = ({
                     height={15}
                   />
                 )}
-                <p className="uppercase">{item.title}</p>
+                <p
+                  className={`uppercase ${
+                    pathname === item.url ? "underline" : ""
+                  }`}
+                >
+                  {item.title}
+                </p>
               </Link>
 
               {/* Recursively render children if they exist */}
@@ -60,7 +71,13 @@ const SidebarNav = ({
                             height={15}
                           />
                         )}
-                        <p>{subitem.title}</p>
+                        <p
+                          className={`${
+                            pathname === subitem.url ? "underline" : ""
+                          }`}
+                        >
+                          {subitem.title}
+                        </p>
                       </Link>
                       {subitem.children && (
                         <ul className="ml-12 mt-2 flex flex-col gap-2">
