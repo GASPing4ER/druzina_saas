@@ -28,7 +28,9 @@ const ProjectDetails = async ({ project }: ProjectDetailsProps) => {
             </>
           )}
         </div>
-        <h1 className="text-4xl">{project.name}</h1>
+        <h1 className="text-4xl">
+          {project.name} {project.st_izdaje}
+        </h1>
         <h2 className="text-xl">{project.author}</h2>
         <div>
           <p>Stanje</p>

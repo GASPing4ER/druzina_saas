@@ -65,7 +65,11 @@ const PublicationsForm = ({
   async function onSubmit(values: z.infer<typeof publicationsFormSchema>) {
     setLoading(true);
     const completeData = getCompleteData(
-      { ...values, type: "publikacije" },
+      {
+        ...values,
+        type: "publikacije",
+        name: `${values.name} ${values.st_izdaje}`,
+      },
       user
     );
     if (action === "add") {

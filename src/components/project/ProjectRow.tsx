@@ -20,7 +20,9 @@ const ProjectRow = ({ project, pathname, is_arhiv }: ProjectRowProps) => {
       <TableCell>
         {is_arhiv ? "Arhiv" : getPhaseNameByNapredek(project.napredek)}
       </TableCell>
-      <TableCell>{project.name}</TableCell>
+      <TableCell>
+        {project.name} {project.st_izdaje}
+      </TableCell>
       <TableCell className="capitalize">{project.type}</TableCell>
       <TableCell>{formatDate(project.start_date)}</TableCell>
       <TableCell

@@ -19,7 +19,9 @@ const DashboardProjects = ({ projects }: DashboardProjectsProps) => {
               className="flex justify-between items-center bg-slate-100 py-4 px-8 w-full rounded-xl"
             >
               <div className="flex gap-4">
-                <h2 className="font-semibold">{project.project_data.name}</h2>
+                <h2 className="font-semibold">
+                  {project.project_data.name} {project.project_data.st_izdaje}
+                </h2>
                 <h3>{getPhaseName(project.name)}</h3>
               </div>
               <div className="flex items-center gap-4">

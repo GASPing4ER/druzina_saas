@@ -18,7 +18,9 @@ const TiskPhaseRow = ({ project }: TiskPhaseRowProps) => {
       className="cursor-pointer"
     >
       <TableCell>{getPhaseName(project.name)}</TableCell>
-      <TableCell>{project.project_data.name}</TableCell>
+      <TableCell>
+        {project.project_data.name} {project.project_data.st_izdaje}
+      </TableCell>
       <TableCell className="capitalize">{project.project_data.type}</TableCell>
       <TableCell>
         {project.start_date ? formatDate(project.start_date) : "/"}

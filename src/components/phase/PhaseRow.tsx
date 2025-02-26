@@ -17,7 +17,9 @@ const PhaseRow = ({ project, pathname }: PhaseRowProps) => {
   return (
     <TableRow onClick={() => router.push(pathname)} className="cursor-pointer">
       <TableCell>{getPhaseName(project.name)}</TableCell>
-      <TableCell>{project.project_data.name}</TableCell>
+      <TableCell>
+        {project.project_data.name} {project.project_data.st_izdaje}
+      </TableCell>
       <TableCell className="capitalize">{project.project_data.type}</TableCell>
       <TableCell>
         {" "}
