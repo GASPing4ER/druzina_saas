@@ -26,6 +26,7 @@ type ProjectsTableProps = {
 
 const ProjectsTable = ({ projects, is_arhiv = false }: ProjectsTableProps) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
 
   // Get unique types from the projects
   const uniqueTypes = Array.from(
@@ -34,13 +35,21 @@ const ProjectsTable = ({ projects, is_arhiv = false }: ProjectsTableProps) => {
 
   // Filter projects based on the selected type
   const filteredProjects =
-    selectedType && selectedType !== "all"
-      ? projects.filter((project) => project.type === selectedType)
-      : projects;
+    query === "" && selectedType === null
+      ? projects // Show all projects when both filters are at default values
+      : projects.filter((project) => {
+          const matchesQuery =
+            query === "" ||
+            project.name.toLowerCase().includes(query.toLowerCase()) ||
+            project.st_izdaje?.toLowerCase().includes(query.toLowerCase());
+          const matchesType =
+            selectedType === "all" || project.type === selectedType;
+          return matchesQuery && matchesType; // Apply both filters if necessary
+        });
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex w-full items-center justify-between mb-4">
         <Select
           onValueChange={(value) => setSelectedType(value)}
           defaultValue="all"
@@ -57,6 +66,12 @@ const ProjectsTable = ({ projects, is_arhiv = false }: ProjectsTableProps) => {
             ))}
           </SelectContent>
         </Select>
+        <input
+          placeholder="Išči..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="placeholder:text-light-brown bg-transparent flex-1 max-w-[300px] border py-2 px-4 rounded-2xl"
+        />
       </div>
       <Table>
         <TableCaption>A list of your recent projects.</TableCaption>
