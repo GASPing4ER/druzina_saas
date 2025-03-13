@@ -49,7 +49,7 @@ const ProjectsTable = ({ projects, is_arhiv = false }: ProjectsTableProps) => {
 
   return (
     <div className="w-full">
-      <div className="flex w-full items-center justify-between mb-4">
+      <div className="flex w-full items-center mb-4">
         <Select
           onValueChange={(value) => setSelectedType(value)}
           defaultValue="all"
