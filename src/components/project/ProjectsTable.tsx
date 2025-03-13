@@ -25,7 +25,7 @@ type ProjectsTableProps = {
 };
 
 const ProjectsTable = ({ projects, is_arhiv = false }: ProjectsTableProps) => {
-  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState<string>("all");
   const [query, setQuery] = useState("");
 
   // Get unique types from the projects
@@ -35,7 +35,7 @@ const ProjectsTable = ({ projects, is_arhiv = false }: ProjectsTableProps) => {
 
   // Filter projects based on the selected type
   const filteredProjects =
-    query === "" && selectedType === null
+    query === "" && selectedType === "all"
       ? projects // Show all projects when both filters are at default values
       : projects.filter((project) => {
           const matchesQuery =
