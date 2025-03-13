@@ -41,6 +41,7 @@ const OfferTable = ({ offers, field }: OfferTableProps) => {
           <TableHead>Št. izvodov</TableHead>
           <TableHead>Cena na izvod</TableHead>
           <TableHead>Skupaj</TableHead>
+          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

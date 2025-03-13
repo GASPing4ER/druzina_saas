@@ -3,6 +3,7 @@
 import { ControllerRenderProps } from "react-hook-form";
 import { TableCell, TableRow } from "../ui/table";
 import { OfferWithOffererProps } from "@/types";
+import { CheckIcon } from "lucide-react";
 
 type OfferRowProps = {
   offer: OfferWithOffererProps;
@@ -37,6 +38,11 @@ const OfferRow = ({ offer, field }: OfferRowProps) => {
       <TableCell>{offer.quantity}</TableCell>
       <TableCell>{offer.price}€</TableCell>
       <TableCell>{offer.total}€</TableCell>
+      <TableCell>
+        <div className="h-5 w-5 rounded-full border border-black flex items-center justify-center">
+          {field.value === offer.id ? <CheckIcon /> : null}
+        </div>
+      </TableCell>
     </TableRow>
   );
 };
