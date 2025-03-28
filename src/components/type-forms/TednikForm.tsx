@@ -70,7 +70,16 @@ const TednikForm = ({
       user
     );
     if (action === "add") {
-      const { data } = await addProject(completeData);
+      const { data } = await addProject({
+        ...completeData,
+        obseg: "32 strani",
+        format: "290 x 420mm",
+        tisk: "4/4",
+        pakiranje: "Svežnji",
+        material: "45 g/m2 časopisni",
+        vezava: "znašanje / snopič",
+        naklada: "19.000",
+      });
       const phase = phases[completeData.napredek].slug;
       await addProjectPhase(
         {
