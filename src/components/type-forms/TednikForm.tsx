@@ -66,7 +66,7 @@ const TednikForm = ({
   async function onSubmit(values: z.infer<typeof tednikFormSchema>) {
     setLoading(true);
     const completeData = getCompleteData(
-      { ...values, type: "tednik", name: `Tednik ${values.st_izdaje}` },
+      { ...values, type: "tednik", name: `Tednik` },
       user
     );
     if (action === "add") {
